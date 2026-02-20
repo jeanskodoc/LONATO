@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>LONATO · Usage unique · Temps restant</title>
+    <title>LONATO · Accès comptes · Codes uniques</title>
     <style>
         * {
             margin: 0;
@@ -603,7 +603,7 @@
         .btn-generate { background: var(--bleu-loto); color: white; }
         .btn-predict { background: var(--prediction); color: white; }
         .btn-primary { background: var(--vert); color: var(--jaune); }
-        .btn-copy { background: var(--copie); color: white; padding: 4px 10px; font-size: 0.7rem; border-radius: 20px; }
+        .btn-copy { background: var(--copie); color: white; padding: 4px 10px; font-size: 0.7rem; border-radius: 20px; cursor: pointer; }
         .btn-copy.copied { background: var(--vert); }
 
         .stake-info {
@@ -774,6 +774,50 @@
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
+
+        /* ========== HISTORIQUE DES ACTIVITÉS ========== */
+        .history-panel {
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+            background: var(--gris);
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .history-item {
+            background: white;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--vert);
+            font-size: 0.8rem;
+        }
+
+        .history-time {
+            color: var(--gris-fonce);
+            font-size: 0.7rem;
+        }
+
+        .history-numbers {
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+            margin: 3px 0;
+        }
+
+        .history-ball {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--vert);
+            color: var(--jaune);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -781,7 +825,7 @@
     <div class="login-container" id="loginContainer">
         <div class="login-header">
             <h1>🇹🇬 <span>LONATO</span> 🇹🇬</h1>
-            <p>Accès par code à usage unique · 24h max</p>
+            <p>Connexion avec code personnel · 24h d'accès</p>
         </div>
 
         <div class="tabs">
@@ -795,15 +839,15 @@
                 <input type="tel" id="phoneInput" placeholder="+228 XX XX XX XX">
             </div>
             <div class="form-group">
-                <label>🔑 Code à 6 chiffres</label>
+                <label>🔑 Code personnel à 6 chiffres</label>
                 <input type="text" id="codeInput" class="code-input" maxlength="6" placeholder="••••••">
             </div>
             <button class="btn-login" onclick="verifyCode()">🔓 SE CONNECTER</button>
             <div id="loginMessage" class="message-area"></div>
             <div class="info-text">
-                <strong>ℹ️ Règles :</strong><br>
-                • Code valable 24h<br>
-                • Usage unique uniquement<br>
+                <strong>ℹ️ Informations :</strong><br>
+                • Utilisez votre code personnel enregistré<br>
+                • Accès valable 24h après la première connexion<br>
                 • Déconnexion automatique après expiration
             </div>
         </div>
@@ -823,6 +867,12 @@
             </div>
             <button class="btn-register" onclick="registerAccount()">📝 CRÉER MON COMPTE</button>
             <div id="registerMessage" class="message-area"></div>
+            <div class="info-text">
+                <strong>ℹ️ Après inscription :</strong><br>
+                • Un code personnel à 6 chiffres vous sera attribué<br>
+                • Notez ce code pour vos connexions futures<br>
+                • Le code n'est valable qu'une seule fois pour démarrer une session de 24h
+            </div>
         </div>
     </div>
 
@@ -895,6 +945,7 @@
                         <button class="btn-generate" onclick="genererToutesCombinaisons()">🎲 GÉNÉRER</button>
                         <button class="btn-predict" onclick="lancerAnalysePredictive()" id="btnAnalyse">🔮 ANALYSE</button>
                         <button class="btn-primary" onclick="copyAllResults()">📋 COPIER TOUT</button>
+                        <button class="btn-primary" onclick="afficherHistorique()" style="background:var(--info);">📜 HISTORIQUE</button>
                     </div>
 
                     <div class="progress-bar"><div class="progress-fill" id="progressBar">0%</div></div>
@@ -929,11 +980,30 @@
                     <div id="topWinners"></div>
                     <button onclick="rafraichirAnalyse()" class="btn-primary" style="width:100%; margin-top:10px;">🔄 Actualiser</button>
                 </div>
+                
+                <div class="panel">
+                    <h2>📜 HISTORIQUE DES ACTIVITÉS</h2>
+                    <div class="history-panel" id="historyContainer">
+                        <div style="text-align:center;">Aucune activité</div>
+                    </div>
+                    <button onclick="effacerHistorique()" class="btn-primary" style="width:100%; margin-top:10px; background:var(--rouge);">🗑️ Effacer l'historique</button>
+                </div>
+                
+                <div class="panel">
+                    <h2>ℹ️ INFORMATIONS COMPTE</h2>
+                    <div id="accountInfo" style="font-size:0.8rem;">
+                        <p><strong>Nom:</strong> <span id="infoName">-</span></p>
+                        <p><strong>Téléphone:</strong> <span id="infoPhone">-</span></p>
+                        <p><strong>Email:</strong> <span id="infoEmail">-</span></p>
+                        <p><strong>Session expire:</strong> <span id="infoExpire">-</span></p>
+                        <p><strong>Code utilisé:</strong> <span id="infoCodeUsed">Non</span></p>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="footer">
-            <p>© LONATO · Usage unique · Déconnexion automatique après expiration</p>
+            <p>© LONATO · Accès par code personnel · Session de 24h · Déconnexion automatique après expiration</p>
         </div>
     </div>
 
@@ -944,12 +1014,18 @@
         let accounts = [];
 
         function loadAccounts() {
-            const saved = localStorage.getItem('lonato_accounts_final');
+            const saved = localStorage.getItem('lonato_accounts_database');
             if (saved) {
-                try { accounts = JSON.parse(saved); } 
-                catch { accounts = []; }
+                try { 
+                    accounts = JSON.parse(saved); 
+                    console.log('Comptes chargés:', accounts.length);
+                } 
+                catch { 
+                    accounts = [];
+                    console.log('Erreur chargement comptes');
+                }
             } else {
-                // Comptes par défaut
+                // Comptes par défaut pour démonstration
                 accounts = [
                     {
                         id: '1',
@@ -958,8 +1034,11 @@
                         email: 'jeanskodoc22@gmail.com',
                         code: '414954',
                         createdAt: new Date().toISOString(),
-                        expiresAt: new Date(Date.now() + 24*60*60*1000).toISOString(),
-                        used: false
+                        lastLogin: null,
+                        sessions: [], // Historique des sessions
+                        used: false, // Le code n'a pas encore été utilisé pour démarrer une session
+                        active: true,
+                        history: []
                     },
                     {
                         id: '2',
@@ -968,23 +1047,137 @@
                         email: 'martin.kodjo@email.com',
                         code: '123456',
                         createdAt: new Date().toISOString(),
-                        expiresAt: new Date(Date.now() - 60*60*1000).toISOString(), // déjà expiré
-                        used: false
+                        lastLogin: null,
+                        sessions: [],
+                        used: false,
+                        active: true,
+                        history: []
+                    },
+                    {
+                        id: '3',
+                        name: 'AMOUSSOU MARIE',
+                        phone: '+228 98765432',
+                        email: 'marie.a@email.com',
+                        code: '789012',
+                        createdAt: new Date().toISOString(),
+                        lastLogin: null,
+                        sessions: [],
+                        used: false,
+                        active: true,
+                        history: []
                     }
                 ];
                 saveAccounts();
+                console.log('Comptes par défaut créés');
             }
         }
 
         function saveAccounts() {
-            localStorage.setItem('lonato_accounts_final', JSON.stringify(accounts));
+            localStorage.setItem('lonato_accounts_database', JSON.stringify(accounts));
+            console.log('Comptes sauvegardés');
         }
 
-        // Nettoyer les comptes expirés
+        // Nettoyer les comptes inactifs (optionnel)
         function cleanupAccounts() {
-            const now = new Date();
-            accounts = accounts.filter(acc => new Date(acc.expiresAt) > now && !acc.used);
+            // Ne pas supprimer les comptes, juste les marquer si nécessaire
+            // Cette fonction peut être utilisée pour désactiver des comptes anciens
+        }
+
+        // ==================== GESTION DE L'HISTORIQUE ====================
+        function ajouterHistorique(action, details, numbers) {
+            if (!state.currentUser) return;
+            
+            const account = accounts.find(a => a.phone === state.currentUser.phone);
+            if (!account) return;
+            
+            if (!account.history) account.history = [];
+            
+            account.history.push({
+                timestamp: new Date().toISOString(),
+                action: action,
+                details: details,
+                numbers: numbers || [],
+                game: state.currentGame,
+                betType: state.betType
+            });
+            
+            // Limiter l'historique aux 50 dernières entrées
+            if (account.history.length > 50) {
+                account.history = account.history.slice(-50);
+            }
+            
             saveAccounts();
+            afficherHistorique();
+        }
+
+        function afficherHistorique() {
+            if (!state.currentUser) return;
+            
+            const account = accounts.find(a => a.phone === state.currentUser.phone);
+            if (!account || !account.history || account.history.length === 0) {
+                document.getElementById('historyContainer').innerHTML = '<div style="text-align:center;">Aucune activité</div>';
+                return;
+            }
+            
+            const history = [...account.history].reverse(); // Plus récent en premier
+            let html = '';
+            
+            history.forEach((item, index) => {
+                const date = new Date(item.timestamp);
+                const timeStr = date.toLocaleTimeString('fr-FR');
+                const dateStr = date.toLocaleDateString('fr-FR');
+                
+                let numbersHtml = '';
+                if (item.numbers && item.numbers.length > 0) {
+                    numbersHtml = '<div class="history-numbers">' + 
+                        item.numbers.map(n => `<span class="history-ball">${n < 10 ? '0' + n : n}</span>`).join('') + 
+                        '</div>';
+                }
+                
+                html += `
+                    <div class="history-item">
+                        <div class="history-time">${dateStr} ${timeStr}</div>
+                        <div><strong>${item.action}</strong> ${item.details || ''}</div>
+                        ${numbersHtml}
+                        <div style="font-size:0.7rem; color:#666;">${item.game || ''} ${item.betType ? '- ' + item.betType.toUpperCase() : ''}</div>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('historyContainer').innerHTML = html;
+        }
+
+        function effacerHistorique() {
+            if (!state.currentUser) return;
+            
+            if (confirm('Voulez-vous vraiment effacer tout l\'historique ?')) {
+                const account = accounts.find(a => a.phone === state.currentUser.phone);
+                if (account) {
+                    account.history = [];
+                    saveAccounts();
+                    afficherHistorique();
+                    showToast('Historique effacé', 'success');
+                }
+            }
+        }
+
+        function updateAccountInfo() {
+            if (!state.currentUser) return;
+            
+            const account = accounts.find(a => a.phone === state.currentUser.phone);
+            if (!account) return;
+            
+            document.getElementById('infoName').textContent = account.name;
+            document.getElementById('infoPhone').textContent = account.phone;
+            document.getElementById('infoEmail').textContent = account.email;
+            document.getElementById('infoCodeUsed').textContent = account.used ? 'Oui' : 'Non';
+            
+            if (state.currentUser.sessionExpiry) {
+                const expiry = new Date(state.currentUser.sessionExpiry);
+                document.getElementById('infoExpire').textContent = expiry.toLocaleString('fr-FR');
+            } else {
+                document.getElementById('infoExpire').textContent = '-';
+            }
         }
 
         // ==================== VARIABLES DE TEMPS ====================
@@ -1010,24 +1203,42 @@
                 return;
             }
             
+            // Vérifier si le téléphone existe déjà
             if (accounts.some(a => a.phone === phone)) {
                 showMessage('register', 'Ce numéro existe déjà', 'error');
                 return;
             }
             
-            const code = Math.floor(100000 + Math.random() * 900000).toString();
+            // Générer un code unique à 6 chiffres
+            let code;
+            do {
+                code = Math.floor(100000 + Math.random() * 900000).toString();
+            } while (accounts.some(a => a.code === code)); // Éviter les doublons de code
             
-            accounts.push({
+            const newAccount = {
                 id: Date.now().toString(),
-                name, phone, email, code,
+                name: name,
+                phone: phone,
+                email: email,
+                code: code,
                 createdAt: new Date().toISOString(),
-                expiresAt: new Date(Date.now() + 24*60*60*1000).toISOString(),
-                used: false
-            });
+                lastLogin: null,
+                sessions: [],
+                used: false, // Code pas encore utilisé pour une session
+                active: true,
+                history: []
+            };
             
+            accounts.push(newAccount);
             saveAccounts();
-            showMessage('register', `Compte créé ! Votre code : ${code}`, 'success');
-            setTimeout(() => showTab('login'), 2000);
+            
+            showMessage('register', `✅ Compte créé ! Votre code personnel : ${code}`, 'success');
+            
+            // Pré-remplir le formulaire de connexion
+            document.getElementById('phoneInput').value = phone;
+            document.getElementById('codeInput').value = code;
+            
+            setTimeout(() => showTab('login'), 3000);
         }
 
         // ==================== AUTHENTIFICATION ====================
@@ -1040,64 +1251,137 @@
                 return;
             }
 
-            cleanupAccounts();
-
+            // Chercher le compte correspondant
             const account = accounts.find(a => a.phone === phone && a.code === code);
 
             if (!account) {
-                showMessage('login', 'Code ou téléphone invalide', 'error');
+                showMessage('login', '❌ Numéro ou code incorrect', 'error');
                 return;
             }
 
-            // VÉRIFICATION USAGE UNIQUE - CRITIQUE
+            // Vérifier si le compte est actif
+            if (!account.active) {
+                showMessage('login', '❌ Ce compte a été désactivé', 'error');
+                return;
+            }
+
+            // GESTION DE L'USAGE UNIQUE DU CODE
+            // Si le code a déjà été utilisé pour démarrer une session
             if (account.used) {
-                showMessage('login', '❌ Ce code a déjà été utilisé ! Accès refusé.', 'error');
-                // Supprimer immédiatement le code utilisé
-                accounts = accounts.filter(a => !(a.phone === phone && a.code === code));
-                saveAccounts();
-                return;
+                // Vérifier si la dernière session est encore valide
+                const lastSession = account.sessions && account.sessions.length > 0 ? 
+                    account.sessions[account.sessions.length - 1] : null;
+                
+                if (lastSession) {
+                    const now = new Date();
+                    const sessionExpiryTime = new Date(lastSession.expiresAt);
+                    
+                    if (now < sessionExpiryTime) {
+                        // Session encore valide - connexion automatique
+                        console.log('Session existante encore valide');
+                        
+                        // Restaurer la session
+                        sessionExpiry = sessionExpiryTime;
+                        startSessionTimer();
+                        
+                        state.currentUser = {
+                            phone: account.phone,
+                            name: account.name,
+                            email: account.email,
+                            sessionExpiry: lastSession.expiresAt,
+                            sessionStarted: lastSession.startedAt
+                        };
+                        
+                        localStorage.setItem('lonato_auth', JSON.stringify({
+                            phone: account.phone,
+                            name: account.name,
+                            sessionExpiry: lastSession.expiresAt
+                        }));
+                        
+                        document.body.classList.add('authenticated');
+                        document.getElementById('userInfo').innerHTML = `👤 ${account.name}`;
+                        document.getElementById('accessBanner').innerHTML = `
+                            <strong>🔐 SESSION REPRISE</strong><br>
+                            👤 ${account.name}<br>
+                            📱 ${account.phone}<br>
+                            ⏰ Session expire dans <span id="sessionTimer">24:00:00</span>
+                        `;
+                        
+                        // Mettre à jour les infos
+                        updateAccountInfo();
+                        afficherHistorique();
+                        
+                        showToast(`Bienvenue ${account.name} - Session reprise`, 'success');
+                        ajouterHistorique('RECONNEXION', 'Session existante reprise');
+                        
+                        return;
+                    } else {
+                        // Session expirée - demander un nouveau code
+                        showMessage('login', '⏰ Votre session a expiré. Vous devez utiliser un nouveau code.', 'error');
+                        return;
+                    }
+                } else {
+                    showMessage('login', '❌ Ce code a déjà été utilisé. Contactez l\'administrateur.', 'error');
+                    return;
+                }
             }
 
-            // Vérifier expiration
+            // PREMIÈRE UTILISATION DU CODE
+            // Définir la date d'expiration de la session (24h à partir de maintenant)
             const now = new Date();
-            const expiry = new Date(account.expiresAt);
-
-            if (now > expiry) {
-                showMessage('login', 'Code expiré (plus de 24h)', 'error');
-                accounts = accounts.filter(a => !(a.phone === phone && a.code === code));
-                saveAccounts();
-                return;
-            }
-
-            // SUCCÈS : marquer comme utilisé immédiatement
+            const expiryDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+            
+            // Créer une nouvelle session
+            const session = {
+                startedAt: now.toISOString(),
+                expiresAt: expiryDate.toISOString(),
+                ip: 'client', // Optionnel
+                userAgent: navigator.userAgent
+            };
+            
+            if (!account.sessions) account.sessions = [];
+            account.sessions.push(session);
+            
+            // Marquer le code comme utilisé
             account.used = true;
+            account.lastLogin = now.toISOString();
+            
             saveAccounts();
 
             // Démarrer la session
-            sessionExpiry = new Date(account.expiresAt);
+            sessionExpiry = expiryDate;
             startSessionTimer();
 
             state.currentUser = {
                 phone: account.phone,
                 name: account.name,
-                expiresAt: account.expiresAt
+                email: account.email,
+                sessionExpiry: expiryDate.toISOString(),
+                sessionStarted: now.toISOString()
             };
             
             localStorage.setItem('lonato_auth', JSON.stringify({
                 phone: account.phone,
                 name: account.name,
-                expiresAt: account.expiresAt
+                sessionExpiry: expiryDate.toISOString()
             }));
             
             document.body.classList.add('authenticated');
             document.getElementById('userInfo').innerHTML = `👤 ${account.name}`;
             document.getElementById('accessBanner').innerHTML = `
-                <strong>🔐 ACCÈS AUTORISÉ</strong><br>
+                <strong>🔐 PREMIÈRE CONNEXION</strong><br>
                 👤 ${account.name}<br>
                 📱 ${account.phone}<br>
-                ⏰ Session expire dans <span id="sessionTimer">24:00:00</span>
+                ⏰ Session expire dans <span id="sessionTimer">24:00:00</span><br>
+                <small>Code utilisé: ${code}</small>
             `;
-            showToast(`Bienvenue ${account.name} - Usage unique validé`, 'success');
+            
+            // Mettre à jour les infos
+            updateAccountInfo();
+            afficherHistorique();
+            
+            showToast(`Bienvenue ${account.name} - Session de 24h démarrée`, 'success');
+            ajouterHistorique('PREMIÈRE CONNEXION', 'Session de 24h démarrée');
         }
 
         // ==================== GESTION DU TEMPS RESTANT ====================
@@ -1114,6 +1398,19 @@
                     // Session expirée
                     clearInterval(timerInterval);
                     showToast('⏰ Session expirée - Déconnexion automatique', 'info');
+                    
+                    // Marquer la session comme expirée dans le compte
+                    if (state.currentUser) {
+                        const account = accounts.find(a => a.phone === state.currentUser.phone);
+                        if (account && account.sessions && account.sessions.length > 0) {
+                            const lastSession = account.sessions[account.sessions.length - 1];
+                            if (lastSession) {
+                                lastSession.expired = true;
+                                saveAccounts();
+                            }
+                        }
+                    }
+                    
                     setTimeout(() => {
                         logout();
                     }, 2000);
@@ -1149,16 +1446,16 @@
             try {
                 const auth = JSON.parse(saved);
                 const now = new Date();
-                const expiry = new Date(auth.expiresAt);
+                const expiry = new Date(auth.sessionExpiry);
                 
                 if (now > expiry) {
                     localStorage.removeItem('lonato_auth');
                     return false;
                 }
                 
-                // Vérifier que le code n'a pas été utilisé ailleurs
-                const accountExists = accounts.some(a => a.phone === auth.phone && a.used);
-                if (!accountExists) {
+                // Vérifier que le compte existe toujours
+                const account = accounts.find(a => a.phone === auth.phone);
+                if (!account) {
                     localStorage.removeItem('lonato_auth');
                     return false;
                 }
@@ -1166,14 +1463,25 @@
                 sessionExpiry = expiry;
                 startSessionTimer();
                 
-                state.currentUser = auth;
+                state.currentUser = {
+                    phone: account.phone,
+                    name: account.name,
+                    email: account.email,
+                    sessionExpiry: auth.sessionExpiry
+                };
+                
                 document.body.classList.add('authenticated');
-                document.getElementById('userInfo').innerHTML = `👤 ${auth.name}`;
+                document.getElementById('userInfo').innerHTML = `👤 ${account.name}`;
                 document.getElementById('accessBanner').innerHTML = `
                     <strong>🔐 SESSION ACTIVE</strong><br>
-                    👤 ${auth.name}<br>
+                    👤 ${account.name}<br>
+                    📱 ${account.phone}<br>
                     ⏰ Expire dans <span id="sessionTimer">24:00:00</span>
                 `;
+                
+                updateAccountInfo();
+                afficherHistorique();
+                
                 return true;
             } catch {
                 return false;
@@ -1181,6 +1489,10 @@
         }
 
         function logout() {
+            if (state.currentUser) {
+                ajouterHistorique('DÉCONNEXION', 'Session terminée');
+            }
+            
             localStorage.removeItem('lonato_auth');
             document.body.classList.remove('authenticated');
             state.currentUser = null;
@@ -1434,6 +1746,10 @@
             state.currentPage = 1;
             displayResults();
             updateProgress(100); setTimeout(()=>updateProgress(0),300);
+            
+            // Ajouter à l'historique
+            ajouterHistorique('GÉNÉRATION', `${all.length} combinaisons`, nums);
+            
             showToast(`${all.length} combinaisons`, 'success');
         }
 
@@ -1452,6 +1768,10 @@
                     `<span class="ball" data-color="${(j%7)+1}">${n<10?'0'+n:n}</span>`
                 ).join('');
                 
+                // Échapper correctement les apostrophes dans le texte pour éviter les erreurs JavaScript
+                let serieText = item.numbers.map(n => n < 10 ? '0' + n : n).join(' - ') + ' (' + item.label + ')';
+                let escapedText = serieText.replace(/'/g, "\\'");
+                
                 return `<div class="result-item nap">
                     <div class="result-header">
                         <span style="font-weight:bold; min-width:35px;">#${idx}</span>
@@ -1459,7 +1779,7 @@
                         <span class="type-badge">${item.label}</span>
                     </div>
                     <div style="display:flex; justify-content:flex-end;">
-                        <button class="btn-copy" onclick="copySerie('${item.numbers.map(n=>n<10?'0'+n:n).join(' - ')} (${item.label})', this)">📋 Copier</button>
+                        <button class="btn-copy" onclick="copySerie('${escapedText}', this)">📋 Copier</button>
                     </div>
                 </div>`;
             }).join('');
@@ -1479,6 +1799,9 @@
             state.predictions = scored.slice(0,10);
             afficherPredictions();
             afficherTopWinners();
+            
+            // Ajouter à l'historique
+            ajouterHistorique('ANALYSE', 'Prédictions générées');
         }
 
         function afficherTopWinners() {
@@ -1487,6 +1810,11 @@
             container.innerHTML = '<h4 style="margin-bottom:8px;">🔮 Top 10</h4>';
             state.predictions.slice(0,10).forEach((p,i) => {
                 let balls = p.numbers.map((n,j) => `<span style="display:inline-block; width:24px; height:24px; border-radius:50%; background:var(--arc-bleu); color:white; text-align:center; line-height:24px; font-size:0.6rem; margin:0 1px;">${n<10?'0'+n:n}</span>`).join('');
+                
+                // Échapper correctement les apostrophes
+                let serieText = p.numbers.map(n => n < 10 ? '0' + n : n).join(' - ') + ' (' + p.label + ')';
+                let escapedText = serieText.replace(/'/g, "\\'");
+                
                 container.innerHTML += `
                     <div style="background:rgba(255,255,255,0.05); margin:8px 0; padding:8px; border-radius:8px;">
                         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:5px;">
@@ -1495,25 +1823,112 @@
                             <span class="type-badge">${p.label}</span>
                             <span style="background:var(--jackpot); color:white; padding:2px 6px; border-radius:10px; font-size:0.6rem;">${p.prob.toFixed(1)}%</span>
                         </div>
-                        <button class="btn-copy" style="width:100%;" onclick="copySerie('${p.numbers.map(n=>n<10?'0'+n:n).join(' - ')} (${p.label})', this)">📋 Copier</button>
+                        <button class="btn-copy" style="width:100%;" onclick="copySerie('${escapedText}', this)">📋 Copier</button>
                     </div>`;
             });
         }
 
+        // ==================== FONCTIONS DE COPIE CORRIGÉES ====================
         function copySerie(text, btn) {
-            navigator.clipboard.writeText(text).then(() => {
-                btn.innerText = '✅ Copié!'; btn.classList.add('copied');
-                setTimeout(() => { btn.innerText = '📋 Copier'; btn.classList.remove('copied'); }, 1500);
-                showToast('Copié !', 'success');
-            });
+            // Utiliser l'API Clipboard moderne avec fallback
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    // Succès
+                    btn.innerText = '✅ Copié!'; 
+                    btn.classList.add('copied');
+                    setTimeout(() => { 
+                        btn.innerText = '📋 Copier'; 
+                        btn.classList.remove('copied'); 
+                    }, 1500);
+                    showToast('Copié !', 'success');
+                    
+                    // Ajouter à l'historique
+                    ajouterHistorique('COPIE', text.substring(0, 30) + '...');
+                }).catch(err => {
+                    // Fallback en cas d'erreur
+                    fallbackCopy(text, btn);
+                });
+            } else {
+                // Fallback pour les navigateurs plus anciens
+                fallbackCopy(text, btn);
+            }
+        }
+
+        function fallbackCopy(text, btn) {
+            // Méthode de secours utilisant un élément textarea temporaire
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            textarea.setSelectionRange(0, 99999); // Pour mobile
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    btn.innerText = '✅ Copié!'; 
+                    btn.classList.add('copied');
+                    setTimeout(() => { 
+                        btn.innerText = '📋 Copier'; 
+                        btn.classList.remove('copied'); 
+                    }, 1500);
+                    showToast('Copié !', 'success');
+                    ajouterHistorique('COPIE', text.substring(0, 30) + '...');
+                } else {
+                    showToast('Erreur de copie', 'error');
+                }
+            } catch (err) {
+                showToast('Copie non supportée', 'error');
+            }
+            
+            document.body.removeChild(textarea);
         }
 
         function copyAllResults() {
             let data = state.filteredCombinations;
-            if (!data.length) return;
+            if (!data.length) {
+                showToast('Aucun résultat à copier', 'error');
+                return;
+            }
+            
             let text = `${gamesConfig[state.currentGame].name} - ${data.length} combinaisons\n\n`;
-            data.forEach((c,i) => { text += `${i+1}. ${c.numbers.map(n=>n<10?'0'+n:n).join(' - ')} (${c.label})\n`; });
-            navigator.clipboard.writeText(text).then(() => showToast(`${data.length} copiées`, 'success'));
+            data.forEach((c,i) => { 
+                text += `${i+1}. ${c.numbers.map(n=>n<10?'0'+n:n).join(' - ')} (${c.label})\n`; 
+            });
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(`${data.length} combinaisons copiées`, 'success');
+                    ajouterHistorique('COPIE TOUT', `${data.length} combinaisons`);
+                }).catch(() => {
+                    fallbackCopyAll(text);
+                });
+            } else {
+                fallbackCopyAll(text);
+            }
+        }
+
+        function fallbackCopyAll(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast('Copié !', 'success');
+                } else {
+                    showToast('Erreur de copie', 'error');
+                }
+            } catch (err) {
+                showToast('Copie non supportée', 'error');
+            }
+            
+            document.body.removeChild(textarea);
         }
 
         // ==================== PAGINATION ====================
