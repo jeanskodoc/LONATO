@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>LONATO · Toutes les combinaisons · Boutons copier corrigés</title>
+    <title>LONATO · Gestion multi-comptes · Accès sécurisé</title>
     <style>
         * {
             margin: 0;
@@ -28,16 +28,8 @@
             --probable: #10B981;
             --peu-probable: #EF4444;
             --tres-probable: #F59E0B;
-            --liste: #6B7280;
-            --auto: #0891B2;
-            --inverse: #E83E8C;
-            --plus1: #20C997;
-            --combine: #17A2B8;
-            --position: #FF851B;
             --copie: #00A36C;
             --nap: #4361EE;
-            --permutation: #3A0CA3;
-            --bankers: #F72585;
             --info: #4895EF;
             --ombre: 0 4px 15px rgba(0,0,0,0.2);
             
@@ -52,14 +44,264 @@
 
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(145deg, #0a3a2a, #3a2a1a, #7a1e1e);
             min-height: 100vh;
+            transition: all 0.3s;
+        }
+
+        body.authenticated {
+            background: linear-gradient(145deg, #0a3a2a, #3a2a1a, #7a1e1e);
             padding: 15px;
         }
 
-        .container {
+        body:not(.authenticated) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ========== PAGE DE CONNEXION ========== */
+        .login-container {
+            max-width: 450px;
+            width: 90%;
+            background: var(--blanc);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: var(--ombre);
+            border: 3px solid var(--jaune);
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: var(--vert);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .login-header h1 span {
+            color: var(--rouge);
+        }
+
+        .login-header p {
+            color: var(--gris-fonce);
+            font-size: 0.9rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--jaune);
+            padding-bottom: 10px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: var(--vert);
+            color: var(--jaune);
+        }
+
+        .tab:not(.active):hover {
+            background: var(--gris);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gris-fonce);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--jaune);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--vert);
+            box-shadow: 0 0 0 3px rgba(0,100,0,0.1);
+        }
+
+        .code-input {
+            font-size: 1.5rem !important;
+            text-align: center;
+            letter-spacing: 8px;
+            font-weight: bold;
+        }
+
+        .btn-login, .btn-register {
+            width: 100%;
+            padding: 15px;
+            background: var(--vert);
+            color: var(--jaune);
+            border: 2px solid var(--jaune);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .btn-register {
+            background: var(--bleu-loto);
+        }
+
+        .btn-login:hover, .btn-register:hover {
+            background: var(--rouge);
+            transform: translateY(-3px);
+            box-shadow: var(--ombre);
+        }
+
+        .info-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: #666;
+            padding: 15px;
+            background: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .info-text strong {
+            color: var(--vert);
+        }
+
+        .expire-warning {
+            background: var(--rouge);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* ========== SECTION ADMIN (visible uniquement après connexion) ========== */
+        .admin-section {
+            margin-top: 20px;
+            border-top: 2px solid var(--jaune);
+            padding-top: 20px;
+        }
+
+        .admin-section h3 {
+            color: var(--vert);
+            margin-bottom: 15px;
+        }
+
+        .accounts-list {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 2px solid var(--jaune);
+            border-radius: 10px;
+            padding: 10px;
+            background: var(--gris);
+        }
+
+        .account-item {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .account-item:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .account-item .name {
+            font-weight: bold;
+        }
+
+        .account-item .phone {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .account-item .code {
+            font-family: monospace;
+            background: var(--gris-fonce);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .account-item .code.revealed {
+            filter: none;
+        }
+
+        .account-item .code:not(.revealed) {
+            filter: blur(4px);
+        }
+
+        .account-item .code:hover {
+            filter: blur(2px);
+        }
+
+        .account-item .status {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+
+        .status.valid {
+            background: var(--vert);
+            color: white;
+        }
+
+        .status.expired {
+            background: var(--rouge);
+            color: white;
+        }
+
+        /* ========== APPLICATION PRINCIPALE ========== */
+        .app-container {
             max-width: 1800px;
             margin: 0 auto;
+            display: none;
+        }
+
+        body.authenticated .app-container {
+            display: block;
+        }
+
+        body.authenticated .login-container {
+            display: none;
         }
 
         .header {
@@ -69,6 +311,70 @@
             border: 3px solid var(--jaune);
             text-align: center;
             box-shadow: var(--ombre);
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--rouge);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 2px solid var(--jaune);
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: var(--gris-fonce);
+            transform: translateY(-3px);
+        }
+
+        .user-info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--vert);
+            color: var(--jaune);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            border: 2px solid var(--jaune);
+        }
+
+        .admin-btn {
+            position: absolute;
+            top: 20px;
+            left: 200px;
+            background: var(--bleu-loto);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            border: 2px solid var(--jaune);
+            transition: all 0.3s;
+        }
+
+        .admin-btn:hover {
+            background: var(--gris-fonce);
+            transform: translateY(-3px);
+        }
+
+        .admin-panel {
+            background: var(--blanc);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 3px solid var(--jaune);
+            display: none;
+        }
+
+        .admin-panel.visible {
+            display: block;
         }
 
         h1 {
@@ -166,8 +472,6 @@
             padding: 15px;
             cursor: pointer;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
         }
 
         .game-card:hover {
@@ -200,28 +504,6 @@
 
         .game-card.selected .game-time {
             background: rgba(255,255,255,0.2);
-        }
-
-        .game-category {
-            font-size: 0.8rem;
-            margin-top: 8px;
-            padding: 4px 8px;
-            border-radius: 15px;
-            background: var(--jaune);
-            color: var(--vert);
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .game-description {
-            font-size: 0.8rem;
-            margin-top: 8px;
-            color: #666;
-            line-height: 1.4;
-        }
-
-        .game-card.selected .game-description {
-            color: #ffd;
         }
 
         .game-jackpot {
@@ -318,8 +600,8 @@
         }
 
         .bet-type-card.nap { border-left: 6px solid var(--nap); }
-        .bet-type-card.perm { border-left: 6px solid var(--permutation); }
-        .bet-type-card.banker { border-left: 6px solid var(--bankers); }
+        .bet-type-card.perm { border-left: 6px solid var(--perm); }
+        .bet-type-card.banker { border-left: 6px solid var(--banker); }
         .bet-type-card.turbo { border-left: 6px solid var(--turbo); }
 
         .bet-type-title {
@@ -376,7 +658,7 @@
         }
 
         .number-btn.banker {
-            background: var(--bankers);
+            background: var(--banker);
             color: white;
             border-color: var(--jaune);
         }
@@ -408,7 +690,7 @@
         }
 
         .number-tag.banker {
-            background: var(--bankers);
+            background: var(--banker);
             color: white;
         }
 
@@ -571,7 +853,6 @@
             border-radius: 10px;
             border-left: 6px solid;
             transition: all 0.3s;
-            position: relative;
         }
 
         .result-item:hover {
@@ -580,8 +861,8 @@
         }
 
         .result-item.nap { border-left-color: var(--nap); }
-        .result-item.permutation { border-left-color: var(--permutation); }
-        .result-item.banker { border-left-color: var(--bankers); }
+        .result-item.permutation { border-left-color: var(--perm); }
+        .result-item.banker { border-left-color: var(--banker); }
         .result-item.turbo { border-left-color: var(--turbo); }
         .result-item.prediction { border-left-color: var(--prediction); }
 
@@ -616,16 +897,6 @@
             font-weight: bold;
             background: var(--gris-fonce);
             color: white;
-            margin-left: 5px;
-        }
-
-        .gain-info {
-            font-size: 0.7rem;
-            margin-top: 5px;
-            padding: 3px 8px;
-            background: rgba(0,0,0,0.05);
-            border-radius: 15px;
-            display: inline-block;
         }
 
         .result-actions {
@@ -737,992 +1008,1346 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h1>🇹🇬 LONATO · TOUTES LES COMBINAISONS · COPIER CORRIGÉ 🇹🇬</h1>
-        <div class="subtitle">Nap · Permutation · Bankers · Turbo · 120 permutations · Inverse · +1 · Combiné</div>
-    </div>
-
-    <div class="time-banner">
-        <div class="current-time">
-            <span>🕐</span>
-            <span id="currentTimeDisplay">--:--:--</span>
-        </div>
-        <div class="next-draw">
-            <div class="next-draw-info">
-                <span>🎰 Prochain tirage</span>
-                <span id="nextDrawTime">14:00</span>
-            </div>
-            <div class="countdown" id="countdownDisplay">--h --min</div>
-        </div>
-    </div>
-
-    <!-- Bannière d'information -->
-    <div class="info-banner">
-        <strong>📋 RÈGLES DE COMBINAISON APPLIQUÉES</strong><br>
-        • 🔄 120 permutations de positions pour chaque série<br>
-        • 🔄 Inverse: 12→21, 01→10, 45→54<br>
-        • ➕ +1: 12→13, 90→01<br>
-        • ⚡ Combiné: Inverse→+1 et +1→Inverse<br>
-        • 🎯 Toutes les combinaisons uniques sont générées automatiquement
-    </div>
-
-    <div class="main-content">
-        <!-- Colonne principale -->
-        <div>
-            <div class="panel">
-                <h2>🎯 1. SÉLECTIONNEZ VOTRE JEU</h2>
-                
-                <!-- Onglets par jour -->
-                <div class="days-tabs" id="daysTabs"></div>
-                
-                <!-- Grille des jeux -->
-                <div class="games-grid" id="gamesGrid"></div>
-
-                <h2 style="margin-top:20px;">🎲 2. CHOISISSEZ VOTRE TYPE DE PARI</h2>
-                
-                <!-- Types de paris -->
-                <div class="bet-types-panel" id="betTypesContainer">
-                    <div class="bet-type-card nap selected" onclick="selectBetType('nap')" id="bet-nap">
-                        <div class="bet-type-title">NAP 1-5</div>
-                        <div class="bet-type-desc">1 à 5 numéros · Ordre indifférent</div>
-                    </div>
-                    <div class="bet-type-card perm" onclick="selectBetType('permutation')" id="bet-permutation">
-                        <div class="bet-type-title">PERMUTATION</div>
-                        <div class="bet-type-desc">5-10 numéros · Toutes combinaisons</div>
-                    </div>
-                    <div class="bet-type-card banker" onclick="selectBetType('banker')" id="bet-banker">
-                        <div class="bet-type-title">BANKERS</div>
-                        <div class="bet-type-desc">Numéros sûrs (Ctrl+clic)</div>
-                    </div>
-                    <div class="bet-type-card turbo" onclick="selectBetType('turbo')" id="bet-turbo">
-                        <div class="bet-type-title">TURBO ⚡</div>
-                        <div class="bet-type-desc">Nap2 + positions</div>
-                    </div>
-                </div>
-
-                <!-- Options Turbo -->
-                <div id="turboOptions" style="display: none; margin:15px 0;">
-                    <h3>Niveau Turbo</h3>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                        <div class="turbo-btn selected" onclick="selectTurbo(2)" style="flex:1; padding:10px; border:2px solid var(--turbo); border-radius:10px; cursor:pointer; text-align:center;">Turbo 2 (2 premiers) ×10</div>
-                        <div class="turbo-btn" onclick="selectTurbo(3)" style="flex:1; padding:10px; border:2px solid var(--turbo); border-radius:10px; cursor:pointer; text-align:center;">Turbo 3 (dans les 3) ×5</div>
-                        <div class="turbo-btn" onclick="selectTurbo(4)" style="flex:1; padding:10px; border:2px solid var(--turbo); border-radius:10px; cursor:pointer; text-align:center;">Turbo 4 (dans les 4) ×3</div>
-                    </div>
-                </div>
-
-                <h2 style="margin-top:20px;">🔢 3. SÉLECTIONNEZ VOS NUMÉROS</h2>
-                
-                <!-- Grille numéros -->
-                <div class="numbers-grid" id="numbersGrid"></div>
-
-                <!-- Sélection -->
-                <div class="selected-numbers">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span><strong><span id="selectedCount">0</span>/<span id="maxSelection">5</span> numéros</strong></span>
-                        <button class="btn-secondary" onclick="clearSelection()" style="min-width:100px;">Effacer</button>
-                    </div>
-                    <div class="selected-tags" id="selectedTags"></div>
-                </div>
-
-                <!-- Informations de mise -->
-                <div class="stake-info" id="stakeInfo">
-                    <span>💰 Mise unitaire: <span id="unitStake">100</span> FCFA</span>
-                    <span>📊 Mise totale: <span id="totalStake">0</span> FCFA</span>
-                </div>
-
-                <!-- Boutons principaux -->
-                <div class="button-group">
-                    <button class="btn-generate" onclick="genererToutesCombinaisons()">🎲 GÉNÉRER TOUTES LES COMBINAISONS</button>
-                    <button class="btn-predict" onclick="lancerAnalysePredictive()" id="btnAnalyse">🔮 ANALYSE PRÉDICTIVE</button>
-                    <button class="btn-primary btn-copy-all" onclick="copyAllResults()">📋 COPIER TOUT</button>
-                </div>
-
-                <!-- Barre de progression -->
-                <div class="progress-bar"><div class="progress-fill" id="progressBar">0%</div></div>
-            </div>
-
-            <!-- Résultats -->
-            <div class="panel">
-                <h2>📊 RÉSULTATS</h2>
-                <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
-                    <button class="btn-primary" onclick="afficherTous()">📋 Tous</button>
-                    <button class="btn-predict" onclick="afficherPredictions()">🔮 Prédictions</button>
-                    <button class="btn-secondary" onclick="afficherParType('nap')">NAP</button>
-                    <button class="btn-secondary" onclick="afficherParType('permutation')">PERM</button>
-                    <button class="btn-secondary" onclick="afficherParType('banker')">BANKERS</button>
-                    <button class="btn-secondary" onclick="afficherParType('turbo')">TURBO</button>
-                </div>
-                <div class="results-container" id="resultsContainer">
-                    <div style="text-align:center; padding:40px;">Sélectionnez un jeu, un type de pari et des numéros</div>
-                </div>
-                <div class="pagination">
-                    <button class="page-btn" onclick="changePage('first')">⏮️</button>
-                    <button class="page-btn" onclick="changePage('prev')">◀</button>
-                    <span class="page-info" id="pageInfo">Page 1/1</span>
-                    <button class="page-btn" onclick="changePage('next')">▶</button>
-                    <button class="page-btn" onclick="changePage('last')">⏭️</button>
-                </div>
-                <div style="text-align:center; margin-top:10px;" id="totalInfo"></div>
-            </div>
+    <!-- PAGE DE CONNEXION -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-header">
+            <h1>🇹🇬 <span>LONATO</span> 🇹🇬</h1>
+            <p>Accès sécurisé · Connexion requise</p>
         </div>
 
-        <!-- Colonne droite -->
-        <div>
-            <div class="panel">
-                <h2>📈 TOP PRÉDICTIONS</h2>
-                <div id="topWinners" style="padding:10px; max-height:400px; overflow-y:auto;"></div>
-                <div style="margin-top:15px;">
-                    <button onclick="rafraichirAnalyse()" class="btn-primary" style="width:100%;">🔄 Actualiser</button>
-                </div>
-            </div>
+        <!-- Onglets Connexion / Inscription -->
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('login')" id="tabLogin">🔐 CONNEXION</div>
+            <div class="tab" onclick="showTab('register')" id="tabRegister">📝 INSCRIPTION</div>
         </div>
-    </div>
 
-    <div class="footer">
-        <p>© LONATO · Toutes les combinaisons possibles · Boutons copier fonctionnels</p>
-    </div>
-</div>
+        <!-- Formulaire de connexion -->
+        <div id="loginForm">
+            <div class="form-group">
+                <label>📱 Numéro de téléphone</label>
+                <input type="tel" id="phoneInput" placeholder="+228 XX XX XX XX">
+            </div>
 
-<!-- Toast pour les notifications -->
-<div id="toast" style="display: none;"></div>
+            <div class="form-group">
+                <label>🔑 Code d'accès (6 chiffres)</label>
+                <input type="text" id="codeInput" class="code-input" maxlength="6" placeholder="••••••" inputmode="numeric" pattern="[0-9]*">
+            </div>
 
-<script>
-    // ==================== CONFIGURATION DES JEUX ====================
-    const gamesConfig = {
-        diamant: { name: 'LOTO DIAMANT', day: 'lundi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
-        gold: { name: 'LOTO GOLD', day: 'lundi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
-        cash: { name: 'LOTO CASH', day: 'mardi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
-        boom: { name: 'LOTO BOOM', day: 'mardi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
-        benz: { name: 'LOTO BENZ', day: 'mercredi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
-        prestige: { name: 'LOTO PRESTIGE', day: 'mercredi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
-        millions: { name: 'LOTO MILLIONS', day: 'jeudi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
-        super: { name: 'LOTO SUPER', day: 'jeudi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 500, tce: true },
-        kadoo: { name: 'LOTO KADOO', day: 'vendredi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
-        king: { name: 'LOTO KING', day: 'vendredi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
-        sam: { name: 'LOTO SAM', day: 'samedi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
-        bingo: { name: 'LOTO BINGO', day: 'samedi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 }
-    };
-
-    // ==================== ÉTAT GLOBAL ====================
-    let state = {
-        currentDay: 'lundi',
-        currentGame: 'diamant',
-        betType: 'nap',
-        turboLevel: 2,
-        selectedNumbers: new Set(),
-        bankers: new Set(),
-        allCombinations: [],
-        filteredCombinations: [],
-        predictions: [],
-        currentPage: 1,
-        itemsPerPage: 20,
-        currentType: 'all'
-    };
-
-    // ==================== FONCTIONS D'HEURE ====================
-    function updateTimeDisplay() {
-        const now = new Date();
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-        document.getElementById('currentTimeDisplay').textContent = `${hours}:${minutes}:${seconds}`;
-        
-        const currentHour = now.getHours();
-        const currentMinutes = now.getMinutes();
-        const currentTotal = currentHour * 60 + currentMinutes;
-        
-        let nextDrawHour, nextDrawLabel;
-        
-        if (currentTotal < 14 * 60) {
-            nextDrawHour = 14;
-            nextDrawLabel = '14:00';
-        } else if (currentTotal < 18 * 60) {
-            nextDrawHour = 18;
-            nextDrawLabel = '18:00';
-        } else {
-            nextDrawHour = 14 + 24;
-            nextDrawLabel = 'demain 14:00';
-        }
-        
-        document.getElementById('nextDrawTime').textContent = nextDrawLabel;
-        
-        let targetTotal = nextDrawHour * 60;
-        if (nextDrawHour > 24) targetTotal = (nextDrawHour - 24) * 60;
-        
-        let minutesRemaining = targetTotal - currentTotal;
-        if (minutesRemaining < 0) minutesRemaining += 24 * 60;
-        
-        const hoursRemaining = Math.floor(minutesRemaining / 60);
-        const minsRemaining = minutesRemaining % 60;
-        
-        document.getElementById('countdownDisplay').textContent = 
-            `${hoursRemaining}h ${minsRemaining}min`;
-        
-        updateGamesStatus(currentHour);
-    }
-
-    function updateGamesStatus(currentHour) {
-        document.querySelectorAll('.game-card').forEach(card => {
-            const gameId = card.id.replace('game-', '');
-            const game = gamesConfig[gameId];
+            <button class="btn-login" onclick="verifyCode()">🔓 SE CONNECTER</button>
             
-            if (game && game.drawHour) {
-                let statusSpan = card.querySelector('.game-status');
-                if (!statusSpan) {
-                    statusSpan = document.createElement('div');
-                    statusSpan.className = 'game-status';
-                    card.appendChild(statusSpan);
+            <div class="info-text">
+                <strong>ℹ️</strong> Pas encore de compte ? <a href="#" onclick="showTab('register'); return false;">Inscrivez-vous</a>
+            </div>
+        </div>
+
+        <!-- Formulaire d'inscription -->
+        <div id="registerForm" style="display: none;">
+            <div class="form-group">
+                <label>👤 Nom complet</label>
+                <input type="text" id="regName" placeholder="Votre nom">
+            </div>
+
+            <div class="form-group">
+                <label>📱 Numéro de téléphone</label>
+                <input type="tel" id="regPhone" placeholder="+228 XX XX XX XX">
+            </div>
+
+            <div class="form-group">
+                <label>📧 Email</label>
+                <input type="email" id="regEmail" placeholder="email@exemple.com">
+            </div>
+
+            <div class="form-group">
+                <label>🎯 Utilisation</label>
+                <select id="regUsage">
+                    <option value="personnelle">Personnelle</option>
+                    <option value="professionnelle">Professionnelle</option>
+                    <option value="association">Association</option>
+                </select>
+            </div>
+
+            <button class="btn-register" onclick="registerAccount()">📝 CRÉER MON COMPTE</button>
+            
+            <div class="info-text">
+                <strong>ℹ️</strong> Déjà inscrit ? <a href="#" onclick="showTab('login'); return false;">Connectez-vous</a>
+            </div>
+        </div>
+
+        <div id="expireMessage" class="expire-warning" style="display: none;"></div>
+    </div>
+
+    <!-- APPLICATION PRINCIPALE -->
+    <div class="app-container" id="appContainer">
+        <div class="header">
+            <div class="user-info" id="userInfo">👤 Chargement...</div>
+            <div class="admin-btn" onclick="toggleAdminPanel()" id="adminBtn">👥 GESTION DES COMPTES</div>
+            <div class="logout-btn" onclick="logout()">🔒 SE DÉCONNECTER</div>
+            <h1>🇹🇬 LONATO · TOUTES LES COMBINAISONS 🇹🇬</h1>
+            <div class="subtitle">Nap · Permutation · Bankers · Turbo · 120 permutations · Inverse · +1 · Combiné</div>
+        </div>
+
+        <!-- Panneau d'administration (visible uniquement après connexion) -->
+        <div class="admin-panel" id="adminPanel">
+            <h2 style="color:var(--vert); margin-bottom:15px;">👥 GESTION DES COMPTES ENREGISTRÉS</h2>
+            
+            <!-- Liste des comptes (visible uniquement aux utilisateurs connectés) -->
+            <div class="accounts-list" id="accountsList"></div>
+            
+            <div style="margin-top:15px; display:flex; gap:10px;">
+                <button onclick="refreshAccountsList()" class="btn-primary" style="flex:1;">🔄 Actualiser</button>
+                <button onclick="toggleAdminPanel()" class="btn-secondary" style="flex:1;">❌ Fermer</button>
+            </div>
+        </div>
+
+        <div class="time-banner">
+            <div class="current-time">
+                <span>🕐</span>
+                <span id="currentTimeDisplay">--:--:--</span>
+            </div>
+            <div class="next-draw">
+                <div class="next-draw-info">
+                    <span>🎰 Prochain tirage</span>
+                    <span id="nextDrawTime">14:00</span>
+                </div>
+                <div class="countdown" id="countdownDisplay">--h --min</div>
+            </div>
+        </div>
+
+        <!-- Bannière d'information -->
+        <div class="info-banner" id="accessBanner">
+            <strong>🔐 ACCÈS VALIDE</strong> · Bienvenue sur la plateforme LONATO
+        </div>
+
+        <div class="main-content">
+            <!-- Colonne principale -->
+            <div>
+                <div class="panel">
+                    <h2>🎯 1. SÉLECTIONNEZ VOTRE JEU</h2>
+                    
+                    <!-- Onglets par jour -->
+                    <div class="days-tabs" id="daysTabs"></div>
+                    
+                    <!-- Grille des jeux -->
+                    <div class="games-grid" id="gamesGrid"></div>
+
+                    <h2 style="margin-top:20px;">🎲 2. CHOISISSEZ VOTRE TYPE DE PARI</h2>
+                    
+                    <!-- Types de paris -->
+                    <div class="bet-types-panel" id="betTypesContainer">
+                        <div class="bet-type-card nap selected" onclick="selectBetType('nap')" id="bet-nap">
+                            <div class="bet-type-title">NAP 1-5</div>
+                            <div class="bet-type-desc">1 à 5 numéros · Ordre indifférent</div>
+                        </div>
+                        <div class="bet-type-card perm" onclick="selectBetType('permutation')" id="bet-permutation">
+                            <div class="bet-type-title">PERMUTATION</div>
+                            <div class="bet-type-desc">5-10 numéros · Toutes combinaisons</div>
+                        </div>
+                        <div class="bet-type-card banker" onclick="selectBetType('banker')" id="bet-banker">
+                            <div class="bet-type-title">BANKERS</div>
+                            <div class="bet-type-desc">Numéros sûrs (Ctrl+clic)</div>
+                        </div>
+                        <div class="bet-type-card turbo" onclick="selectBetType('turbo')" id="bet-turbo">
+                            <div class="bet-type-title">TURBO ⚡</div>
+                            <div class="bet-type-desc">Nap2 + positions</div>
+                        </div>
+                    </div>
+
+                    <!-- Options Turbo -->
+                    <div id="turboOptions" style="display: none; margin:15px 0;">
+                        <h3>Niveau Turbo</h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <div class="turbo-btn selected" onclick="selectTurbo(2)" style="flex:1; padding:10px; border:2px solid var(--turbo); border-radius:10px; cursor:pointer; text-align:center;">Turbo 2 (2 premiers) ×10</div>
+                            <div class="turbo-btn" onclick="selectTurbo(3)" style="flex:1; padding:10px; border:2px solid var(--turbo); border-radius:10px; cursor:pointer; text-align:center;">Turbo 3 (dans les 3) ×5</div>
+                            <div class="turbo-btn" onclick="selectTurbo(4)" style="flex:1; padding:10px; border:2px solid var(--turbo); border-radius:10px; cursor:pointer; text-align:center;">Turbo 4 (dans les 4) ×3</div>
+                        </div>
+                    </div>
+
+                    <h2 style="margin-top:20px;">🔢 3. SÉLECTIONNEZ VOS NUMÉROS</h2>
+                    
+                    <!-- Grille numéros -->
+                    <div class="numbers-grid" id="numbersGrid"></div>
+
+                    <!-- Sélection -->
+                    <div class="selected-numbers">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span><strong><span id="selectedCount">0</span>/<span id="maxSelection">5</span> numéros</strong></span>
+                            <button class="btn-secondary" onclick="clearSelection()" style="min-width:100px;">Effacer</button>
+                        </div>
+                        <div class="selected-tags" id="selectedTags"></div>
+                    </div>
+
+                    <!-- Informations de mise -->
+                    <div class="stake-info" id="stakeInfo">
+                        <span>💰 Mise unitaire: <span id="unitStake">100</span> FCFA</span>
+                        <span>📊 Mise totale: <span id="totalStake">0</span> FCFA</span>
+                    </div>
+
+                    <!-- Boutons principaux -->
+                    <div class="button-group">
+                        <button class="btn-generate" onclick="genererToutesCombinaisons()">🎲 GÉNÉRER TOUTES LES COMBINAISONS</button>
+                        <button class="btn-predict" onclick="lancerAnalysePredictive()" id="btnAnalyse">🔮 ANALYSE PRÉDICTIVE</button>
+                        <button class="btn-primary btn-copy-all" onclick="copyAllResults()">📋 COPIER TOUT</button>
+                    </div>
+
+                    <!-- Barre de progression -->
+                    <div class="progress-bar"><div class="progress-fill" id="progressBar">0%</div></div>
+                </div>
+
+                <!-- Résultats -->
+                <div class="panel">
+                    <h2>📊 RÉSULTATS</h2>
+                    <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                        <button class="btn-primary" onclick="afficherTous()">📋 Tous</button>
+                        <button class="btn-predict" onclick="afficherPredictions()">🔮 Prédictions</button>
+                        <button class="btn-secondary" onclick="afficherParType('nap')">NAP</button>
+                        <button class="btn-secondary" onclick="afficherParType('permutation')">PERM</button>
+                        <button class="btn-secondary" onclick="afficherParType('banker')">BANKERS</button>
+                        <button class="btn-secondary" onclick="afficherParType('turbo')">TURBO</button>
+                    </div>
+                    <div class="results-container" id="resultsContainer">
+                        <div style="text-align:center; padding:40px;">Sélectionnez un jeu, un type de pari et des numéros</div>
+                    </div>
+                    <div class="pagination">
+                        <button class="page-btn" onclick="changePage('first')">⏮️</button>
+                        <button class="page-btn" onclick="changePage('prev')">◀</button>
+                        <span class="page-info" id="pageInfo">Page 1/1</span>
+                        <button class="page-btn" onclick="changePage('next')">▶</button>
+                        <button class="page-btn" onclick="changePage('last')">⏭️</button>
+                    </div>
+                    <div style="text-align:center; margin-top:10px;" id="totalInfo"></div>
+                </div>
+            </div>
+
+            <!-- Colonne droite -->
+            <div>
+                <div class="panel">
+                    <h2>📈 TOP PRÉDICTIONS</h2>
+                    <div id="topWinners" style="padding:10px; max-height:400px; overflow-y:auto;"></div>
+                    <div style="margin-top:15px;">
+                        <button onclick="rafraichirAnalyse()" class="btn-primary" style="width:100%;">🔄 Actualiser</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© LONATO · Gestion multi-comptes · Accès sécurisé · Toutes les combinaisons possibles</p>
+        </div>
+    </div>
+
+    <!-- Toast pour les notifications -->
+    <div id="toast" style="display: none;"></div>
+
+    <script>
+        // ==================== BASE DE DONNÉES DES COMPTES (stockée localement) ====================
+        let accountsDB = [];
+
+        // Charger les comptes depuis localStorage
+        function loadAccounts() {
+            const saved = localStorage.getItem('lonato_accounts');
+            if (saved) {
+                try {
+                    accountsDB = JSON.parse(saved);
+                } catch (e) {
+                    accountsDB = [];
                 }
-                
-                if (currentHour < game.drawHour) {
-                    statusSpan.textContent = '🔜 À venir';
-                    statusSpan.style.background = '#4895EF';
-                } else if (currentHour === game.drawHour) {
-                    statusSpan.textContent = '🎰 En cours';
-                    statusSpan.style.background = '#10B981';
-                } else {
-                    statusSpan.textContent = '🔚 Passé';
-                    statusSpan.style.background = '#CE1126';
-                }
-                statusSpan.style.color = 'white';
-                statusSpan.style.padding = '3px 8px';
-                statusSpan.style.borderRadius = '15px';
-                statusSpan.style.fontSize = '0.7rem';
-                statusSpan.style.marginTop = '5px';
-                statusSpan.style.display = 'inline-block';
+            } else {
+                // Comptes par défaut
+                accountsDB = [
+                    {
+                        id: '1',
+                        name: 'AWORA ANOUKOUM',
+                        phone: '+228 92136007',
+                        email: 'jeanskodoc22@gmail.com',
+                        code: '414953',
+                        createdAt: '2026-02-20T10:41:56',
+                        expiresAt: '2026-02-21T01:20:00',
+                        usage: 'personnelle',
+                        active: true
+                    },
+                    {
+                        id: '2',
+                        name: 'KODJO MARTIN',
+                        phone: '+228 90123456',
+                        email: 'martin.kodjo@email.com',
+                        code: '123456',
+                        createdAt: '2026-02-19T14:30:00',
+                        expiresAt: '2026-02-20T14:30:00',
+                        usage: 'professionnelle',
+                        active: true
+                    },
+                    {
+                        id: '3',
+                        name: 'AMEYI AWA',
+                        phone: '+228 98765432',
+                        email: 'awa.ameyi@email.com',
+                        code: '789012',
+                        createdAt: '2026-02-20T09:15:00',
+                        expiresAt: '2026-02-21T09:15:00',
+                        usage: 'personnelle',
+                        active: true
+                    }
+                ];
+                saveAccounts();
             }
-        });
-    }
+        }
 
-    // ==================== INTERFACE JOURS ====================
-    function createDaysTabs() {
-        const days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
-        const container = document.getElementById('daysTabs');
-        container.innerHTML = '';
-        
-        const today = new Date().getDay();
-        const todayMap = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
-        const todayName = todayMap[today];
-        
-        days.forEach(day => {
-            const tab = document.createElement('div');
-            tab.className = `day-tab ${state.currentDay === day ? 'active' : ''} ${todayName === day ? 'today' : ''}`;
-            tab.textContent = day.toUpperCase();
-            tab.onclick = () => selectDay(day);
-            container.appendChild(tab);
-        });
-    }
+        function saveAccounts() {
+            localStorage.setItem('lonato_accounts', JSON.stringify(accountsDB));
+        }
 
-    function selectDay(day) {
-        state.currentDay = day;
-        createDaysTabs();
-        createGamesGrid();
-        
-        const firstGame = Object.keys(gamesConfig).find(id => gamesConfig[id].day === day);
-        if (firstGame) selectGame(firstGame);
-    }
-
-    // ==================== GRILLE JEUX ====================
-    function createGamesGrid() {
-        const grid = document.getElementById('gamesGrid');
-        grid.innerHTML = '';
-        
-        const gamesOfDay = Object.entries(gamesConfig)
-            .filter(([id, game]) => game.day === state.currentDay)
-            .sort((a, b) => a[1].drawHour - b[1].drawHour);
-        
-        gamesOfDay.forEach(([id, game]) => {
-            const card = document.createElement('div');
-            card.className = `game-card ${state.currentGame === id ? 'selected' : ''}`;
-            card.id = `game-${id}`;
+        // ==================== AFFICHAGE DES COMPTES (uniquement pour utilisateurs connectés) ====================
+        function updateAccountsList() {
+            const container = document.getElementById('accountsList');
+            if (!container) return;
             
-            const tceBadge = game.tce ? '<span style="background:#8B5CF6; color:white; padding:2px 8px; border-radius:12px; font-size:0.7rem; margin-left:5px;">TCE</span>' : '';
+            if (accountsDB.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px;">Aucun compte enregistré</div>';
+                return;
+            }
             
-            card.innerHTML = `
-                <div class="game-name">
-                    ${game.name} ${tceBadge}
-                </div>
-                <div class="game-time">🕐 Ventes: ${game.time}</div>
-                <div class="game-draw">🎰 Tirage: ${game.draw}</div>
-                <div class="game-jackpot">💰 Mise: ${game.mise} FCFA</div>
+            container.innerHTML = '';
+            accountsDB.forEach(account => {
+                const now = new Date();
+                const expiryDate = new Date(account.expiresAt);
+                const isValid = now <= expiryDate;
+                
+                const div = document.createElement('div');
+                div.className = 'account-item';
+                
+                // Formater la date d'expiration
+                const expiryFormatted = expiryDate.toLocaleString('fr-FR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                div.innerHTML = `
+                    <div style="flex:2;">
+                        <div class="name">${account.name}</div>
+                        <div class="phone">${account.phone}</div>
+                        <div style="font-size:0.7rem; color:#666;">Expire: ${expiryFormatted}</div>
+                    </div>
+                    <div style="flex:1; text-align:right;">
+                        <div class="code" onclick="revealCode(this, '${account.code}')" title="Cliquer pour révéler le code">••••••</div>
+                        <span class="status ${isValid ? 'valid' : 'expired'}">${isValid ? 'ACTIF' : 'EXPIRÉ'}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function revealCode(element, code) {
+            element.textContent = code;
+            element.classList.add('revealed');
+            
+            // Remettre les points après 3 secondes
+            setTimeout(() => {
+                element.textContent = '••••••';
+                element.classList.remove('revealed');
+            }, 3000);
+        }
+
+        function refreshAccountsList() {
+            updateAccountsList();
+            showToast('Liste des comptes actualisée', 'success');
+        }
+
+        function toggleAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            panel.classList.toggle('visible');
+            if (panel.classList.contains('visible')) {
+                updateAccountsList();
+            }
+        }
+
+        // ==================== GESTION DES ONGLETS ====================
+        function showTab(tab) {
+            if (tab === 'login') {
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('registerForm').style.display = 'none';
+                document.getElementById('tabLogin').classList.add('active');
+                document.getElementById('tabRegister').classList.remove('active');
+            } else {
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('registerForm').style.display = 'block';
+                document.getElementById('tabLogin').classList.remove('active');
+                document.getElementById('tabRegister').classList.add('active');
+            }
+        }
+
+        // ==================== INSCRIPTION ====================
+        function registerAccount() {
+            const name = document.getElementById('regName').value.trim();
+            const phone = document.getElementById('regPhone').value.trim();
+            const email = document.getElementById('regEmail').value.trim();
+            const usage = document.getElementById('regUsage').value;
+            
+            if (!name || !phone || !email) {
+                showToast('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+            
+            // Vérifier si le téléphone existe déjà
+            if (accountsDB.some(a => a.phone === phone)) {
+                showToast('Ce numéro est déjà enregistré', 'error');
+                return;
+            }
+            
+            // Générer un code aléatoire à 6 chiffres
+            const code = Math.floor(100000 + Math.random() * 900000).toString();
+            
+            // Date d'expiration (24h)
+            const now = new Date();
+            const expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+            
+            const newAccount = {
+                id: Date.now().toString(),
+                name: name,
+                phone: phone,
+                email: email,
+                code: code,
+                createdAt: now.toISOString(),
+                expiresAt: expiresAt.toISOString(),
+                usage: usage,
+                active: true
+            };
+            
+            accountsDB.push(newAccount);
+            saveAccounts();
+            
+            showToast(`Compte créé ! Votre code : ${code}`, 'success');
+            
+            // Basculer vers l'onglet de connexion
+            showTab('login');
+            
+            // Pré-remplir le téléphone
+            document.getElementById('phoneInput').value = phone;
+        }
+
+        // ==================== GESTION DE L'AUTHENTIFICATION ====================
+        function verifyCode() {
+            const phone = document.getElementById('phoneInput').value.trim();
+            const code = document.getElementById('codeInput').value.trim();
+            
+            if (!phone || !code) {
+                showToast('Veuillez remplir tous les champs', 'error');
+                return;
+            }
+            
+            // Rechercher le compte dans la base
+            const account = accountsDB.find(a => a.phone === phone && a.code === code && a.active);
+            
+            if (!account) {
+                showToast('Code ou téléphone invalide', 'error');
+                return;
+            }
+            
+            // Vérifier l'expiration
+            const now = new Date();
+            const expiryDate = new Date(account.expiresAt);
+            
+            if (now > expiryDate) {
+                document.getElementById('expireMessage').style.display = 'block';
+                document.getElementById('expireMessage').textContent = `⚠️ Code expiré depuis le ${expiryDate.toLocaleString('fr-FR')}`;
+                showToast('Code expiré', 'error');
+                return;
+            }
+            
+            // Authentification réussie
+            state.currentUser = account;
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('lonato_auth', JSON.stringify({
+                phone: account.phone,
+                code: account.code,
+                expiresAt: account.expiresAt,
+                name: account.name
+            }));
+            
+            // Mettre à jour l'interface
+            document.body.classList.add('authenticated');
+            
+            // Afficher les informations utilisateur
+            document.getElementById('userInfo').innerHTML = `👤 ${account.name}`;
+            document.getElementById('accessBanner').innerHTML = `
+                <strong>🔐 ACCÈS VALIDE</strong> · ${account.name} · Code valable jusqu'au ${new Date(account.expiresAt).toLocaleString('fr-FR')}
             `;
-            card.onclick = () => selectGame(id);
-            grid.appendChild(card);
-        });
-        
-        updateGamesStatus(new Date().getHours());
-    }
-
-    function selectGame(gameId) {
-        state.currentGame = gameId;
-        document.querySelectorAll('.game-card').forEach(c => c.classList.remove('selected'));
-        document.getElementById(`game-${gameId}`)?.classList.add('selected');
-        
-        const game = gamesConfig[gameId];
-        document.getElementById('unitStake').textContent = game.mise;
-        
-        if (game.tce) {
-            showToast(`⚠️ ${game.name} : mise spéciale ${game.mise} FCFA`, 'info');
-        }
-        
-        updateStake();
-    }
-
-    // ==================== TYPE DE PARI ====================
-    function selectBetType(type) {
-        state.betType = type;
-        
-        document.querySelectorAll('.bet-type-card').forEach(card => {
-            card.classList.remove('selected');
-        });
-        document.getElementById(`bet-${type}`).classList.add('selected');
-        
-        document.getElementById('turboOptions').style.display = type === 'turbo' ? 'block' : 'none';
-        
-        let max = 5;
-        if (type === 'permutation') max = 10;
-        if (type === 'banker') max = 10;
-        if (type === 'turbo') max = 2;
-        document.getElementById('maxSelection').textContent = max;
-        
-        clearSelection();
-        updateStake();
-    }
-
-    function selectTurbo(level) {
-        state.turboLevel = level;
-        document.querySelectorAll('.turbo-btn').forEach(btn => btn.classList.remove('selected'));
-        event.target.classList.add('selected');
-    }
-
-    // ==================== GRILLE NUMÉROS ====================
-    function createNumberGrid() {
-        const grid = document.getElementById('numbersGrid');
-        grid.innerHTML = '';
-        
-        for (let i = 1; i <= 90; i++) {
-            const btn = document.createElement('div');
-            btn.className = 'number-btn';
             
-            if (state.selectedNumbers.has(i)) btn.classList.add('selected');
-            if (state.bankers.has(i)) btn.classList.add('banker');
-            
-            btn.textContent = i < 10 ? '0' + i : i;
-            btn.onclick = () => toggleNumber(i);
-            grid.appendChild(btn);
+            showToast(`Bienvenue ${account.name}`, 'success');
         }
-    }
 
-    function toggleNumber(n) {
-        const max = state.betType === 'permutation' ? 10 : (state.betType === 'turbo' ? 2 : 5);
-        
-        if (state.betType === 'banker' && (event.ctrlKey || event.metaKey)) {
-            if (state.bankers.has(n)) {
-                state.bankers.delete(n);
-                state.selectedNumbers.delete(n);
+        function checkExistingAuth() {
+            const saved = localStorage.getItem('lonato_auth');
+            if (!saved) return false;
+            
+            try {
+                const auth = JSON.parse(saved);
+                const account = accountsDB.find(a => a.phone === auth.phone && a.code === auth.code && a.active);
+                
+                if (!account) return false;
+                
+                const now = new Date();
+                const expiryDate = new Date(auth.expiresAt);
+                
+                if (now > expiryDate) {
+                    localStorage.removeItem('lonato_auth');
+                    return false;
+                }
+                
+                // Authentification valide
+                state.currentUser = account;
+                document.body.classList.add('authenticated');
+                document.getElementById('userInfo').innerHTML = `👤 ${account.name}`;
+                document.getElementById('accessBanner').innerHTML = `
+                    <strong>🔐 ACCÈS VALIDE</strong> · ${account.name} · Code valable jusqu'au ${new Date(account.expiresAt).toLocaleString('fr-FR')}
+                `;
+                
+                return true;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('lonato_auth');
+            document.body.classList.remove('authenticated');
+            state.currentUser = null;
+            document.getElementById('phoneInput').value = '';
+            document.getElementById('codeInput').value = '';
+            document.getElementById('adminPanel').classList.remove('visible');
+            showToast('Déconnexion réussie', 'success');
+        }
+
+        // ==================== CONFIGURATION DES JEUX ====================
+        const gamesConfig = {
+            diamant: { name: 'LOTO DIAMANT', day: 'lundi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+            gold: { name: 'LOTO GOLD', day: 'lundi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
+            cash: { name: 'LOTO CASH', day: 'mardi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+            boom: { name: 'LOTO BOOM', day: 'mardi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
+            benz: { name: 'LOTO BENZ', day: 'mercredi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+            prestige: { name: 'LOTO PRESTIGE', day: 'mercredi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
+            millions: { name: 'LOTO MILLIONS', day: 'jeudi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+            super: { name: 'LOTO SUPER', day: 'jeudi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 500, tce: true },
+            kadoo: { name: 'LOTO KADOO', day: 'vendredi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+            king: { name: 'LOTO KING', day: 'vendredi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
+            sam: { name: 'LOTO SAM', day: 'samedi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+            bingo: { name: 'LOTO BINGO', day: 'samedi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 }
+        };
+
+        // ==================== ÉTAT GLOBAL ====================
+        let state = {
+            currentDay: 'lundi',
+            currentGame: 'diamant',
+            betType: 'nap',
+            turboLevel: 2,
+            selectedNumbers: new Set(),
+            bankers: new Set(),
+            allCombinations: [],
+            filteredCombinations: [],
+            predictions: [],
+            currentPage: 1,
+            itemsPerPage: 20,
+            currentType: 'all',
+            currentUser: null
+        };
+
+        // ==================== FONCTIONS D'HEURE ====================
+        function updateTimeDisplay() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('currentTimeDisplay').textContent = `${hours}:${minutes}:${seconds}`;
+            
+            const currentHour = now.getHours();
+            const currentMinutes = now.getMinutes();
+            const currentTotal = currentHour * 60 + currentMinutes;
+            
+            let nextDrawHour, nextDrawLabel;
+            
+            if (currentTotal < 14 * 60) {
+                nextDrawHour = 14;
+                nextDrawLabel = '14:00';
+            } else if (currentTotal < 18 * 60) {
+                nextDrawHour = 18;
+                nextDrawLabel = '18:00';
             } else {
-                if (state.bankers.size + (state.selectedNumbers.size - state.bankers.size) < max) {
-                    state.bankers.add(n);
-                    state.selectedNumbers.add(n);
+                nextDrawHour = 14 + 24;
+                nextDrawLabel = 'demain 14:00';
+            }
+            
+            document.getElementById('nextDrawTime').textContent = nextDrawLabel;
+            
+            let targetTotal = nextDrawHour * 60;
+            if (nextDrawHour > 24) targetTotal = (nextDrawHour - 24) * 60;
+            
+            let minutesRemaining = targetTotal - currentTotal;
+            if (minutesRemaining < 0) minutesRemaining += 24 * 60;
+            
+            const hoursRemaining = Math.floor(minutesRemaining / 60);
+            const minsRemaining = minutesRemaining % 60;
+            
+            document.getElementById('countdownDisplay').textContent = 
+                `${hoursRemaining}h ${minsRemaining}min`;
+            
+            updateGamesStatus(currentHour);
+        }
+
+        function updateGamesStatus(currentHour) {
+            document.querySelectorAll('.game-card').forEach(card => {
+                const gameId = card.id.replace('game-', '');
+                const game = gamesConfig[gameId];
+                
+                if (game && game.drawHour) {
+                    let statusSpan = card.querySelector('.game-status');
+                    if (!statusSpan) {
+                        statusSpan = document.createElement('div');
+                        statusSpan.className = 'game-status';
+                        card.appendChild(statusSpan);
+                    }
+                    
+                    if (currentHour < game.drawHour) {
+                        statusSpan.textContent = '🔜 À venir';
+                        statusSpan.style.background = '#4895EF';
+                    } else if (currentHour === game.drawHour) {
+                        statusSpan.textContent = '🎰 En cours';
+                        statusSpan.style.background = '#10B981';
+                    } else {
+                        statusSpan.textContent = '🔚 Passé';
+                        statusSpan.style.background = '#CE1126';
+                    }
+                    statusSpan.style.color = 'white';
+                    statusSpan.style.padding = '3px 8px';
+                    statusSpan.style.borderRadius = '15px';
+                    statusSpan.style.fontSize = '0.7rem';
+                    statusSpan.style.marginTop = '5px';
+                    statusSpan.style.display = 'inline-block';
+                }
+            });
+        }
+
+        // ==================== INTERFACE JOURS ====================
+        function createDaysTabs() {
+            const days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+            const container = document.getElementById('daysTabs');
+            container.innerHTML = '';
+            
+            const today = new Date().getDay();
+            const todayMap = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+            const todayName = todayMap[today];
+            
+            days.forEach(day => {
+                const tab = document.createElement('div');
+                tab.className = `day-tab ${state.currentDay === day ? 'active' : ''} ${todayName === day ? 'today' : ''}`;
+                tab.textContent = day.toUpperCase();
+                tab.onclick = () => selectDay(day);
+                container.appendChild(tab);
+            });
+        }
+
+        function selectDay(day) {
+            state.currentDay = day;
+            createDaysTabs();
+            createGamesGrid();
+            
+            const firstGame = Object.keys(gamesConfig).find(id => gamesConfig[id].day === day);
+            if (firstGame) selectGame(firstGame);
+        }
+
+        // ==================== GRILLE JEUX ====================
+        function createGamesGrid() {
+            const grid = document.getElementById('gamesGrid');
+            grid.innerHTML = '';
+            
+            const gamesOfDay = Object.entries(gamesConfig)
+                .filter(([id, game]) => game.day === state.currentDay)
+                .sort((a, b) => a[1].drawHour - b[1].drawHour);
+            
+            gamesOfDay.forEach(([id, game]) => {
+                const card = document.createElement('div');
+                card.className = `game-card ${state.currentGame === id ? 'selected' : ''}`;
+                card.id = `game-${id}`;
+                
+                const tceBadge = game.tce ? '<span class="tce-badge">TCE</span>' : '';
+                
+                card.innerHTML = `
+                    <div class="game-name">
+                        ${game.name} ${tceBadge}
+                    </div>
+                    <div class="game-time">🕐 Ventes: ${game.time}</div>
+                    <div class="game-draw">🎰 Tirage: ${game.draw}</div>
+                    <div class="game-jackpot">💰 Mise: ${game.mise} FCFA</div>
+                `;
+                card.onclick = () => selectGame(id);
+                grid.appendChild(card);
+            });
+            
+            updateGamesStatus(new Date().getHours());
+        }
+
+        function selectGame(gameId) {
+            state.currentGame = gameId;
+            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('selected'));
+            document.getElementById(`game-${gameId}`)?.classList.add('selected');
+            
+            const game = gamesConfig[gameId];
+            document.getElementById('unitStake').textContent = game.mise;
+            
+            if (game.tce) {
+                showToast(`⚠️ ${game.name} : mise spéciale ${game.mise} FCFA`, 'info');
+            }
+            
+            updateStake();
+        }
+
+        // ==================== TYPE DE PARI ====================
+        function selectBetType(type) {
+            state.betType = type;
+            
+            document.querySelectorAll('.bet-type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById(`bet-${type}`).classList.add('selected');
+            
+            document.getElementById('turboOptions').style.display = type === 'turbo' ? 'block' : 'none';
+            
+            let max = 5;
+            if (type === 'permutation') max = 10;
+            if (type === 'banker') max = 10;
+            if (type === 'turbo') max = 2;
+            document.getElementById('maxSelection').textContent = max;
+            
+            clearSelection();
+            updateStake();
+        }
+
+        function selectTurbo(level) {
+            state.turboLevel = level;
+            document.querySelectorAll('.turbo-btn').forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+        }
+
+        // ==================== GRILLE NUMÉROS ====================
+        function createNumberGrid() {
+            const grid = document.getElementById('numbersGrid');
+            grid.innerHTML = '';
+            
+            for (let i = 1; i <= 90; i++) {
+                const btn = document.createElement('div');
+                btn.className = 'number-btn';
+                
+                if (state.selectedNumbers.has(i)) btn.classList.add('selected');
+                if (state.bankers.has(i)) btn.classList.add('banker');
+                
+                btn.textContent = i < 10 ? '0' + i : i;
+                btn.onclick = () => toggleNumber(i);
+                grid.appendChild(btn);
+            }
+        }
+
+        function toggleNumber(n) {
+            const max = state.betType === 'permutation' ? 10 : (state.betType === 'turbo' ? 2 : 5);
+            
+            if (state.betType === 'banker' && (event.ctrlKey || event.metaKey)) {
+                if (state.bankers.has(n)) {
+                    state.bankers.delete(n);
+                    state.selectedNumbers.delete(n);
                 } else {
-                    showToast(`Maximum ${max} numéros`, 'error');
+                    if (state.bankers.size + (state.selectedNumbers.size - state.bankers.size) < max) {
+                        state.bankers.add(n);
+                        state.selectedNumbers.add(n);
+                    } else {
+                        showToast(`Maximum ${max} numéros`, 'error');
+                    }
+                }
+            } else {
+                if (state.selectedNumbers.has(n)) {
+                    state.selectedNumbers.delete(n);
+                    state.bankers.delete(n);
+                } else {
+                    if (state.selectedNumbers.size < max) {
+                        state.selectedNumbers.add(n);
+                    } else {
+                        showToast(`Maximum ${max} numéros`, 'error');
+                        return;
+                    }
                 }
             }
-        } else {
-            if (state.selectedNumbers.has(n)) {
-                state.selectedNumbers.delete(n);
-                state.bankers.delete(n);
-            } else {
-                if (state.selectedNumbers.size < max) {
-                    state.selectedNumbers.add(n);
-                } else {
-                    showToast(`Maximum ${max} numéros`, 'error');
+            
+            updateSelection();
+            createNumberGrid();
+            updateStake();
+        }
+
+        function removeNumber(n) {
+            state.selectedNumbers.delete(n);
+            state.bankers.delete(n);
+            updateSelection();
+            createNumberGrid();
+            updateStake();
+        }
+
+        function clearSelection() {
+            state.selectedNumbers.clear();
+            state.bankers.clear();
+            updateSelection();
+            createNumberGrid();
+            updateStake();
+            state.allCombinations = [];
+            state.filteredCombinations = [];
+            state.predictions = [];
+            displayResults();
+        }
+
+        function updateSelection() {
+            const tags = document.getElementById('selectedTags');
+            const count = document.getElementById('selectedCount');
+            const nums = Array.from(state.selectedNumbers).sort((a,b) => a-b);
+            
+            tags.innerHTML = nums.map(n => {
+                const isBanker = state.bankers.has(n);
+                return `<span class="number-tag ${isBanker ? 'banker' : ''}">${n < 10 ? '0'+n : n}${isBanker ? ' 👑' : ''}<button onclick="removeNumber(${n})">×</button></span>`;
+            }).join('');
+            
+            count.textContent = nums.length;
+        }
+
+        function updateStake() {
+            const nums = Array.from(state.selectedNumbers);
+            let numberOfCombinations = 0;
+            
+            if (state.betType === 'nap' && nums.length > 0) {
+                numberOfCombinations = 1;
+            } else if (state.betType === 'permutation' && nums.length >= 5) {
+                numberOfCombinations = combinationCount(nums.length, 5);
+            } else if (state.betType === 'banker') {
+                const bankers = Array.from(state.bankers);
+                const others = nums.filter(n => !state.bankers.has(n));
+                if (bankers.length > 0 && bankers.length <= 5) {
+                    const k = 5 - bankers.length;
+                    if (k >= 0 && others.length >= k) {
+                        numberOfCombinations = combinationCount(others.length, k);
+                    }
+                }
+            } else if (state.betType === 'turbo' && nums.length === 2) {
+                numberOfCombinations = 1;
+            }
+            
+            const unitStake = gamesConfig[state.currentGame]?.mise || 100;
+            const totalStake = numberOfCombinations * unitStake;
+            
+            document.getElementById('totalStake').textContent = totalStake;
+        }
+
+        // ==================== FONCTIONS MATHÉMATIQUES ====================
+        function factorial(n) {
+            if (n <= 1) return 1;
+            return n * factorial(n-1);
+        }
+
+        function combinationCount(n, k) {
+            if (k > n) return 0;
+            return factorial(n) / (factorial(k) * factorial(n - k));
+        }
+
+        function combine(arr, k) {
+            if (k === 0) return [[]];
+            if (arr.length === 0) return [];
+            const [first, ...rest] = arr;
+            const withFirst = combine(rest, k-1).map(c => [first, ...c]);
+            const withoutFirst = combine(rest, k);
+            return [...withFirst, ...withoutFirst];
+        }
+
+        function permuter(arr) {
+            if (arr.length === 0) return [[]];
+            const result = [];
+            for (let i = 0; i < arr.length; i++) {
+                const reste = [...arr.slice(0, i), ...arr.slice(i + 1)];
+                for (let p of permuter(reste)) {
+                    result.push([arr[i], ...p]);
+                }
+            }
+            return result;
+        }
+
+        function appliquerInverse(n) {
+            if (n < 10) return n * 10;
+            return parseInt(n.toString().split('').reverse().join(''));
+        }
+
+        function appliquerPlus1(n) {
+            if (n === 90) return 1;
+            return n + 1;
+        }
+
+        // ==================== GÉNÉRATION DE TOUTES LES COMBINAISONS ====================
+        function genererToutesCombinaisons() {
+            const nums = Array.from(state.selectedNumbers).sort((a,b) => a-b);
+            const game = gamesConfig[state.currentGame];
+            
+            if (nums.length === 0) {
+                showToast('Sélectionnez des numéros', 'error');
+                return;
+            }
+            
+            updateProgress(20);
+            
+            let baseCombinations = [];
+            
+            if (state.betType === 'nap') {
+                if (nums.length !== 5) {
+                    showToast('Nap nécessite 5 numéros', 'error');
+                    updateProgress(0);
                     return;
                 }
+                baseCombinations = [nums];
             }
-        }
-        
-        updateSelection();
-        createNumberGrid();
-        updateStake();
-    }
-
-    function removeNumber(n) {
-        state.selectedNumbers.delete(n);
-        state.bankers.delete(n);
-        updateSelection();
-        createNumberGrid();
-        updateStake();
-    }
-
-    function clearSelection() {
-        state.selectedNumbers.clear();
-        state.bankers.clear();
-        updateSelection();
-        createNumberGrid();
-        updateStake();
-        state.allCombinations = [];
-        state.filteredCombinations = [];
-        state.predictions = [];
-        displayResults();
-    }
-
-    function updateSelection() {
-        const tags = document.getElementById('selectedTags');
-        const count = document.getElementById('selectedCount');
-        const nums = Array.from(state.selectedNumbers).sort((a,b) => a-b);
-        
-        tags.innerHTML = nums.map(n => {
-            const isBanker = state.bankers.has(n);
-            return `<span class="number-tag ${isBanker ? 'banker' : ''}">${n < 10 ? '0'+n : n}${isBanker ? ' 👑' : ''}<button onclick="removeNumber(${n})">×</button></span>`;
-        }).join('');
-        
-        count.textContent = nums.length;
-    }
-
-    function updateStake() {
-        const nums = Array.from(state.selectedNumbers);
-        let numberOfCombinations = 0;
-        
-        if (state.betType === 'nap' && nums.length > 0) {
-            numberOfCombinations = 1;
-        } else if (state.betType === 'permutation' && nums.length >= 5) {
-            numberOfCombinations = combinationCount(nums.length, 5);
-        } else if (state.betType === 'banker') {
-            const bankers = Array.from(state.bankers);
-            const others = nums.filter(n => !state.bankers.has(n));
-            if (bankers.length > 0 && bankers.length <= 5) {
-                const k = 5 - bankers.length;
-                if (k >= 0 && others.length >= k) {
-                    numberOfCombinations = combinationCount(others.length, k);
+            else if (state.betType === 'permutation') {
+                if (nums.length < 5) {
+                    showToast('Permutation nécessite au moins 5 numéros', 'error');
+                    updateProgress(0);
+                    return;
                 }
+                baseCombinations = combine(nums, 5);
             }
-        } else if (state.betType === 'turbo' && nums.length === 2) {
-            numberOfCombinations = 1;
-        }
-        
-        const unitStake = gamesConfig[state.currentGame]?.mise || 100;
-        const totalStake = numberOfCombinations * unitStake;
-        
-        document.getElementById('totalStake').textContent = totalStake;
-    }
-
-    // ==================== FONCTIONS MATHÉMATIQUES ====================
-    function factorial(n) {
-        if (n <= 1) return 1;
-        return n * factorial(n-1);
-    }
-
-    function combinationCount(n, k) {
-        if (k > n) return 0;
-        return factorial(n) / (factorial(k) * factorial(n - k));
-    }
-
-    function combine(arr, k) {
-        if (k === 0) return [[]];
-        if (arr.length === 0) return [];
-        const [first, ...rest] = arr;
-        const withFirst = combine(rest, k-1).map(c => [first, ...c]);
-        const withoutFirst = combine(rest, k);
-        return [...withFirst, ...withoutFirst];
-    }
-
-    function permuter(arr) {
-        if (arr.length === 0) return [[]];
-        const result = [];
-        for (let i = 0; i < arr.length; i++) {
-            const reste = [...arr.slice(0, i), ...arr.slice(i + 1)];
-            for (let p of permuter(reste)) {
-                result.push([arr[i], ...p]);
+            else if (state.betType === 'banker') {
+                const bankers = Array.from(state.bankers).sort((a,b) => a-b);
+                const others = nums.filter(n => !state.bankers.has(n)).sort((a,b) => a-b);
+                
+                if (bankers.length === 0) {
+                    showToast('Utilisez Ctrl+clic pour définir des bankers', 'error');
+                    updateProgress(0);
+                    return;
+                }
+                
+                if (bankers.length > 5) {
+                    showToast('Trop de bankers (max 5)', 'error');
+                    updateProgress(0);
+                    return;
+                }
+                
+                const k = 5 - bankers.length;
+                
+                if (k < 0 || others.length < k) {
+                    showToast('Configuration banker invalide', 'error');
+                    updateProgress(0);
+                    return;
+                }
+                
+                const combos = combine(others, k);
+                baseCombinations = combos.map(c => [...bankers, ...c].sort((a,b) => a-b));
             }
-        }
-        return result;
-    }
-
-    function appliquerInverse(n) {
-        if (n < 10) return n * 10;
-        return parseInt(n.toString().split('').reverse().join(''));
-    }
-
-    function appliquerPlus1(n) {
-        if (n === 90) return 1;
-        return n + 1;
-    }
-
-    // ==================== GÉNÉRATION DE TOUTES LES COMBINAISONS ====================
-    function genererToutesCombinaisons() {
-        const nums = Array.from(state.selectedNumbers).sort((a,b) => a-b);
-        const game = gamesConfig[state.currentGame];
-        
-        if (nums.length === 0) {
-            showToast('Sélectionnez des numéros', 'error');
-            return;
-        }
-        
-        updateProgress(20);
-        
-        let baseCombinations = [];
-        
-        // Étape 1: Générer les combinaisons selon le type de pari
-        if (state.betType === 'nap') {
-            if (nums.length !== 5) {
-                showToast('Nap nécessite 5 numéros', 'error');
-                updateProgress(0);
-                return;
-            }
-            baseCombinations = [nums];
-        }
-        else if (state.betType === 'permutation') {
-            if (nums.length < 5) {
-                showToast('Permutation nécessite au moins 5 numéros', 'error');
-                updateProgress(0);
-                return;
-            }
-            baseCombinations = combine(nums, 5);
-        }
-        else if (state.betType === 'banker') {
-            const bankers = Array.from(state.bankers).sort((a,b) => a-b);
-            const others = nums.filter(n => !state.bankers.has(n)).sort((a,b) => a-b);
-            
-            if (bankers.length === 0) {
-                showToast('Utilisez Ctrl+clic pour définir des bankers', 'error');
-                updateProgress(0);
-                return;
+            else if (state.betType === 'turbo') {
+                if (nums.length !== 2) {
+                    showToast('Turbo nécessite exactement 2 numéros', 'error');
+                    updateProgress(0);
+                    return;
+                }
+                baseCombinations = [nums];
             }
             
-            if (bankers.length > 5) {
-                showToast('Trop de bankers (max 5)', 'error');
-                updateProgress(0);
-                return;
-            }
+            updateProgress(40);
             
-            const k = 5 - bankers.length;
+            const allSeries = [];
+            const seen = new Set();
             
-            if (k < 0 || others.length < k) {
-                showToast('Configuration banker invalide', 'error');
-                updateProgress(0);
-                return;
-            }
-            
-            const combos = combine(others, k);
-            baseCombinations = combos.map(c => [...bankers, ...c].sort((a,b) => a-b));
-        }
-        else if (state.betType === 'turbo') {
-            if (nums.length !== 2) {
-                showToast('Turbo nécessite exactement 2 numéros', 'error');
-                updateProgress(0);
-                return;
-            }
-            baseCombinations = [nums];
-        }
-        
-        updateProgress(40);
-        
-        // Étape 2: Pour chaque combinaison de base, générer toutes les permutations et transformations
-        const allSeries = [];
-        const seen = new Set();
-        
-        baseCombinations.forEach(baseCombo => {
-            // Générer toutes les permutations (120 max)
-            const permutations = permuter(baseCombo);
-            
-            permutations.forEach(p => {
-                const key = p.join('|');
-                if (!seen.has(key)) {
-                    seen.add(key);
+            baseCombinations.forEach(baseCombo => {
+                const permutations = permuter(baseCombo);
+                
+                permutations.forEach(p => {
+                    const key = p.join('|');
+                    if (!seen.has(key)) {
+                        seen.add(key);
+                        allSeries.push({
+                            numbers: [...p],
+                            type: state.betType,
+                            typeLabel: state.betType === 'nap' ? `NAP ${p.length}` : 
+                                       state.betType === 'permutation' ? 'PERM' :
+                                       state.betType === 'banker' ? 'BANKERS' : 
+                                       `TURBO ${state.turboLevel}`,
+                            baseType: state.betType
+                        });
+                    }
+                });
+                
+                const inverse = baseCombo.map(n => appliquerInverse(n));
+                const inverseKey = inverse.join('|');
+                if (!seen.has(inverseKey)) {
+                    seen.add(inverseKey);
                     allSeries.push({
-                        numbers: [...p],
+                        numbers: inverse,
                         type: state.betType,
-                        typeLabel: state.betType === 'nap' ? `NAP ${p.length}` : 
-                                   state.betType === 'permutation' ? 'PERM' :
-                                   state.betType === 'banker' ? 'BANKERS' : 
-                                   `TURBO ${state.turboLevel}`,
-                        baseType: state.betType
+                        typeLabel: state.betType === 'nap' ? 'NAP Inverse' : 
+                                   state.betType === 'permutation' ? 'PERM Inverse' :
+                                   state.betType === 'banker' ? 'BANKERS Inverse' : 
+                                   'TURBO Inverse',
+                        baseType: state.betType,
+                        transformation: 'inverse'
+                    });
+                }
+                
+                const plus1 = baseCombo.map(n => appliquerPlus1(n));
+                const plus1Key = plus1.join('|');
+                if (!seen.has(plus1Key)) {
+                    seen.add(plus1Key);
+                    allSeries.push({
+                        numbers: plus1,
+                        type: state.betType,
+                        typeLabel: state.betType === 'nap' ? 'NAP +1' : 
+                                   state.betType === 'permutation' ? 'PERM +1' :
+                                   state.betType === 'banker' ? 'BANKERS +1' : 
+                                   'TURBO +1',
+                        baseType: state.betType,
+                        transformation: 'plus1'
+                    });
+                }
+                
+                const combine1 = baseCombo.map(n => appliquerPlus1(appliquerInverse(n)));
+                const combine1Key = combine1.join('|');
+                if (!seen.has(combine1Key)) {
+                    seen.add(combine1Key);
+                    allSeries.push({
+                        numbers: combine1,
+                        type: state.betType,
+                        typeLabel: state.betType === 'nap' ? 'NAP Inv→+1' : 
+                                   state.betType === 'permutation' ? 'PERM Inv→+1' :
+                                   state.betType === 'banker' ? 'BANKERS Inv→+1' : 
+                                   'TURBO Inv→+1',
+                        baseType: state.betType,
+                        transformation: 'combine1'
+                    });
+                }
+                
+                const combine2 = baseCombo.map(n => appliquerInverse(appliquerPlus1(n)));
+                const combine2Key = combine2.join('|');
+                if (!seen.has(combine2Key)) {
+                    seen.add(combine2Key);
+                    allSeries.push({
+                        numbers: combine2,
+                        type: state.betType,
+                        typeLabel: state.betType === 'nap' ? 'NAP +1→Inv' : 
+                                   state.betType === 'permutation' ? 'PERM +1→Inv' :
+                                   state.betType === 'banker' ? 'BANKERS +1→Inv' : 
+                                   'TURBO +1→Inv',
+                        baseType: state.betType,
+                        transformation: 'combine2'
                     });
                 }
             });
             
-            // Ajouter la série inverse
-            const inverse = baseCombo.map(n => appliquerInverse(n));
-            const inverseKey = inverse.join('|');
-            if (!seen.has(inverseKey)) {
-                seen.add(inverseKey);
-                allSeries.push({
-                    numbers: inverse,
-                    type: state.betType,
-                    typeLabel: state.betType === 'nap' ? 'NAP Inverse' : 
-                               state.betType === 'permutation' ? 'PERM Inverse' :
-                               state.betType === 'banker' ? 'BANKERS Inverse' : 
-                               'TURBO Inverse',
-                    baseType: state.betType,
-                    transformation: 'inverse'
-                });
-            }
+            updateProgress(80);
             
-            // Ajouter la série +1
-            const plus1 = baseCombo.map(n => appliquerPlus1(n));
-            const plus1Key = plus1.join('|');
-            if (!seen.has(plus1Key)) {
-                seen.add(plus1Key);
-                allSeries.push({
-                    numbers: plus1,
-                    type: state.betType,
-                    typeLabel: state.betType === 'nap' ? 'NAP +1' : 
-                               state.betType === 'permutation' ? 'PERM +1' :
-                               state.betType === 'banker' ? 'BANKERS +1' : 
-                               'TURBO +1',
-                    baseType: state.betType,
-                    transformation: 'plus1'
-                });
-            }
-            
-            // Ajouter les combinés
-            const combine1 = baseCombo.map(n => appliquerPlus1(appliquerInverse(n)));
-            const combine1Key = combine1.join('|');
-            if (!seen.has(combine1Key)) {
-                seen.add(combine1Key);
-                allSeries.push({
-                    numbers: combine1,
-                    type: state.betType,
-                    typeLabel: state.betType === 'nap' ? 'NAP Inv→+1' : 
-                               state.betType === 'permutation' ? 'PERM Inv→+1' :
-                               state.betType === 'banker' ? 'BANKERS Inv→+1' : 
-                               'TURBO Inv→+1',
-                    baseType: state.betType,
-                    transformation: 'combine1'
-                });
-            }
-            
-            const combine2 = baseCombo.map(n => appliquerInverse(appliquerPlus1(n)));
-            const combine2Key = combine2.join('|');
-            if (!seen.has(combine2Key)) {
-                seen.add(combine2Key);
-                allSeries.push({
-                    numbers: combine2,
-                    type: state.betType,
-                    typeLabel: state.betType === 'nap' ? 'NAP +1→Inv' : 
-                               state.betType === 'permutation' ? 'PERM +1→Inv' :
-                               state.betType === 'banker' ? 'BANKERS +1→Inv' : 
-                               'TURBO +1→Inv',
-                    baseType: state.betType,
-                    transformation: 'combine2'
-                });
-            }
-        });
-        
-        updateProgress(80);
-        
-        state.allCombinations = allSeries;
-        state.filteredCombinations = allSeries;
-        state.currentType = 'all';
-        
-        updateProgress(100);
-        setTimeout(() => updateProgress(0), 300);
-        
-        state.currentPage = 1;
-        displayResults();
-        
-        showToast(`${allSeries.length} combinaisons générées`, 'success');
-    }
-
-    // ==================== ANALYSE PRÉDICTIVE ====================
-    function lancerAnalysePredictive() {
-        if (state.allCombinations.length === 0) {
-            showToast('Générez d\'abord des combinaisons', 'error');
-            return;
-        }
-        
-        updateProgress(20);
-        document.getElementById('btnAnalyse').textContent = 'ANALYSE...';
-        
-        setTimeout(() => {
-            const scored = state.allCombinations.map(combo => {
-                let score = 1;
-                
-                // Facteurs de score
-                if (combo.transformation === 'inverse') score *= 1.3;
-                if (combo.transformation === 'plus1') score *= 1.2;
-                if (combo.transformation === 'combine1' || combo.transformation === 'combine2') score *= 1.5;
-                
-                // Dispersion
-                const min = Math.min(...combo.numbers);
-                const max = Math.max(...combo.numbers);
-                const dispersion = (max - min) / 90;
-                score *= (1 + dispersion);
-                
-                // Équilibre pair/impair
-                const pairs = combo.numbers.filter(n => n % 2 === 0).length;
-                const equilibr = 1 - Math.abs(pairs - 2.5) / 2.5;
-                score *= (1 + equilibr * 0.5);
-                
-                return {
-                    ...combo,
-                    score: score,
-                    probFinale: Math.min(score * 15, 100)
-                };
-            });
-            
-            scored.sort((a, b) => b.score - a.score);
-            state.predictions = scored.slice(0, Math.min(20, scored.length));
+            state.allCombinations = allSeries;
+            state.filteredCombinations = allSeries;
+            state.currentType = 'all';
             
             updateProgress(100);
-            setTimeout(() => {
-                updateProgress(0);
-                document.getElementById('btnAnalyse').textContent = '🔮 ANALYSE PRÉDICTIVE';
-            }, 300);
+            setTimeout(() => updateProgress(0), 300);
             
-            afficherPredictions();
-            afficherTopWinners();
+            state.currentPage = 1;
+            displayResults();
             
-            showToast(`${state.predictions.length} prédictions générées`, 'success');
-        }, 500);
-    }
-
-    function afficherTopWinners() {
-        const container = document.getElementById('topWinners');
-        if (!container || state.predictions.length === 0) {
-            container.innerHTML = '<div style="text-align:center; padding:20px;">Aucune prédiction</div>';
-            return;
+            showToast(`${allSeries.length} combinaisons générées`, 'success');
         }
-        
-        container.innerHTML = '<h4 style="color:var(--jaune); margin-bottom:10px;">Top 10</h4>';
-        
-        state.predictions.slice(0, 10).forEach((pred, idx) => {
-            const div = document.createElement('div');
-            div.style.cssText = 'background:rgba(255,255,255,0.05); margin:8px 0; padding:8px; border-radius:8px;';
-            
-            const balls = pred.numbers.map(n => 
-                `<span style="display:inline-block; width:24px; height:24px; border-radius:50%; background:var(--arc-bleu); color:white; text-align:center; line-height:24px; font-size:0.7rem; margin:0 1px;">${n < 10 ? '0'+n : n}</span>`
-            ).join('');
-            
-            div.innerHTML = `
-                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                    <span style="font-weight:bold; color:var(--jackpot);">#${idx+1}</span>
-                    ${balls}
-                    <span class="type-badge">${pred.typeLabel}</span>
-                    <span class="winner-tag">${pred.probFinale.toFixed(1)}%</span>
-                </div>
-                <button class="btn-copy" style="margin-top:5px; width:100%;" onclick="copySingleSerie('${pred.numbers.map(n => n < 10 ? '0'+n : n).join(' - ')}', '${pred.typeLabel}', this)">📋 Copier</button>
-            `;
-            container.appendChild(div);
-        });
-    }
 
-    // ==================== AFFICHAGE ====================
-    function displayResults() {
-        const container = document.getElementById('resultsContainer');
-        const data = state.filteredCombinations;
-        
-        if (data.length === 0) {
-            container.innerHTML = '<div style="text-align:center; padding:40px;">Aucun résultat</div>';
-            document.getElementById('totalInfo').textContent = '';
-            return;
-        }
-        
-        const start = (state.currentPage - 1) * state.itemsPerPage;
-        const end = Math.min(start + state.itemsPerPage, data.length);
-        const page = data.slice(start, end);
-        
-        container.innerHTML = page.map((item, idx) => {
-            const globalIdx = start + idx + 1;
-            const balls = item.numbers.map((n, i) => 
-                `<span class="ball" data-color="${(i % 7) + 1}">${n < 10 ? '0' + n : n}</span>`
-            ).join('');
-            
-            return `
-                <div class="result-item ${item.baseType || 'nap'}">
-                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                        <span style="font-weight:bold; min-width:35px;">#${globalIdx}</span>
-                        ${balls}
-                        <span class="type-badge">${item.typeLabel}</span>
-                    </div>
-                    <div class="result-actions">
-                        <button class="btn-copy" onclick="copySingleSerie('${item.numbers.map(n => n < 10 ? '0'+n : n).join(' - ')}', '${item.typeLabel}', this)">📋 Copier</button>
-                    </div>
-                </div>
-            `;
-        }).join('');
-        
-        document.getElementById('totalInfo').textContent = `${data.length} combinaison(s) - Page ${state.currentPage}/${Math.ceil(data.length / state.itemsPerPage)}`;
-        updatePagination(data.length);
-    }
-
-    function afficherTous() {
-        state.filteredCombinations = state.allCombinations;
-        state.currentType = 'all';
-        state.currentPage = 1;
-        displayResults();
-    }
-
-    function afficherParType(type) {
-        state.filteredCombinations = state.allCombinations.filter(c => c.baseType === type);
-        state.currentType = type;
-        state.currentPage = 1;
-        displayResults();
-    }
-
-    function afficherPredictions() {
-        if (state.predictions.length === 0) {
-            showToast('Lancez d\'abord l\'analyse prédictive', 'error');
-            return;
-        }
-        state.filteredCombinations = state.predictions;
-        state.currentType = 'predictions';
-        state.currentPage = 1;
-        displayResults();
-    }
-
-    // ==================== FONCTIONS DE COPIE CORRIGÉES ====================
-    function copySingleSerie(serie, type, button) {
-        const game = gamesConfig[state.currentGame];
-        const text = `${serie} (${type}) - ${game.name} - ${game.mise} FCFA`;
-        
-        // Utilisation de l'API Clipboard moderne
-        navigator.clipboard.writeText(text).then(() => {
-            // Sauvegarde de l'état original
-            const originalText = button.innerText;
-            const originalBg = button.style.backgroundColor;
-            
-            // Changement visuel
-            button.innerText = '✅ Copié!';
-            button.style.backgroundColor = 'var(--vert)';
-            button.classList.add('copied');
-            
-            // Notification
-            showToast('Copié dans le presse-papier', 'success');
-            
-            // Restauration après 1.5 secondes
-            setTimeout(() => {
-                button.innerText = originalText;
-                button.style.backgroundColor = originalBg;
-                button.classList.remove('copied');
-            }, 1500);
-            
-        }).catch(err => {
-            console.error('Erreur de copie:', err);
-            
-            // Fallback pour les navigateurs anciens
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            
-            try {
-                document.execCommand('copy');
-                button.innerText = '✅ Copié!';
-                button.style.backgroundColor = 'var(--vert)';
-                
-                showToast('Copié (fallback)', 'success');
-                
-                setTimeout(() => {
-                    button.innerText = '📋 Copier';
-                    button.style.backgroundColor = '';
-                }, 1500);
-                
-            } catch (e) {
-                showToast('Erreur de copie', 'error');
+        // ==================== ANALYSE PRÉDICTIVE ====================
+        function lancerAnalysePredictive() {
+            if (state.allCombinations.length === 0) {
+                showToast('Générez d\'abord des combinaisons', 'error');
+                return;
             }
             
-            document.body.removeChild(textarea);
-        });
-    }
-
-    function copyAllResults() {
-        const data = state.filteredCombinations;
-        if (data.length === 0) {
-            showToast('Aucune donnée à copier', 'error');
-            return;
+            updateProgress(20);
+            document.getElementById('btnAnalyse').textContent = 'ANALYSE...';
+            
+            setTimeout(() => {
+                const scored = state.allCombinations.map(combo => {
+                    let score = 1;
+                    
+                    if (combo.transformation === 'inverse') score *= 1.3;
+                    if (combo.transformation === 'plus1') score *= 1.2;
+                    if (combo.transformation === 'combine1' || combo.transformation === 'combine2') score *= 1.5;
+                    
+                    const min = Math.min(...combo.numbers);
+                    const max = Math.max(...combo.numbers);
+                    const dispersion = (max - min) / 90;
+                    score *= (1 + dispersion);
+                    
+                    const pairs = combo.numbers.filter(n => n % 2 === 0).length;
+                    const equilibr = 1 - Math.abs(pairs - 2.5) / 2.5;
+                    score *= (1 + equilibr * 0.5);
+                    
+                    return {
+                        ...combo,
+                        score: score,
+                        probFinale: Math.min(score * 15, 100)
+                    };
+                });
+                
+                scored.sort((a, b) => b.score - a.score);
+                state.predictions = scored.slice(0, Math.min(20, scored.length));
+                
+                updateProgress(100);
+                setTimeout(() => {
+                    updateProgress(0);
+                    document.getElementById('btnAnalyse').textContent = '🔮 ANALYSE PRÉDICTIVE';
+                }, 300);
+                
+                afficherPredictions();
+                afficherTopWinners();
+                
+                showToast(`${state.predictions.length} prédictions générées`, 'success');
+            }, 500);
         }
-        
-        const game = gamesConfig[state.currentGame];
-        let text = `${game.name} - ${data.length} combinaisons\n\n`;
-        
-        data.forEach((item, i) => {
-            const nums = item.numbers.map(n => n < 10 ? '0'+n : n).join(' - ');
-            text += `${i+1}. ${nums} (${item.typeLabel})\n`;
-        });
-        
-        navigator.clipboard.writeText(text).then(() => {
-            showToast(`${data.length} combinaisons copiées`, 'success');
-        }).catch(() => {
-            // Fallback
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            showToast(`${data.length} combinaisons copiées (fallback)`, 'success');
-        });
-    }
 
-    // ==================== PAGINATION ====================
-    function updatePagination(total) {
-        const pages = Math.ceil(total / state.itemsPerPage) || 1;
-        document.getElementById('pageInfo').textContent = `Page ${state.currentPage}/${pages}`;
-    }
-
-    function changePage(cmd) {
-        const total = state.filteredCombinations.length;
-        const pages = Math.ceil(total / state.itemsPerPage) || 1;
-        
-        if (cmd === 'next' && state.currentPage < pages) state.currentPage++;
-        else if (cmd === 'prev' && state.currentPage > 1) state.currentPage--;
-        else if (cmd === 'first') state.currentPage = 1;
-        else if (cmd === 'last') state.currentPage = pages;
-        
-        displayResults();
-    }
-
-    // ==================== TOAST ====================
-    function showToast(message, type = 'success') {
-        const toast = document.getElementById('toast');
-        toast.textContent = message;
-        toast.className = 'toast-message';
-        toast.style.backgroundColor = type === 'success' ? 'var(--vert)' : (type === 'error' ? 'var(--rouge)' : 'var(--info)');
-        toast.style.display = 'block';
-        
-        setTimeout(() => {
-            toast.style.display = 'none';
-        }, 2000);
-    }
-
-    // ==================== PROGRESS ====================
-    function updateProgress(p) {
-        const bar = document.getElementById('progressBar');
-        bar.style.width = p + '%';
-        bar.textContent = p + '%';
-    }
-
-    // ==================== UTILITAIRES ====================
-    function rafraichirAnalyse() {
-        if (state.allCombinations.length > 0) {
-            lancerAnalysePredictive();
+        function afficherTopWinners() {
+            const container = document.getElementById('topWinners');
+            if (!container || state.predictions.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px;">Aucune prédiction</div>';
+                return;
+            }
+            
+            container.innerHTML = '<h4 style="color:var(--jaune); margin-bottom:10px;">Top 10</h4>';
+            
+            state.predictions.slice(0, 10).forEach((pred, idx) => {
+                const div = document.createElement('div');
+                div.style.cssText = 'background:rgba(255,255,255,0.05); margin:8px 0; padding:8px; border-radius:8px;';
+                
+                const balls = pred.numbers.map(n => 
+                    `<span style="display:inline-block; width:24px; height:24px; border-radius:50%; background:var(--arc-bleu); color:white; text-align:center; line-height:24px; font-size:0.7rem; margin:0 1px;">${n < 10 ? '0'+n : n}</span>`
+                ).join('');
+                
+                div.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                        <span style="font-weight:bold; color:var(--jackpot);">#${idx+1}</span>
+                        ${balls}
+                        <span class="type-badge">${pred.typeLabel}</span>
+                        <span class="winner-tag">${pred.probFinale.toFixed(1)}%</span>
+                    </div>
+                    <button class="btn-copy" style="margin-top:5px; width:100%;" onclick="copySingleSerie('${pred.numbers.map(n => n < 10 ? '0'+n : n).join(' - ')}', '${pred.typeLabel}', this)">📋 Copier</button>
+                `;
+                container.appendChild(div);
+            });
         }
-    }
 
-    // ==================== INITIALISATION ====================
-    function init() {
-        createDaysTabs();
-        createGamesGrid();
-        createNumberGrid();
-        
-        const firstGame = Object.keys(gamesConfig).find(id => gamesConfig[id].day === 'lundi');
-        if (firstGame) selectGame(firstGame);
-        
-        updateTimeDisplay();
-        setInterval(updateTimeDisplay, 1000);
-        
-        if (!document.getElementById('toast')) {
-            const toast = document.createElement('div');
-            toast.id = 'toast';
-            toast.style.display = 'none';
-            document.body.appendChild(toast);
+        // ==================== AFFICHAGE ====================
+        function displayResults() {
+            const container = document.getElementById('resultsContainer');
+            const data = state.filteredCombinations;
+            
+            if (data.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:40px;">Aucun résultat</div>';
+                document.getElementById('totalInfo').textContent = '';
+                return;
+            }
+            
+            const start = (state.currentPage - 1) * state.itemsPerPage;
+            const end = Math.min(start + state.itemsPerPage, data.length);
+            const page = data.slice(start, end);
+            
+            container.innerHTML = page.map((item, idx) => {
+                const globalIdx = start + idx + 1;
+                const balls = item.numbers.map((n, i) => 
+                    `<span class="ball" data-color="${(i % 7) + 1}">${n < 10 ? '0' + n : n}</span>`
+                ).join('');
+                
+                return `
+                    <div class="result-item ${item.baseType || 'nap'}">
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <span style="font-weight:bold; min-width:35px;">#${globalIdx}</span>
+                            ${balls}
+                            <span class="type-badge">${item.typeLabel}</span>
+                        </div>
+                        <div class="result-actions">
+                            <button class="btn-copy" onclick="copySingleSerie('${item.numbers.map(n => n < 10 ? '0'+n : n).join(' - ')}', '${item.typeLabel}', this)">📋 Copier</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('totalInfo').textContent = `${data.length} combinaison(s) - Page ${state.currentPage}/${Math.ceil(data.length / state.itemsPerPage)}`;
+            updatePagination(data.length);
         }
-    }
 
-    init();
-</script>
+        function afficherTous() {
+            state.filteredCombinations = state.allCombinations;
+            state.currentType = 'all';
+            state.currentPage = 1;
+            displayResults();
+        }
+
+        function afficherParType(type) {
+            state.filteredCombinations = state.allCombinations.filter(c => c.baseType === type);
+            state.currentType = type;
+            state.currentPage = 1;
+            displayResults();
+        }
+
+        function afficherPredictions() {
+            if (state.predictions.length === 0) {
+                showToast('Lancez d\'abord l\'analyse prédictive', 'error');
+                return;
+            }
+            state.filteredCombinations = state.predictions;
+            state.currentType = 'predictions';
+            state.currentPage = 1;
+            displayResults();
+        }
+
+        // ==================== FONCTIONS DE COPIE ====================
+        function copySingleSerie(serie, type, button) {
+            const game = gamesConfig[state.currentGame];
+            const text = `${serie} (${type}) - ${game.name} - ${game.mise} FCFA`;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.innerText;
+                const originalBg = button.style.backgroundColor;
+                
+                button.innerText = '✅ Copié!';
+                button.style.backgroundColor = 'var(--vert)';
+                button.classList.add('copied');
+                
+                showToast('Copié dans le presse-papier', 'success');
+                
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.backgroundColor = originalBg;
+                    button.classList.remove('copied');
+                }, 1500);
+                
+            }).catch(err => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    button.innerText = '✅ Copié!';
+                    button.style.backgroundColor = 'var(--vert)';
+                    
+                    showToast('Copié (fallback)', 'success');
+                    
+                    setTimeout(() => {
+                        button.innerText = '📋 Copier';
+                        button.style.backgroundColor = '';
+                    }, 1500);
+                    
+                } catch (e) {
+                    showToast('Erreur de copie', 'error');
+                }
+                
+                document.body.removeChild(textarea);
+            });
+        }
+
+        function copyAllResults() {
+            const data = state.filteredCombinations;
+            if (data.length === 0) {
+                showToast('Aucune donnée à copier', 'error');
+                return;
+            }
+            
+            const game = gamesConfig[state.currentGame];
+            let text = `${game.name} - ${data.length} combinaisons\n\n`;
+            
+            data.forEach((item, i) => {
+                const nums = item.numbers.map(n => n < 10 ? '0'+n : n).join(' - ');
+                text += `${i+1}. ${nums} (${item.typeLabel})\n`;
+            });
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(`${data.length} combinaisons copiées`, 'success');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast(`${data.length} combinaisons copiées (fallback)`, 'success');
+            });
+        }
+
+        // ==================== PAGINATION ====================
+        function updatePagination(total) {
+            const pages = Math.ceil(total / state.itemsPerPage) || 1;
+            document.getElementById('pageInfo').textContent = `Page ${state.currentPage}/${pages}`;
+        }
+
+        function changePage(cmd) {
+            const total = state.filteredCombinations.length;
+            const pages = Math.ceil(total / state.itemsPerPage) || 1;
+            
+            if (cmd === 'next' && state.currentPage < pages) state.currentPage++;
+            else if (cmd === 'prev' && state.currentPage > 1) state.currentPage--;
+            else if (cmd === 'first') state.currentPage = 1;
+            else if (cmd === 'last') state.currentPage = pages;
+            
+            displayResults();
+        }
+
+        // ==================== TOAST ====================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast-message';
+            toast.style.backgroundColor = type === 'success' ? 'var(--vert)' : (type === 'error' ? 'var(--rouge)' : 'var(--info)');
+            toast.style.display = 'block';
+            
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        }
+
+        // ==================== PROGRESS ====================
+        function updateProgress(p) {
+            const bar = document.getElementById('progressBar');
+            bar.style.width = p + '%';
+            bar.textContent = p + '%';
+        }
+
+        // ==================== UTILITAIRES ====================
+        function rafraichirAnalyse() {
+            if (state.allCombinations.length > 0) {
+                lancerAnalysePredictive();
+            }
+        }
+
+        // ==================== INITIALISATION ====================
+        function init() {
+            // Charger les comptes
+            loadAccounts();
+            
+            // Vérifier si une session existe
+            if (!checkExistingAuth()) {
+                document.body.classList.remove('authenticated');
+            }
+            
+            // Initialiser l'application
+            createDaysTabs();
+            createGamesGrid();
+            createNumberGrid();
+            
+            const firstGame = Object.keys(gamesConfig).find(id => gamesConfig[id].day === 'lundi');
+            if (firstGame) selectGame(firstGame);
+            
+            updateTimeDisplay();
+            setInterval(updateTimeDisplay, 1000);
+            
+            if (!document.getElementById('toast')) {
+                const toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.style.display = 'none';
+                document.body.appendChild(toast);
+            }
+        }
+
+        init();
+    </script>
 </body>
 </html>
