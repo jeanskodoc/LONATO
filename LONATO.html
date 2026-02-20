@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>LONATO · Boules claires · Design responsive</title>
+    <title>LONATO · Accès 24h · Redirection automatique</title>
     <style>
         * {
             margin: 0;
@@ -191,6 +191,17 @@
             border-radius: 10px;
         }
 
+        .expire-warning {
+            background: var(--rouge);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
         /* ========== APPLICATION PRINCIPALE ========== */
         .app-container {
             max-width: 1800px;
@@ -246,6 +257,21 @@
             border: 2px solid var(--jaune);
             transition: all 0.3s;
             font-size: 0.8rem;
+        }
+
+        .expire-timer {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--info);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            border: 2px solid var(--jaune);
+            font-size: 0.8rem;
+            white-space: nowrap;
         }
 
         h1 {
@@ -897,12 +923,15 @@
                 <strong>ℹ️</strong> Déjà inscrit ? <a href="#" onclick="showTab('login'); return false;">Connectez-vous</a>
             </div>
         </div>
+
+        <div id="expireMessage" class="expire-warning" style="display: none;"></div>
     </div>
 
     <!-- APPLICATION PRINCIPALE -->
     <div class="app-container" id="appContainer">
         <div class="header">
             <div class="user-info" id="userInfo">👤 Chargement...</div>
+            <div class="expire-timer" id="expireTimer">⏳ Expire dans: --h --m</div>
             <div class="logout-btn" onclick="logout()">🔒 SE DÉCONNECTER</div>
             <h1>🇹🇬 LONATO · SIMULATEUR OFFICIEL 🇹🇬</h1>
             <div class="subtitle">120 permutations · Inverse · +1 · Combiné</div>
@@ -1003,13 +1032,16 @@
         </div>
 
         <div class="footer">
-            <p>© LONATO · Simulation combinatoire · Boules colorées</p>
+            <p>© LONATO · Accès 24h · Redirection automatique vers lonato1.netlify.app</p>
         </div>
     </div>
 
     <div id="toast" style="display:none;"></div>
 
     <script>
+        // URL de redirection après expiration
+        const REDIRECT_URL = 'https://lonato1.netlify.app/';
+
         // ==================== BASE DE DONNÉES ====================
         let accountsDB = [];
 
@@ -1020,7 +1052,7 @@
                 catch { accountsDB = []; }
             } else {
                 accountsDB = [
-                    { id: '1', name: 'AWORA ANOUKOUM', phone: '+228 92136007', email: 'jeanskodoc22@gmail.com', code: '414953', createdAt: '2026-02-20T10:41:56', expiresAt: '2026-02-21T13:45:00', usage: 'personnelle', active: true },
+                    { id: '1', name: 'AWORA ANOUKOUM', phone: '+228 92136007', email: 'jeanskodoc22@gmail.com', code: '414953', createdAt: '2026-02-20T10:41:56', expiresAt: '2026-02-21T01:20:00', usage: 'personnelle', active: true },
                     { id: '2', name: 'KODJO MARTIN', phone: '+228 90123456', email: 'martin.kodjo@email.com', code: '123456', createdAt: '2026-02-19T14:30:00', expiresAt: '2026-02-20T14:30:00', usage: 'professionnelle', active: true },
                     { id: '3', name: 'AMEYI AWA', phone: '+228 98765432', email: 'awa.ameyi@email.com', code: '789012', createdAt: '2026-02-20T09:15:00', expiresAt: '2026-02-21T09:15:00', usage: 'personnelle', active: true }
                 ];
@@ -1073,6 +1105,46 @@
             document.getElementById('phoneInput').value = phone;
         }
 
+        // ==================== GESTION DE L'EXPIRATION ====================
+        let expirationInterval = null;
+
+        function startExpirationTimer(expiryDate) {
+            if (expirationInterval) clearInterval(expirationInterval);
+            
+            expirationInterval = setInterval(() => {
+                const now = new Date();
+                const expiry = new Date(expiryDate);
+                const diff = expiry - now;
+                
+                if (diff <= 0) {
+                    // Code expiré - redirection
+                    clearInterval(expirationInterval);
+                    localStorage.removeItem('lonato_auth');
+                    showToast('⏰ Code expiré - Redirection...', 'info');
+                    setTimeout(() => {
+                        window.location.href = REDIRECT_URL;
+                    }, 2000);
+                    return;
+                }
+                
+                // Mise à jour de l'affichage du timer
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('expireTimer').textContent = 
+                    `⏳ Expire dans: ${hours}h ${minutes}m ${seconds}s`;
+                
+                // Alerte quand il reste moins de 5 minutes
+                if (diff < 5 * 60 * 1000 && diff > 0) {
+                    document.getElementById('expireTimer').style.background = 'var(--rouge)';
+                    if (diff < 60 * 1000) {
+                        showToast('⚠️ Moins d\'1 minute avant expiration !', 'warning');
+                    }
+                }
+            }, 1000);
+        }
+
         // ==================== AUTHENTIFICATION ====================
         function verifyCode() {
             const phone = document.getElementById('phoneInput').value.trim();
@@ -1081,14 +1153,22 @@
             const account = accountsDB.find(a => a.phone === phone && a.code === code && a.active);
             if (!account) { showToast('Code invalide', 'error'); return; }
             
-            if (new Date() > new Date(account.expiresAt)) {
+            const now = new Date();
+            const expiryDate = new Date(account.expiresAt);
+            
+            if (now > expiryDate) {
                 showToast('Code expiré', 'error');
+                document.getElementById('expireMessage').style.display = 'block';
+                document.getElementById('expireMessage').textContent = `⚠️ Code expiré depuis le ${expiryDate.toLocaleString('fr-FR')}`;
                 return;
             }
             
             state.currentUser = account;
             localStorage.setItem('lonato_auth', JSON.stringify({
-                phone: account.phone, code: account.code, expiresAt: account.expiresAt, name: account.name
+                phone: account.phone, 
+                code: account.code, 
+                expiresAt: account.expiresAt, 
+                name: account.name
             }));
             
             document.body.classList.add('authenticated');
@@ -1097,21 +1177,40 @@
                 <strong>🔐 COMPTE CONNECTÉ</strong><br>
                 👤 ${account.name}<br>
                 📱 ${account.phone}<br>
-                ⏰ Expire: ${new Date(account.expiresAt).toLocaleString('fr-FR')}
+                ⏰ Expire le: ${expiryDate.toLocaleString('fr-FR')}
             `;
+            
+            // Démarrer le timer d'expiration
+            startExpirationTimer(account.expiresAt);
+            
             showToast(`Bienvenue ${account.name}`, 'success');
         }
 
         function checkExistingAuth() {
             const saved = localStorage.getItem('lonato_auth');
             if (!saved) return false;
+            
             try {
                 const auth = JSON.parse(saved);
                 const account = accountsDB.find(a => a.phone === auth.phone && a.code === auth.code && a.active);
-                if (!account || new Date() > new Date(auth.expiresAt)) {
+                
+                if (!account) {
                     localStorage.removeItem('lonato_auth');
                     return false;
                 }
+                
+                const now = new Date();
+                const expiryDate = new Date(auth.expiresAt);
+                
+                if (now > expiryDate) {
+                    localStorage.removeItem('lonato_auth');
+                    showToast('Session expirée - Redirection...', 'info');
+                    setTimeout(() => {
+                        window.location.href = REDIRECT_URL;
+                    }, 2000);
+                    return false;
+                }
+                
                 state.currentUser = account;
                 document.body.classList.add('authenticated');
                 document.getElementById('userInfo').innerHTML = `👤 ${account.name}`;
@@ -1119,13 +1218,20 @@
                     <strong>🔐 COMPTE CONNECTÉ</strong><br>
                     👤 ${account.name}<br>
                     📱 ${account.phone}<br>
-                    ⏰ Expire: ${new Date(account.expiresAt).toLocaleString('fr-FR')}
+                    ⏰ Expire le: ${expiryDate.toLocaleString('fr-FR')}
                 `;
+                
+                // Démarrer le timer d'expiration
+                startExpirationTimer(auth.expiresAt);
+                
                 return true;
-            } catch { return false; }
+            } catch (e) {
+                return false;
+            }
         }
 
         function logout() {
+            if (expirationInterval) clearInterval(expirationInterval);
             localStorage.removeItem('lonato_auth');
             document.body.classList.remove('authenticated');
             state.currentUser = null;
@@ -1455,7 +1561,7 @@
             let t = document.getElementById('toast');
             t.textContent = msg;
             t.className = 'toast-message';
-            t.style.backgroundColor = type==='success' ? 'var(--vert)' : 'var(--rouge)';
+            t.style.backgroundColor = type==='success' ? 'var(--vert)' : (type==='error' ? 'var(--rouge)' : 'var(--info)');
             t.style.display = 'block';
             setTimeout(() => t.style.display = 'none', 2000);
         }
