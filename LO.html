@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>LONATO - Accès Sécurisé</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --vert: #006400;
+            --vert-clair: #32CD32;
+            --jaune: #FFD700;
+            --jaune-clair: #FFE55C;
+            --rouge: #CE1126;
+            --rouge-clair: #FF4D4D;
+            --blanc: #ffffff;
+            --gris: #f5f5f5;
+            --gris-fonce: #333;
+            --ombre: 0 4px 15px rgba(0,0,0,0.2);
+            --ombre-douce: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--vert), var(--jaune), var(--rouge));
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--blanc);
+            border-radius: 20px;
+            padding: 30px;
+            border: 3px solid var(--jaune);
+            box-shadow: var(--ombre);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--vert), var(--jaune), var(--rouge));
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            color: var(--vert);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--rouge);
+            font-size: 1rem;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        /* Formulaire */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: var(--vert);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--jaune);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--vert);
+            box-shadow: 0 0 0 3px rgba(0,100,0,0.1);
+        }
+
+        .phone-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .phone-prefix {
+            background: var(--gris);
+            padding: 12px 15px;
+            border: 2px solid var(--jaune);
+            border-radius: 10px;
+            font-weight: bold;
+            color: var(--gris-fonce);
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .phone-number {
+            flex: 1;
+        }
+
+        /* Boutons */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+            box-shadow: var(--ombre-douce);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--ombre);
+        }
+
+        .btn-primary {
+            background: var(--vert);
+            color: var(--jaune);
+            border: 2px solid var(--jaune);
+        }
+
+        .btn-secondary {
+            background: var(--rouge);
+            color: var(--jaune);
+            border: 2px solid var(--jaune);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+            border: 2px solid var(--jaune);
+        }
+
+        .btn-success {
+            background: var(--vert-clair);
+            color: white;
+            border: 2px solid var(--jaune);
+        }
+
+        /* Code d'accès */
+        .access-code-section {
+            background: var(--gris);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid var(--jaune);
+            text-align: center;
+        }
+
+        .access-code {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: var(--vert);
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        .timer {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--rouge);
+            margin: 10px 0;
+        }
+
+        .timer.expired {
+            color: #999;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: var(--gris);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--vert);
+            width: 100%;
+            transition: width 1s linear;
+        }
+
+        /* Messages */
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+
+        .message.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            display: block;
+        }
+
+        /* Lien d'accès */
+        .access-link {
+            display: inline-block;
+            padding: 12px 25px;
+            background: var(--vert);
+            color: var(--jaune);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 15px;
+            border: 2px solid var(--jaune);
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+        }
+
+        .access-link:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--ombre);
+        }
+
+        .access-link.disabled {
+            background: #ccc;
+            color: #666;
+            pointer-events: none;
+            border-color: #999;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--gris-fonce);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .access-code {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <div class="logo">🇹🇬</div>
+                <h1>LONATO</h1>
+                <div class="subtitle">Accès sécurisé au générateur</div>
+            </div>
+
+            <!-- Formulaire d'inscription -->
+            <div id="formSection">
+                <div class="form-group">
+                    <label for="nom">Nom complet *</label>
+                    <input type="text" id="nom" placeholder="Votre nom" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="prenom">Prénom *</label>
+                    <input type="text" id="prenom" placeholder="Votre prénom" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" placeholder="votre@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Numéro WhatsApp *</label>
+                    <div class="phone-input">
+                        <div class="phone-prefix">+228</div>
+                        <input type="tel" id="phone" class="phone-number" placeholder="92 87 16 05" pattern="[0-9]{8}" maxlength="8" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="utilite">Utilisation prévue *</label>
+                    <select id="utilite" required>
+                        <option value="">Sélectionnez une option</option>
+                        <option value="personnelle">Usage personnel</option>
+                        <option value="professionnelle">Usage professionnel</option>
+                        <option value="etude">Étude / Analyse</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="acceptTerms" required>
+                    <label for="acceptTerms">J'accepte que mes informations soient envoyées pour obtenir un code d'accès *</label>
+                </div>
+
+                <button class="btn btn-primary" onclick="submitForm()">
+                    📤 ENVOYER ET GÉNÉRER MON CODE
+                </button>
+
+                <div id="formMessage" class="message"></div>
+            </div>
+
+            <!-- Section code d'accès (cachée au début) -->
+            <div id="accessSection" style="display: none;">
+                <div class="access-code-section">
+                    <h3>🔐 VOTRE CODE D'ACCÈS</h3>
+                    <div class="access-code" id="codeDisplay">XXXXXX</div>
+                    
+                    <div class="timer" id="timerDisplay">24h 00m 00s</div>
+                    
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar" style="width: 100%;"></div>
+                    </div>
+
+                    <p style="font-size: 0.9rem; color: #666;">
+                        ⏰ Ce code expire dans 24 heures
+                    </p>
+
+                    <button class="btn btn-whatsapp" onclick="sendToWhatsApp()">
+                        📱 ENVOYER PAR WHATSAPP
+                    </button>
+
+                    <div id="whatsappMessage" class="message"></div>
+
+                    <a href="#" class="access-link" id="accessLink" onclick="accessApplication(event)">
+                        🎯 ACCÉDER À L'APPLICATION
+                    </a>
+
+                    <p style="font-size: 0.8rem; color: #999; margin-top: 10px;">
+                        * Le code a été envoyé par WhatsApp. Vous devez confirmer la réception avant d'accéder.
+                    </p>
+                </div>
+
+                <button class="btn btn-secondary" onclick="resetForm()">
+                    🔄 RECOMMENCER
+                </button>
+            </div>
+
+            <div class="footer">
+                <p>© LONATO - Envoi obligatoire avant accès</p>
+                <p style="font-size: 0.8rem; margin-top: 5px;">Support WhatsApp: +228 92 87 16 05</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        const WHATSAPP_NUMBER = '22892871605'; // Sans le +
+        const CODE_EXPIRY_HOURS = 24; // 24 heures
+        const LONATO_FILE = 'LONATO.html'; // Fichier cible
+        
+        // Variable pour stocker le code généré et son expiration
+        let currentCode = null;
+        let expiryTime = null;
+        let timerInterval = null;
+        let formSubmitted = false;
+        let whatsappSent = false;
+
+        // ==================== FONCTIONS DE GÉNÉRATION ====================
+        
+        // Générer un code aléatoire à 6 chiffres
+        function generateRandomCode() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        // Valider le formulaire
+        function validateForm() {
+            const nom = document.getElementById('nom').value.trim();
+            const prenom = document.getElementById('prenom').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const utilite = document.getElementById('utilite').value;
+            const acceptTerms = document.getElementById('acceptTerms').checked;
+
+            if (!nom || !prenom || !email || !phone || !utilite) {
+                showMessage('formMessage', 'Veuillez remplir tous les champs', 'error');
+                return false;
+            }
+
+            if (phone.length !== 8 || !/^\d+$/.test(phone)) {
+                showMessage('formMessage', 'Le numéro doit contenir 8 chiffres', 'error');
+                return false;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                showMessage('formMessage', 'Email invalide', 'error');
+                return false;
+            }
+
+            if (!acceptTerms) {
+                showMessage('formMessage', 'Vous devez accepter les conditions', 'error');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Afficher un message
+        function showMessage(elementId, text, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = text;
+            element.className = `message ${type}`;
+        }
+
+        // Formater le temps restant
+        function formatTimeRemaining(expiryTimestamp) {
+            const now = new Date().getTime();
+            const distance = expiryTimestamp - now;
+
+            if (distance < 0) {
+                return 'EXPIRÉ';
+            }
+
+            const hours = Math.floor(distance / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            return `${hours}h ${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+        }
+
+        // Mettre à jour le timer
+        function updateTimer() {
+            if (!expiryTime) return;
+
+            const timerDisplay = document.getElementById('timerDisplay');
+            const progressBar = document.getElementById('progressBar');
+            const accessLink = document.getElementById('accessLink');
+            
+            const now = new Date().getTime();
+            const distance = expiryTime - now;
+            const totalDuration = CODE_EXPIRY_HOURS * 60 * 60 * 1000;
+            const percentage = Math.max(0, (distance / totalDuration) * 100);
+
+            if (distance <= 0) {
+                // Code expiré
+                timerDisplay.textContent = 'CODE EXPIRÉ';
+                timerDisplay.classList.add('expired');
+                progressBar.style.width = '0%';
+                accessLink.classList.add('disabled');
+                accessLink.removeAttribute('onclick');
+                accessLink.textContent = '🔒 CODE EXPIRÉ';
+                formSubmitted = false;
+                whatsappSent = false;
+                
+                if (timerInterval) {
+                    clearInterval(timerInterval);
+                    timerInterval = null;
+                }
+                
+                showMessage('whatsappMessage', 'Code expiré. Veuillez en générer un nouveau.', 'error');
+            } else {
+                // Code valide
+                timerDisplay.textContent = formatTimeRemaining(expiryTime);
+                timerDisplay.classList.remove('expired');
+                progressBar.style.width = percentage + '%';
+                
+                // Le lien n'est actif que si WhatsApp a été envoyé
+                if (whatsappSent) {
+                    accessLink.classList.remove('disabled');
+                    accessLink.textContent = '🎯 ACCÉDER À L\'APPLICATION';
+                } else {
+                    accessLink.classList.add('disabled');
+                    accessLink.textContent = '📤 ENVOYEZ D\'ABORD PAR WHATSAPP';
+                }
+            }
+        }
+
+        // Démarrer le timer
+        function startTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+            
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        // ==================== FONCTION PRINCIPALE ====================
+        function submitForm() {
+            if (!validateForm()) return;
+
+            // Récupérer les données du formulaire
+            const nom = document.getElementById('nom').value.trim();
+            const prenom = document.getElementById('prenom').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const utilite = document.getElementById('utilite').value;
+
+            // Générer le code
+            currentCode = generateRandomCode();
+            
+            // Définir l'expiration (24 heures)
+            const now = new Date().getTime();
+            expiryTime = now + (CODE_EXPIRY_HOURS * 60 * 60 * 1000);
+
+            // Marquer comme soumis
+            formSubmitted = true;
+            whatsappSent = false;
+
+            // Afficher le code
+            document.getElementById('codeDisplay').textContent = currentCode;
+
+            // Cacher le formulaire, afficher la section code
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('accessSection').style.display = 'block';
+
+            // Démarrer le timer
+            startTimer();
+
+            // Sauvegarder dans localStorage pour vérification ultérieure
+            localStorage.setItem('lonato_access_code', currentCode);
+            localStorage.setItem('lonato_expiry', expiryTime);
+            localStorage.setItem('lonato_user', JSON.stringify({
+                nom, prenom, email, phone, utilite
+            }));
+
+            // Message de confirmation
+            showMessage('whatsappMessage', 
+                `Code généré ! Veuillez l'envoyer par WhatsApp pour accéder à l'application.`, 
+                'warning');
+        }
+
+        // ==================== ENVOI WHATSAPP ====================
+        function sendToWhatsApp() {
+            if (!currentCode || !expiryTime || !formSubmitted) {
+                showMessage('whatsappMessage', 'Aucun code valide. Veuillez d\'abord remplir le formulaire.', 'error');
+                return;
+            }
+
+            const now = new Date().getTime();
+            if (now > expiryTime) {
+                showMessage('whatsappMessage', 'Code expiré. Veuillez en générer un nouveau.', 'error');
+                return;
+            }
+
+            // Récupérer les données utilisateur
+            const nom = document.getElementById('nom').value.trim();
+            const prenom = document.getElementById('prenom').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            
+            // Formater l'expiration
+            const expiryDate = new Date(expiryTime);
+            const expiryFormatted = expiryDate.toLocaleString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            // Construire le message WhatsApp
+            const message = `🔐 *DEMANDE D'ACCÈS LONATO* 🔐\n\n` +
+                `👤 *Nom:* ${prenom} ${nom}\n` +
+                `📱 *Téléphone:* +228 ${phone}\n` +
+                `📧 *Email:* ${document.getElementById('email').value.trim()}\n` +
+                `🎯 *Utilisation:* ${document.getElementById('utilite').value}\n` +
+                `🔑 *Code généré:* ${currentCode}\n` +
+                `⏰ *Expire le:* ${expiryFormatted}\n\n` +
+                `✅ *Formulaire soumis le:* ${new Date().toLocaleString('fr-FR')}\n\n` +
+                `_Veuillez confirmer cette demande pour activer l'accès._`;
+
+            // Encoder le message pour URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Ouvrir WhatsApp
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`, '_blank');
+
+            // Marquer comme envoyé
+            whatsappSent = true;
+
+            showMessage('whatsappMessage', 
+                '✅ Message envoyé sur WhatsApp. Après confirmation, vous pourrez accéder à l\'application.', 
+                'success');
+            
+            // Mettre à jour le lien
+            updateTimer();
+        }
+
+        // ==================== ACCÈS À L'APPLICATION ====================
+        function accessApplication(event) {
+            event.preventDefault();
+            
+            if (!formSubmitted) {
+                alert('Veuillez d\'abord remplir le formulaire.');
+                return;
+            }
+
+            if (!whatsappSent) {
+                alert('Veuillez d\'abord envoyer le code par WhatsApp.');
+                return;
+            }
+
+            const now = new Date().getTime();
+            if (now > expiryTime) {
+                alert('Code expiré. Veuillez générer un nouveau code.');
+                return;
+            }
+
+            // Tout est bon, on peut accéder à LONATO.html
+            window.location.href = LONATO_FILE;
+        }
+
+        // ==================== RÉINITIALISATION ====================
+        function resetForm() {
+            // Réinitialiser les champs
+            document.getElementById('nom').value = '';
+            document.getElementById('prenom').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('utilite').value = '';
+            document.getElementById('acceptTerms').checked = false;
+
+            // Réinitialiser les flags
+            formSubmitted = false;
+            whatsappSent = false;
+
+            // Afficher le formulaire, cacher la section code
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('accessSection').style.display = 'none';
+
+            // Arrêter le timer
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+
+            // Effacer les messages
+            document.getElementById('formMessage').style.display = 'none';
+            document.getElementById('whatsappMessage').style.display = 'none';
+
+            // Nettoyer localStorage
+            localStorage.removeItem('lonato_access_code');
+            localStorage.removeItem('lonato_expiry');
+            localStorage.removeItem('lonato_user');
+        }
+
+        // ==================== VÉRIFICATION À L'INITIALISATION ====================
+        function checkExistingCode() {
+            const savedCode = localStorage.getItem('lonato_access_code');
+            const savedExpiry = localStorage.getItem('lonato_expiry');
+            const savedUser = localStorage.getItem('lonato_user');
+
+            if (savedCode && savedExpiry && savedUser) {
+                const now = new Date().getTime();
+                const expiry = parseInt(savedExpiry);
+
+                if (now < expiry) {
+                    // Code toujours valide
+                    currentCode = savedCode;
+                    expiryTime = expiry;
+                    formSubmitted = true;
+                    whatsappSent = false; // On force à renvoyer WhatsApp
+
+                    // Restaurer les données utilisateur
+                    const user = JSON.parse(savedUser);
+                    document.getElementById('nom').value = user.nom || '';
+                    document.getElementById('prenom').value = user.prenom || '';
+                    document.getElementById('email').value = user.email || '';
+                    document.getElementById('phone').value = user.phone || '';
+                    document.getElementById('utilite').value = user.utilite || '';
+
+                    // Afficher le code
+                    document.getElementById('codeDisplay').textContent = currentCode;
+
+                    // Cacher le formulaire, afficher la section code
+                    document.getElementById('formSection').style.display = 'none';
+                    document.getElementById('accessSection').style.display = 'block';
+
+                    // Démarrer le timer
+                    startTimer();
+
+                    showMessage('whatsappMessage', 
+                        'Code existant. Veuillez l\'envoyer par WhatsApp pour accéder à l\'application.', 
+                        'warning');
+                } else {
+                    // Code expiré, nettoyer
+                    localStorage.removeItem('lonato_access_code');
+                    localStorage.removeItem('lonato_expiry');
+                    localStorage.removeItem('lonato_user');
+                }
+            }
+        }
+
+        // ==================== INITIALISATION ====================
+        // Vérifier s'il y a un code existant au chargement
+        window.onload = function() {
+            checkExistingCode();
+        };
+    </script>
+</body>
+</html>
