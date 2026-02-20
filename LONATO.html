@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>LONATO · Accès 24h · Redirection automatique</title>
+    <title>LONATO · Usage unique · Temps restant</title>
     <style>
         * {
             margin: 0;
@@ -25,9 +25,6 @@
             --banker: #059669;
             --perm: #7C3AED;
             --prediction: #EC4899;
-            --probable: #10B981;
-            --peu-probable: #EF4444;
-            --tres-probable: #F59E0B;
             --copie: #00A36C;
             --nap: #4361EE;
             --info: #4895EF;
@@ -71,12 +68,6 @@
             box-shadow: var(--ombre);
             border: 3px solid var(--jaune);
             animation: fadeIn 0.5s;
-        }
-
-        @media (min-width: 768px) {
-            .login-container {
-                padding: 40px 30px;
-            }
         }
 
         @keyframes fadeIn {
@@ -181,6 +172,30 @@
             box-shadow: var(--ombre);
         }
 
+        .message-area {
+            margin-top: 15px;
+        }
+
+        .warning-message {
+            background: #FFE5E5;
+            border: 2px solid var(--rouge);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            color: var(--rouge);
+            font-weight: bold;
+        }
+
+        .success-message {
+            background: #E5FFE5;
+            border: 2px solid var(--vert);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+            color: var(--vert);
+            font-weight: bold;
+        }
+
         .info-text {
             text-align: center;
             margin-top: 15px;
@@ -189,17 +204,6 @@
             padding: 12px;
             background: #f0f0f0;
             border-radius: 10px;
-        }
-
-        .expire-warning {
-            background: var(--rouge);
-            color: white;
-            padding: 10px;
-            border-radius: 10px;
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.9rem;
         }
 
         /* ========== APPLICATION PRINCIPALE ========== */
@@ -244,6 +248,33 @@
             text-overflow: ellipsis;
         }
 
+        .timer-display {
+            position: absolute;
+            top: 10px;
+            left: 220px;
+            background: var(--turbo);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            border: 2px solid var(--jaune);
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .timer-display.warning {
+            background: var(--rouge);
+            animation: clignote 1s infinite;
+        }
+
+        @keyframes clignote {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
         .logout-btn {
             position: absolute;
             top: 10px;
@@ -259,19 +290,8 @@
             font-size: 0.8rem;
         }
 
-        .expire-timer {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--info);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 50px;
-            font-weight: bold;
-            border: 2px solid var(--jaune);
-            font-size: 0.8rem;
-            white-space: nowrap;
+        .logout-btn:hover {
+            background: var(--gris-fonce);
         }
 
         h1 {
@@ -359,7 +379,6 @@
             text-align: center;
         }
 
-        /* ========== GRILLE JOURS ========== */
         .days-tabs {
             display: flex;
             flex-wrap: wrap;
@@ -387,7 +406,6 @@
             color: var(--jaune);
         }
 
-        /* ========== GRILLE JEUX ========== */
         .games-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -421,7 +439,6 @@
             margin-bottom: 5px;
         }
 
-        /* ========== LAYOUT PRINCIPAL ========== */
         .main-content {
             display: flex;
             flex-direction: column;
@@ -453,7 +470,27 @@
             margin-bottom: 15px;
         }
 
-        /* ========== GRILLE NUMÉROS ========== */
+        .bet-types-panel {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .bet-type-card {
+            background: var(--gris);
+            border: 2px solid var(--jaune);
+            border-radius: 10px;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .bet-type-card.selected {
+            background: var(--vert);
+            color: var(--jaune);
+        }
+
         .numbers-grid {
             display: grid;
             grid-template-columns: repeat(10, 1fr);
@@ -470,8 +507,6 @@
         @media (min-width: 768px) {
             .numbers-grid {
                 grid-template-columns: repeat(15, 1fr);
-                gap: 5px;
-                padding: 15px;
             }
         }
 
@@ -485,15 +520,7 @@
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            font-family: monospace;
             font-size: 0.7rem;
-            transition: all 0.2s;
-        }
-
-        .number-btn:hover {
-            background: var(--jaune);
-            transform: scale(1.1);
-            z-index: 10;
         }
 
         .number-btn.selected {
@@ -504,10 +531,8 @@
         .number-btn.banker {
             background: var(--banker);
             color: white;
-            border-color: var(--jaune);
         }
 
-        /* ========== SÉLECTION ========== */
         .selected-numbers {
             background: #fff3cd;
             border: 2px solid var(--jaune);
@@ -529,7 +554,6 @@
             color: var(--jaune);
             padding: 4px 10px;
             border-radius: 25px;
-            font-family: monospace;
             display: inline-flex;
             align-items: center;
             gap: 5px;
@@ -547,10 +571,8 @@
             color: var(--jaune);
             cursor: pointer;
             font-size: 1rem;
-            font-weight: bold;
         }
 
-        /* ========== BOUTONS ========== */
         .button-group {
             display: flex;
             flex-direction: column;
@@ -575,40 +597,14 @@
             text-transform: uppercase;
             flex: 1 1 auto;
             min-width: 120px;
-            transition: all 0.3s;
             box-shadow: var(--ombre);
         }
 
-        .btn-generate {
-            background: var(--bleu-loto);
-            color: white;
-            border: 2px solid var(--jaune);
-        }
-
-        .btn-predict {
-            background: var(--prediction);
-            color: white;
-            border: 2px solid var(--jaune);
-        }
-
-        .btn-primary {
-            background: var(--vert);
-            color: var(--jaune);
-            border: 2px solid var(--jaune);
-        }
-
-        .btn-copy {
-            background: var(--copie);
-            color: white;
-            padding: 4px 10px;
-            font-size: 0.7rem;
-            min-width: 60px;
-            border-radius: 20px;
-        }
-
-        .btn-copy.copied {
-            background: var(--vert);
-        }
+        .btn-generate { background: var(--bleu-loto); color: white; }
+        .btn-predict { background: var(--prediction); color: white; }
+        .btn-primary { background: var(--vert); color: var(--jaune); }
+        .btn-copy { background: var(--copie); color: white; padding: 4px 10px; font-size: 0.7rem; border-radius: 20px; }
+        .btn-copy.copied { background: var(--vert); }
 
         .stake-info {
             background: var(--info);
@@ -621,7 +617,6 @@
             gap: 5px;
             align-items: center;
             font-weight: bold;
-            font-size: 0.9rem;
         }
 
         @media (min-width: 480px) {
@@ -631,7 +626,6 @@
             }
         }
 
-        /* ========== BOULES ========== */
         .ball {
             display: inline-flex;
             width: 35px;
@@ -645,13 +639,11 @@
             margin: 0 2px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
             font-size: 0.8rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
             transition: all 0.3s;
         }
 
         .ball:hover {
             transform: scale(1.2) translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
             z-index: 20;
         }
 
@@ -663,14 +655,6 @@
         .ball[data-color="6"] { background: radial-gradient(circle at 30% 30%, #AA99FF, #6366F1); }
         .ball[data-color="7"] { background: radial-gradient(circle at 30% 30%, #FF99FF, #A855F7); }
 
-        .ball-container {
-            display: flex;
-            gap: 5px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        /* ========== RÉSULTATS ========== */
         .results-container {
             background: var(--gris);
             border-radius: 15px;
@@ -686,18 +670,11 @@
             margin: 8px 0;
             border-radius: 12px;
             border-left: 6px solid;
-            transition: all 0.3s;
-        }
-
-        .result-item:hover {
-            transform: translateX(5px);
-            box-shadow: var(--ombre);
         }
 
         .result-item.nap { border-left-color: var(--nap); }
         .result-item.permutation { border-left-color: var(--perm); }
         .result-item.banker { border-left-color: var(--banker); }
-        .result-item.turbo { border-left-color: var(--turbo); }
 
         .result-header {
             display: flex;
@@ -707,35 +684,20 @@
             margin-bottom: 10px;
         }
 
-        .result-number {
-            font-weight: bold;
-            min-width: 35px;
-            font-size: 0.9rem;
-        }
-
         .type-badge {
             display: inline-block;
             padding: 3px 8px;
             border-radius: 15px;
             font-size: 0.65rem;
-            font-weight: bold;
             background: var(--gris-fonce);
             color: white;
         }
 
-        .result-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
-        }
-
-        /* ========== PAGINATION ========== */
         .pagination {
             display: flex;
             justify-content: center;
             gap: 8px;
             margin-top: 15px;
-            align-items: center;
             flex-wrap: wrap;
         }
 
@@ -744,10 +706,6 @@
             background: var(--jaune);
             border-radius: 20px;
             cursor: pointer;
-            min-width: 35px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 0.8rem;
         }
 
         .page-info {
@@ -755,56 +713,8 @@
             background: white;
             border: 2px solid var(--jaune);
             border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.8rem;
         }
 
-        /* ========== TOP PRÉDICTIONS ========== */
-        #topWinners {
-            max-height: 450px;
-            overflow-y: auto;
-            padding: 5px;
-        }
-
-        .prediction-item {
-            background: rgba(255,255,255,0.05);
-            margin: 8px 0;
-            padding: 10px;
-            border-radius: 8px;
-        }
-
-        .prediction-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 8px;
-        }
-
-        .prediction-rank {
-            font-weight: bold;
-            color: var(--jackpot);
-            font-size: 0.8rem;
-            min-width: 30px;
-        }
-
-        .winner-tag {
-            background: var(--jackpot);
-            color: white;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 0.6rem;
-            font-weight: bold;
-            animation: clignote 1s infinite;
-        }
-
-        @keyframes clignote {
-            0% { opacity: 1; }
-            50% { opacity: 0.6; }
-            100% { opacity: 1; }
-        }
-
-        /* ========== PROGRESS BAR ========== */
         .progress-bar {
             height: 20px;
             background: var(--gris);
@@ -824,10 +734,8 @@
             justify-content: center;
             color: white;
             font-size: 0.7rem;
-            font-weight: bold;
         }
 
-        /* ========== FOOTER ========== */
         .footer {
             background: var(--blanc);
             border-radius: 0 0 20px 20px;
@@ -839,7 +747,6 @@
             font-size: 0.7rem;
         }
 
-        /* ========== TOAST ========== */
         .toast-message {
             position: fixed;
             bottom: 15px;
@@ -854,7 +761,6 @@
             z-index: 1000;
             animation: slideIn 0.3s;
             text-align: center;
-            font-size: 0.9rem;
         }
 
         @media (min-width: 768px) {
@@ -875,7 +781,7 @@
     <div class="login-container" id="loginContainer">
         <div class="login-header">
             <h1>🇹🇬 <span>LONATO</span> 🇹🇬</h1>
-            <p>Accès sécurisé · Connexion requise</p>
+            <p>Accès par code à usage unique · 24h max</p>
         </div>
 
         <div class="tabs">
@@ -889,12 +795,16 @@
                 <input type="tel" id="phoneInput" placeholder="+228 XX XX XX XX">
             </div>
             <div class="form-group">
-                <label>🔑 Code d'accès (6 chiffres)</label>
+                <label>🔑 Code à 6 chiffres</label>
                 <input type="text" id="codeInput" class="code-input" maxlength="6" placeholder="••••••">
             </div>
             <button class="btn-login" onclick="verifyCode()">🔓 SE CONNECTER</button>
+            <div id="loginMessage" class="message-area"></div>
             <div class="info-text">
-                <strong>ℹ️</strong> Pas encore de compte ? <a href="#" onclick="showTab('register'); return false;">Inscrivez-vous</a>
+                <strong>ℹ️ Règles :</strong><br>
+                • Code valable 24h<br>
+                • Usage unique uniquement<br>
+                • Déconnexion automatique après expiration
             </div>
         </div>
 
@@ -911,27 +821,19 @@
                 <label>📧 Email</label>
                 <input type="email" id="regEmail" placeholder="email@exemple.com">
             </div>
-            <div class="form-group">
-                <label>🎯 Utilisation</label>
-                <select id="regUsage">
-                    <option value="personnelle">Personnelle</option>
-                    <option value="professionnelle">Professionnelle</option>
-                </select>
-            </div>
             <button class="btn-register" onclick="registerAccount()">📝 CRÉER MON COMPTE</button>
-            <div class="info-text">
-                <strong>ℹ️</strong> Déjà inscrit ? <a href="#" onclick="showTab('login'); return false;">Connectez-vous</a>
-            </div>
+            <div id="registerMessage" class="message-area"></div>
         </div>
-
-        <div id="expireMessage" class="expire-warning" style="display: none;"></div>
     </div>
 
     <!-- APPLICATION PRINCIPALE -->
     <div class="app-container" id="appContainer">
         <div class="header">
             <div class="user-info" id="userInfo">👤 Chargement...</div>
-            <div class="expire-timer" id="expireTimer">⏳ Expire dans: --h --m</div>
+            <div class="timer-display" id="timerDisplay">
+                <span>⏳</span>
+                <span id="timeRemaining">24:00:00</span>
+            </div>
             <div class="logout-btn" onclick="logout()">🔒 SE DÉCONNECTER</div>
             <h1>🇹🇬 LONATO · SIMULATEUR OFFICIEL 🇹🇬</h1>
             <div class="subtitle">120 permutations · Inverse · +1 · Combiné</div>
@@ -958,11 +860,11 @@
                     <div class="games-grid" id="gamesGrid"></div>
 
                     <h2 style="margin-top:15px;">🎲 2. TYPE DE PARI</h2>
-                    <div class="bet-types-panel" style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px;">
-                        <div class="bet-type-card nap selected" onclick="selectBetType('nap')" id="bet-nap" style="background:var(--gris); border:2px solid var(--jaune); border-radius:10px; padding:8px; text-align:center; cursor:pointer;">NAP</div>
-                        <div class="bet-type-card perm" onclick="selectBetType('permutation')" id="bet-permutation" style="background:var(--gris); border:2px solid var(--jaune); border-radius:10px; padding:8px; text-align:center; cursor:pointer;">PERM</div>
-                        <div class="bet-type-card banker" onclick="selectBetType('banker')" id="bet-banker" style="background:var(--gris); border:2px solid var(--jaune); border-radius:10px; padding:8px; text-align:center; cursor:pointer;">BANKERS</div>
-                        <div class="bet-type-card turbo" onclick="selectBetType('turbo')" id="bet-turbo" style="background:var(--gris); border:2px solid var(--jaune); border-radius:10px; padding:8px; text-align:center; cursor:pointer;">TURBO</div>
+                    <div class="bet-types-panel">
+                        <div class="bet-type-card selected" onclick="selectBetType('nap')" id="bet-nap">NAP</div>
+                        <div class="bet-type-card" onclick="selectBetType('permutation')" id="bet-permutation">PERM</div>
+                        <div class="bet-type-card" onclick="selectBetType('banker')" id="bet-banker">BANKERS</div>
+                        <div class="bet-type-card" onclick="selectBetType('turbo')" id="bet-turbo">TURBO</div>
                     </div>
 
                     <div id="turboOptions" style="display:none; margin:10px 0;">
@@ -1005,7 +907,6 @@
                         <button onclick="afficherPredictions()" style="background:var(--prediction); color:white; padding:5px 10px; border:none; border-radius:20px;">Prédictions</button>
                         <button onclick="afficherParType('nap')" style="background:var(--nap); color:white; padding:5px 10px; border:none; border-radius:20px;">NAP</button>
                         <button onclick="afficherParType('permutation')" style="background:var(--perm); color:white; padding:5px 10px; border:none; border-radius:20px;">PERM</button>
-                        <button onclick="afficherParType('banker')" style="background:var(--banker); color:white; padding:5px 10px; border:none; border-radius:20px;">BANK</button>
                     </div>
                     <div class="results-container" id="resultsContainer">
                         <div style="text-align:center; padding:30px;">Sélectionnez un jeu et 5 numéros</div>
@@ -1017,7 +918,7 @@
                         <button class="page-btn" onclick="changePage('next')">▶</button>
                         <button class="page-btn" onclick="changePage('last')">⏭️</button>
                     </div>
-                    <div style="text-align:center; margin-top:10px; font-size:0.8rem;" id="totalInfo"></div>
+                    <div style="text-align:center; margin-top:10px;" id="totalInfo"></div>
                 </div>
             </div>
 
@@ -1032,37 +933,63 @@
         </div>
 
         <div class="footer">
-            <p>© LONATO · Accès 24h · Redirection automatique vers lonato1.netlify.app</p>
+            <p>© LONATO · Usage unique · Déconnexion automatique après expiration</p>
         </div>
     </div>
 
     <div id="toast" style="display:none;"></div>
 
     <script>
-        // URL de redirection après expiration
-        const REDIRECT_URL = 'https://lonato1.netlify.app/';
-
-        // ==================== BASE DE DONNÉES ====================
-        let accountsDB = [];
+        // ==================== BASE DE DONNÉES DES COMPTES ====================
+        let accounts = [];
 
         function loadAccounts() {
-            const saved = localStorage.getItem('lonato_accounts');
+            const saved = localStorage.getItem('lonato_accounts_final');
             if (saved) {
-                try { accountsDB = JSON.parse(saved); } 
-                catch { accountsDB = []; }
+                try { accounts = JSON.parse(saved); } 
+                catch { accounts = []; }
             } else {
-                accountsDB = [
-                    { id: '1', name: 'AWORA ANOUKOUM', phone: '+228 92136007', email: 'jeanskodoc22@gmail.com', code: '414953', createdAt: '2026-02-20T14:11:56', expiresAt: '2026-02-21T14:11:00', usage: 'personnelle', active: true },
-                    { id: '2', name: 'KODJO MARTIN', phone: '+228 90123456', email: 'martin.kodjo@email.com', code: '123456', createdAt: '2026-02-19T14:30:00', expiresAt: '2026-02-20T14:30:00', usage: 'professionnelle', active: true },
-                    { id: '3', name: 'AMEYI AWA', phone: '+228 98765432', email: 'awa.ameyi@email.com', code: '789012', createdAt: '2026-02-20T09:15:00', expiresAt: '2026-02-21T09:15:00', usage: 'personnelle', active: true }
+                // Comptes par défaut
+                accounts = [
+                    {
+                        id: '1',
+                        name: 'AWORA ANOUKOUM',
+                        phone: '+228 92136007',
+                        email: 'jeanskodoc22@gmail.com',
+                        code: '414953',
+                        createdAt: new Date().toISOString(),
+                        expiresAt: new Date(Date.now() + 24*60*60*1000).toISOString(),
+                        used: false
+                    },
+                    {
+                        id: '2',
+                        name: 'KODJO MARTIN',
+                        phone: '+228 90123456',
+                        email: 'martin.kodjo@email.com',
+                        code: '123456',
+                        createdAt: new Date().toISOString(),
+                        expiresAt: new Date(Date.now() - 60*60*1000).toISOString(), // déjà expiré
+                        used: false
+                    }
                 ];
                 saveAccounts();
             }
         }
 
         function saveAccounts() {
-            localStorage.setItem('lonato_accounts', JSON.stringify(accountsDB));
+            localStorage.setItem('lonato_accounts_final', JSON.stringify(accounts));
         }
+
+        // Nettoyer les comptes expirés
+        function cleanupAccounts() {
+            const now = new Date();
+            accounts = accounts.filter(acc => new Date(acc.expiresAt) > now && !acc.used);
+            saveAccounts();
+        }
+
+        // ==================== VARIABLES DE TEMPS ====================
+        let sessionExpiry = null;
+        let timerInterval = null;
 
         // ==================== ONGLETS ====================
         function showTab(tab) {
@@ -1079,70 +1006,28 @@
             const email = document.getElementById('regEmail').value.trim();
             
             if (!name || !phone || !email) {
-                showToast('Veuillez remplir tous les champs', 'error');
+                showMessage('register', 'Veuillez remplir tous les champs', 'error');
                 return;
             }
             
-            if (accountsDB.some(a => a.phone === phone)) {
-                showToast('Ce numéro existe déjà', 'error');
+            if (accounts.some(a => a.phone === phone)) {
+                showMessage('register', 'Ce numéro existe déjà', 'error');
                 return;
             }
             
             const code = Math.floor(100000 + Math.random() * 900000).toString();
-            const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
             
-            accountsDB.push({
+            accounts.push({
                 id: Date.now().toString(),
                 name, phone, email, code,
                 createdAt: new Date().toISOString(),
-                expiresAt, usage: document.getElementById('regUsage').value,
-                active: true
+                expiresAt: new Date(Date.now() + 24*60*60*1000).toISOString(),
+                used: false
             });
             
             saveAccounts();
-            showToast(`Compte créé ! Code: ${code}`, 'success');
-            showTab('login');
-            document.getElementById('phoneInput').value = phone;
-        }
-
-        // ==================== GESTION DE L'EXPIRATION ====================
-        let expirationInterval = null;
-
-        function startExpirationTimer(expiryDate) {
-            if (expirationInterval) clearInterval(expirationInterval);
-            
-            expirationInterval = setInterval(() => {
-                const now = new Date();
-                const expiry = new Date(expiryDate);
-                const diff = expiry - now;
-                
-                if (diff <= 0) {
-                    // Code expiré - redirection
-                    clearInterval(expirationInterval);
-                    localStorage.removeItem('lonato_auth');
-                    showToast('⏰ Code expiré - Redirection...', 'info');
-                    setTimeout(() => {
-                        window.location.href = REDIRECT_URL;
-                    }, 2000);
-                    return;
-                }
-                
-                // Mise à jour de l'affichage du timer
-                const hours = Math.floor(diff / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-                
-                document.getElementById('expireTimer').textContent = 
-                    `⏳ Expire dans: ${hours}h ${minutes}m ${seconds}s`;
-                
-                // Alerte quand il reste moins de 5 minutes
-                if (diff < 5 * 60 * 1000 && diff > 0) {
-                    document.getElementById('expireTimer').style.background = 'var(--rouge)';
-                    if (diff < 60 * 1000) {
-                        showToast('⚠️ Moins d\'1 minute avant expiration !', 'warning');
-                    }
-                }
-            }, 1000);
+            showMessage('register', `Compte créé ! Votre code : ${code}`, 'success');
+            setTimeout(() => showTab('login'), 2000);
         }
 
         // ==================== AUTHENTIFICATION ====================
@@ -1150,40 +1035,116 @@
             const phone = document.getElementById('phoneInput').value.trim();
             const code = document.getElementById('codeInput').value.trim();
             
-            const account = accountsDB.find(a => a.phone === phone && a.code === code && a.active);
-            if (!account) { showToast('Code invalide', 'error'); return; }
-            
-            const now = new Date();
-            const expiryDate = new Date(account.expiresAt);
-            
-            if (now > expiryDate) {
-                showToast('Code expiré', 'error');
-                document.getElementById('expireMessage').style.display = 'block';
-                document.getElementById('expireMessage').textContent = `⚠️ Code expiré depuis le ${expiryDate.toLocaleString('fr-FR')}`;
+            if (!phone || !code) {
+                showMessage('login', 'Veuillez remplir tous les champs', 'error');
                 return;
             }
-            
+
+            cleanupAccounts();
+
+            const account = accounts.find(a => a.phone === phone && a.code === code);
+
+            if (!account) {
+                showMessage('login', 'Code ou téléphone invalide', 'error');
+                return;
+            }
+
+            // VÉRIFICATION USAGE UNIQUE - CRITIQUE
+            if (account.used) {
+                showMessage('login', '❌ Ce code a déjà été utilisé ! Accès refusé.', 'error');
+                // Supprimer immédiatement le code utilisé
+                accounts = accounts.filter(a => !(a.phone === phone && a.code === code));
+                saveAccounts();
+                redirectToHome();
+                return;
+            }
+
+            // Vérifier expiration
+            const now = new Date();
+            const expiry = new Date(account.expiresAt);
+
+            if (now > expiry) {
+                showMessage('login', 'Code expiré (plus de 24h)', 'error');
+                accounts = accounts.filter(a => !(a.phone === phone && a.code === code));
+                saveAccounts();
+                redirectToHome();
+                return;
+            }
+
+            // SUCCÈS : marquer comme utilisé immédiatement
+            account.used = true;
+            saveAccounts();
+
+            // Démarrer la session
+            sessionExpiry = new Date(account.expiresAt);
+            startSessionTimer();
+
             state.currentUser = account;
             localStorage.setItem('lonato_auth', JSON.stringify({
-                phone: account.phone, 
-                code: account.code, 
-                expiresAt: account.expiresAt, 
-                name: account.name
+                phone: account.phone,
+                name: account.name,
+                expiresAt: account.expiresAt
             }));
             
             document.body.classList.add('authenticated');
             document.getElementById('userInfo').innerHTML = `👤 ${account.name}`;
             document.getElementById('accessBanner').innerHTML = `
-                <strong>🔐 COMPTE CONNECTÉ</strong><br>
+                <strong>🔐 ACCÈS AUTORISÉ</strong><br>
                 👤 ${account.name}<br>
                 📱 ${account.phone}<br>
-                ⏰ Expire le: ${expiryDate.toLocaleString('fr-FR')}
+                ⏰ Session expire dans <span id="sessionTimer">24:00:00</span>
             `;
+            showToast(`Bienvenue ${account.name} - Usage unique validé`, 'success');
+        }
+
+        // ==================== GESTION DU TEMPS RESTANT ====================
+        function startSessionTimer() {
+            if (timerInterval) clearInterval(timerInterval);
             
-            // Démarrer le timer d'expiration
-            startExpirationTimer(account.expiresAt);
-            
-            showToast(`Bienvenue ${account.name}`, 'success');
+            timerInterval = setInterval(() => {
+                if (!sessionExpiry) return;
+                
+                const now = new Date();
+                const timeLeft = sessionExpiry - now;
+                
+                if (timeLeft <= 0) {
+                    // Session expirée
+                    clearInterval(timerInterval);
+                    showToast('⏰ Session expirée - Déconnexion automatique', 'info');
+                    setTimeout(() => {
+                        logout();
+                        redirectToHome();
+                    }, 2000);
+                    return;
+                }
+                
+                // Calculer heures:minutes:secondes restantes
+                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                const timeString = `${hours.toString().padStart(2,'0')}:${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+                
+                // Mettre à jour l'affichage
+                document.getElementById('timeRemaining').textContent = timeString;
+                const timerSpan = document.getElementById('sessionTimer');
+                if (timerSpan) timerSpan.textContent = timeString;
+                
+                // Alerte quand il reste moins de 5 minutes
+                const timerDisplay = document.getElementById('timerDisplay');
+                if (timeLeft < 5 * 60 * 1000) {
+                    timerDisplay.classList.add('warning');
+                } else {
+                    timerDisplay.classList.remove('warning');
+                }
+            }, 1000);
+        }
+
+        function redirectToHome() {
+            showToast('Redirection vers l\'accueil...', 'info');
+            setTimeout(() => {
+                window.location.href = 'https://lonato1.netlify.app/';
+            }, 2000);
         }
 
         function checkExistingAuth() {
@@ -1192,53 +1153,55 @@
             
             try {
                 const auth = JSON.parse(saved);
-                const account = accountsDB.find(a => a.phone === auth.phone && a.code === auth.code && a.active);
-                
-                if (!account) {
-                    localStorage.removeItem('lonato_auth');
-                    return false;
-                }
-                
                 const now = new Date();
-                const expiryDate = new Date(auth.expiresAt);
+                const expiry = new Date(auth.expiresAt);
                 
-                if (now > expiryDate) {
+                if (now > expiry) {
                     localStorage.removeItem('lonato_auth');
-                    showToast('Session expirée - Redirection...', 'info');
-                    setTimeout(() => {
-                        window.location.href = REDIRECT_URL;
-                    }, 2000);
                     return false;
                 }
                 
-                state.currentUser = account;
+                // Vérifier que le code n'a pas été utilisé ailleurs
+                // (sécurité supplémentaire)
+                const accountExists = accounts.some(a => a.phone === auth.phone && a.used);
+                if (!accountExists) {
+                    // Si le compte n'existe plus, la session est invalide
+                    localStorage.removeItem('lonato_auth');
+                    return false;
+                }
+                
+                sessionExpiry = expiry;
+                startSessionTimer();
+                
+                state.currentUser = auth;
                 document.body.classList.add('authenticated');
-                document.getElementById('userInfo').innerHTML = `👤 ${account.name}`;
+                document.getElementById('userInfo').innerHTML = `👤 ${auth.name}`;
                 document.getElementById('accessBanner').innerHTML = `
-                    <strong>🔐 COMPTE CONNECTÉ</strong><br>
-                    👤 ${account.name}<br>
-                    📱 ${account.phone}<br>
-                    ⏰ Expire le: ${expiryDate.toLocaleString('fr-FR')}
+                    <strong>🔐 SESSION ACTIVE</strong><br>
+                    👤 ${auth.name}<br>
+                    ⏰ Expire dans <span id="sessionTimer">24:00:00</span>
                 `;
-                
-                // Démarrer le timer d'expiration
-                startExpirationTimer(auth.expiresAt);
-                
                 return true;
-            } catch (e) {
+            } catch {
                 return false;
             }
         }
 
         function logout() {
-            if (expirationInterval) clearInterval(expirationInterval);
             localStorage.removeItem('lonato_auth');
             document.body.classList.remove('authenticated');
             state.currentUser = null;
+            if (timerInterval) clearInterval(timerInterval);
             showToast('Déconnexion réussie', 'success');
         }
 
-        // ==================== CONFIGURATION ====================
+        function showMessage(form, text, type) {
+            const div = document.getElementById(form + 'Message');
+            div.innerHTML = `<div class="${type === 'error' ? 'warning-message' : 'success-message'}">${type === 'error' ? '❌' : '✅'} ${text}</div>`;
+            setTimeout(() => div.innerHTML = '', 5000);
+        }
+
+        // ==================== CONFIGURATION DES JEUX ====================
         const gamesConfig = {
             diamant: { name: 'DIAMANT', day: 'lundi', draw: '14h', drawHour: 14, mise: 100 },
             gold: { name: 'GOLD', day: 'lundi', draw: '18h', drawHour: 18, mise: 100 },
@@ -1247,21 +1210,30 @@
             benz: { name: 'BENZ', day: 'mercredi', draw: '14h', drawHour: 14, mise: 100 },
             prestige: { name: 'PRESTIGE', day: 'mercredi', draw: '18h', drawHour: 18, mise: 100 },
             millions: { name: 'MILLIONS', day: 'jeudi', draw: '14h', drawHour: 14, mise: 100 },
-            super: { name: 'SUPER', day: 'jeudi', draw: '18h', drawHour: 18, mise: 500, tce: true },
+            super: { name: 'SUPER', day: 'jeudi', draw: '18h', drawHour: 18, mise: 500 },
             kadoo: { name: 'KADOO', day: 'vendredi', draw: '14h', drawHour: 14, mise: 100 },
             king: { name: 'KING', day: 'vendredi', draw: '18h', drawHour: 18, mise: 100 },
             sam: { name: 'SAM', day: 'samedi', draw: '14h', drawHour: 14, mise: 100 },
             bingo: { name: 'BINGO', day: 'samedi', draw: '18h', drawHour: 18, mise: 100 }
         };
 
+        // ==================== ÉTAT ====================
         let state = {
-            currentDay: 'lundi', currentGame: 'diamant', betType: 'nap', turboLevel: 2,
-            selectedNumbers: new Set(), bankers: new Set(),
-            allCombinations: [], filteredCombinations: [], predictions: [],
-            currentPage: 1, itemsPerPage: 15, currentUser: null
+            currentDay: 'lundi',
+            currentGame: 'diamant',
+            betType: 'nap',
+            turboLevel: 2,
+            selectedNumbers: new Set(),
+            bankers: new Set(),
+            allCombinations: [],
+            filteredCombinations: [],
+            predictions: [],
+            currentPage: 1,
+            itemsPerPage: 15,
+            currentUser: null
         };
 
-        // ==================== HEURE ====================
+        // ==================== FONCTIONS D'HEURE ====================
         function updateTimeDisplay() {
             const now = new Date();
             document.getElementById('currentTimeDisplay').textContent = now.toLocaleTimeString('fr-FR');
@@ -1313,6 +1285,7 @@
             document.querySelectorAll('.game-card').forEach(c => c.classList.remove('selected'));
             document.getElementById(`game-${id}`)?.classList.add('selected');
             document.getElementById('unitStake').textContent = gamesConfig[id].mise;
+            updateStake();
         }
 
         function selectBetType(type) {
@@ -1320,7 +1293,6 @@
             document.querySelectorAll('.bet-type-card').forEach(c => c.classList.remove('selected'));
             document.getElementById(`bet-${type}`).classList.add('selected');
             document.getElementById('turboOptions').style.display = type === 'turbo' ? 'block' : 'none';
-            document.getElementById('maxSelection').textContent = type === 'turbo' ? 2 : 5;
             clearSelection();
         }
 
@@ -1343,29 +1315,46 @@
         }
 
         function toggleNumber(n) {
-            let max = state.betType === 'turbo' ? 2 : 5;
+            const max = state.betType === 'turbo' ? 2 : 5;
+            
             if (state.betType === 'banker' && (event.ctrlKey || event.metaKey)) {
-                if (state.bankers.has(n)) { state.bankers.delete(n); state.selectedNumbers.delete(n); }
-                else if (state.bankers.size + state.selectedNumbers.size < max) { 
-                    state.bankers.add(n); state.selectedNumbers.add(n); 
+                if (state.bankers.has(n)) {
+                    state.bankers.delete(n);
+                    state.selectedNumbers.delete(n);
+                } else if (state.bankers.size + state.selectedNumbers.size < max) {
+                    state.bankers.add(n);
+                    state.selectedNumbers.add(n);
                 }
             } else {
-                if (state.selectedNumbers.has(n)) { state.selectedNumbers.delete(n); state.bankers.delete(n); }
-                else if (state.selectedNumbers.size < max) state.selectedNumbers.add(n);
-                else { showToast('Maximum atteint', 'error'); return; }
+                if (state.selectedNumbers.has(n)) {
+                    state.selectedNumbers.delete(n);
+                    state.bankers.delete(n);
+                } else if (state.selectedNumbers.size < max) {
+                    state.selectedNumbers.add(n);
+                } else {
+                    showToast('Maximum atteint', 'error');
+                    return;
+                }
             }
-            updateSelection(); createNumberGrid();
+            updateSelection();
+            createNumberGrid();
         }
 
         function removeNumber(n) {
-            state.selectedNumbers.delete(n); state.bankers.delete(n);
-            updateSelection(); createNumberGrid();
+            state.selectedNumbers.delete(n);
+            state.bankers.delete(n);
+            updateSelection();
+            createNumberGrid();
         }
 
         function clearSelection() {
-            state.selectedNumbers.clear(); state.bankers.clear();
-            updateSelection(); createNumberGrid();
-            state.allCombinations = []; state.filteredCombinations = []; state.predictions = [];
+            state.selectedNumbers.clear();
+            state.bankers.clear();
+            updateSelection();
+            createNumberGrid();
+            state.allCombinations = [];
+            state.filteredCombinations = [];
+            state.predictions = [];
             displayResults();
         }
 
@@ -1382,13 +1371,6 @@
             let count = 1;
             if (state.betType === 'permutation' && state.selectedNumbers.size >= 5) {
                 count = combinationCount(state.selectedNumbers.size, 5);
-            } else if (state.betType === 'banker') {
-                let bankers = Array.from(state.bankers);
-                let others = Array.from(state.selectedNumbers).filter(n => !state.bankers.has(n));
-                if (bankers.length && bankers.length <= 5) {
-                    let k = 5 - bankers.length;
-                    if (k >= 0 && others.length >= k) count = combinationCount(others.length, k);
-                }
             }
             let total = count * (gamesConfig[state.currentGame]?.mise || 100);
             document.getElementById('totalStake').textContent = total;
@@ -1437,14 +1419,14 @@
             base.forEach(b => {
                 permuter(b).forEach(p => {
                     let key = p.join('|');
-                    if (!seen.has(key)) { seen.add(key); all.push({ numbers: [...p], type: 'position', label: 'Position' }); }
+                    if (!seen.has(key)) { seen.add(key); all.push({ numbers: [...p], type: 'nap', label: 'Position' }); }
                 });
                 [inv, plus1, n=>plus1(inv(n)), n=>inv(plus1(n))].forEach((fn,idx) => {
                     let transformed = b.map(fn);
                     let key = transformed.join('|');
                     if (!seen.has(key)) {
                         seen.add(key);
-                        all.push({ numbers: transformed, type: 'transform', label: ['Inverse','+1','Inv→+1','+1→Inv'][idx] });
+                        all.push({ numbers: transformed, type: 'nap', label: ['Inverse','+1','Inv→+1','+1→Inv'][idx] });
                     }
                 });
             });
@@ -1457,7 +1439,7 @@
             showToast(`${all.length} combinaisons`, 'success');
         }
 
-        // ==================== AFFICHAGE AVEC BOULES ====================
+        // ==================== AFFICHAGE ====================
         function displayResults() {
             let data = state.filteredCombinations;
             let container = document.getElementById('resultsContainer');
@@ -1472,13 +1454,13 @@
                     `<span class="ball" data-color="${(j%7)+1}">${n<10?'0'+n:n}</span>`
                 ).join('');
                 
-                return `<div class="result-item ${item.type}">
+                return `<div class="result-item nap">
                     <div class="result-header">
-                        <span class="result-number">#${idx}</span>
-                        <span class="ball-container">${balls}</span>
+                        <span style="font-weight:bold; min-width:35px;">#${idx}</span>
+                        <span>${balls}</span>
                         <span class="type-badge">${item.label}</span>
                     </div>
-                    <div class="result-actions">
+                    <div style="display:flex; justify-content:flex-end;">
                         <button class="btn-copy" onclick="copySerie('${item.numbers.map(n=>n<10?'0'+n:n).join(' - ')} (${item.label})', this)">📋 Copier</button>
                     </div>
                 </div>`;
@@ -1489,7 +1471,7 @@
         }
 
         function afficherTous() { state.filteredCombinations = state.allCombinations; state.currentPage=1; displayResults(); }
-        function afficherParType(type) { state.filteredCombinations = state.allCombinations.filter(c=>c.type===type); state.currentPage=1; displayResults(); }
+        function afficherParType(type) { state.filteredCombinations = state.allCombinations; state.currentPage=1; displayResults(); }
         function afficherPredictions() { state.filteredCombinations = state.predictions; state.currentPage=1; displayResults(); }
 
         function lancerAnalysePredictive() {
@@ -1508,12 +1490,12 @@
             state.predictions.slice(0,10).forEach((p,i) => {
                 let balls = p.numbers.map((n,j) => `<span style="display:inline-block; width:24px; height:24px; border-radius:50%; background:var(--arc-bleu); color:white; text-align:center; line-height:24px; font-size:0.6rem; margin:0 1px;">${n<10?'0'+n:n}</span>`).join('');
                 container.innerHTML += `
-                    <div class="prediction-item">
-                        <div class="prediction-header">
-                            <span class="prediction-rank">#${i+1}</span>
+                    <div style="background:rgba(255,255,255,0.05); margin:8px 0; padding:8px; border-radius:8px;">
+                        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:5px;">
+                            <span style="font-weight:bold; color:var(--jackpot);">#${i+1}</span>
                             <span>${balls}</span>
                             <span class="type-badge">${p.label}</span>
-                            <span class="winner-tag">${p.prob.toFixed(1)}%</span>
+                            <span style="background:var(--jackpot); color:white; padding:2px 6px; border-radius:10px; font-size:0.6rem;">${p.prob.toFixed(1)}%</span>
                         </div>
                         <button class="btn-copy" style="width:100%;" onclick="copySerie('${p.numbers.map(n=>n<10?'0'+n:n).join(' - ')} (${p.label})', this)">📋 Copier</button>
                     </div>`;
@@ -1525,12 +1507,6 @@
                 btn.innerText = '✅ Copié!'; btn.classList.add('copied');
                 setTimeout(() => { btn.innerText = '📋 Copier'; btn.classList.remove('copied'); }, 1500);
                 showToast('Copié !', 'success');
-            }).catch(() => {
-                let ta = document.createElement('textarea');
-                ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-                btn.innerText = '✅ Copié!'; btn.classList.add('copied');
-                setTimeout(() => { btn.innerText = '📋 Copier'; btn.classList.remove('copied'); }, 1500);
-                showToast('Copié !', 'success');
             });
         }
 
@@ -1539,7 +1515,7 @@
             if (!data.length) return;
             let text = `${gamesConfig[state.currentGame].name} - ${data.length} combinaisons\n\n`;
             data.forEach((c,i) => { text += `${i+1}. ${c.numbers.map(n=>n<10?'0'+n:n).join(' - ')} (${c.label})\n`; });
-            copySerie(text, { innerText: '📋' });
+            navigator.clipboard.writeText(text).then(() => showToast(`${data.length} copiées`, 'success'));
         }
 
         // ==================== PAGINATION ====================
@@ -1577,8 +1553,15 @@
         // ==================== INIT ====================
         function init() {
             loadAccounts();
-            if (!checkExistingAuth()) document.body.classList.remove('authenticated');
-            createDaysTabs(); createGamesGrid(); createNumberGrid();
+            cleanupAccounts();
+            
+            if (!checkExistingAuth()) {
+                document.body.classList.remove('authenticated');
+            }
+            
+            createDaysTabs();
+            createGamesGrid();
+            createNumberGrid();
             selectGame('diamant');
             updateTimeDisplay();
             setInterval(updateTimeDisplay, 1000);
