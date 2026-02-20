@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>LONATO - Boutons Copier Corrigés</title>
+    <title>LONATO · Toutes les combinaisons · Boutons copier corrigés</title>
     <style>
         * {
             margin: 0;
@@ -13,141 +13,76 @@
 
         :root {
             --vert: #006400;
-            --vert-clair: #32CD32;
             --jaune: #FFD700;
-            --jaune-clair: #FFE55C;
             --rouge: #CE1126;
-            --rouge-clair: #FF4D4D;
             --blanc: #ffffff;
             --gris: #f5f5f5;
             --gris-fonce: #333;
-            --melange: #9370DB;
-            --melange-clair: #B19CD9;
-            --inverse: #e83e8c;
-            --inverse-clair: #FF69B4;
-            --plus1: #20c997;
-            --plus1-clair: #5FDFB2;
-            --combine: #17a2b8;
-            --combine-clair: #5DC1D9;
-            --historique: #fd7e14;
-            --historique-clair: #FFA64D;
+            --bleu-loto: #1E3A8A;
+            --turbo: #F59E0B;
+            --tce: #8B5CF6;
+            --jackpot: #DC2626;
+            --banker: #059669;
+            --perm: #7C3AED;
+            --prediction: #EC4899;
+            --probable: #10B981;
+            --peu-probable: #EF4444;
+            --tres-probable: #F59E0B;
+            --liste: #6B7280;
+            --auto: #0891B2;
+            --inverse: #E83E8C;
+            --plus1: #20C997;
+            --combine: #17A2B8;
+            --position: #FF851B;
+            --copie: #00A36C;
+            --nap: #4361EE;
+            --permutation: #3A0CA3;
+            --bankers: #F72585;
+            --info: #4895EF;
             --ombre: 0 4px 15px rgba(0,0,0,0.2);
-            --ombre-douce: 0 2px 8px rgba(0,0,0,0.1);
             
-            /* Couleurs de l'arc-en-ciel pour les boules */
-            --arc-rouge: #FF4444;
-            --arc-orange: #FF8844;
-            --arc-jaune: #FFDD44;
-            --arc-vert: #44FF44;
-            --arc-bleu: #4444FF;
-            --arc-indigo: #6A44FF;
-            --arc-violet: #AA44FF;
+            --arc-rouge: #EF4444;
+            --arc-orange: #F97316;
+            --arc-jaune: #EAB308;
+            --arc-vert: #22C55E;
+            --arc-bleu: #3B82F6;
+            --arc-indigo: #6366F1;
+            --arc-violet: #A855F7;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--vert), var(--jaune), var(--rouge));
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(145deg, #0a3a2a, #3a2a1a, #7a1e1e);
             min-height: 100vh;
             padding: 15px;
         }
 
         .container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
         }
 
-        /* ========== HEADER ========== */
         .header {
             background: var(--blanc);
-            border-radius: 20px 20px 0 0;
+            border-radius: 30px 30px 0 0;
             padding: 25px;
             border: 3px solid var(--jaune);
             text-align: center;
             box-shadow: var(--ombre);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--vert), var(--jaune), var(--rouge));
         }
 
         h1 {
             color: var(--vert);
-            font-size: clamp(1.5rem, 5vw, 2.2rem);
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: clamp(1.6rem, 5vw, 2.4rem);
+            margin-bottom: 8px;
         }
 
         .subtitle {
             color: var(--rouge);
             font-size: 1.1rem;
             font-weight: 500;
-            margin-bottom: 15px;
         }
 
-        /* ========== BOUTONS LIENS EXTERNES ========== */
-        .external-links {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .btn-external {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-decoration: none;
-            transition: all 0.3s;
-            box-shadow: var(--ombre);
-            border: 2px solid transparent;
-            cursor: pointer;
-        }
-
-        .btn-external:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--ombre);
-        }
-
-        .btn-app {
-            background: linear-gradient(135deg, #000000, #333333);
-            color: white;
-            border-color: var(--jaune);
-        }
-
-        .btn-app:hover {
-            background: linear-gradient(135deg, #333333, #000000);
-        }
-
-        .btn-results {
-            background: linear-gradient(135deg, var(--vert), var(--rouge));
-            color: var(--jaune);
-            border-color: var(--jaune);
-        }
-
-        .btn-results:hover {
-            background: linear-gradient(135deg, var(--rouge), var(--vert));
-        }
-
-        .btn-external svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
-
-        /* ========== BANDEAU HEURE ========== */
         .time-banner {
             background: linear-gradient(135deg, var(--vert), var(--rouge));
             color: var(--jaune);
@@ -158,46 +93,13 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
-            font-weight: bold;
-            box-shadow: var(--ombre-douce);
         }
 
-        .current-time {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.2rem;
+        .current-time, .next-draw-info {
             background: rgba(255,255,255,0.15);
             padding: 8px 20px;
             border-radius: 50px;
             backdrop-filter: blur(5px);
-        }
-
-        .current-time span {
-            font-size: 1.5rem;
-        }
-
-        .next-draw {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .next-draw-info {
-            background: rgba(255,255,255,0.15);
-            padding: 8px 20px;
-            border-radius: 50px;
-            backdrop-filter: blur(5px);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .next-draw-time {
-            font-size: 1.3rem;
-            color: white;
         }
 
         .countdown {
@@ -205,11 +107,9 @@
             color: var(--vert);
             padding: 8px 20px;
             border-radius: 50px;
-            font-size: 1.2rem;
             font-weight: bold;
         }
 
-        /* ========== ONGLETS PAR JOUR ========== */
         .days-tabs {
             display: flex;
             flex-wrap: wrap;
@@ -225,9 +125,7 @@
             border-radius: 40px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 1rem;
             transition: all 0.3s;
-            box-shadow: var(--ombre-douce);
             min-width: 110px;
             text-align: center;
         }
@@ -240,11 +138,10 @@
         .day-tab.active {
             background: var(--vert);
             color: var(--jaune);
-            border-color: var(--jaune);
         }
 
         .day-tab.today {
-            background: var(--jaune-clair);
+            background: var(--jaune-clair, #FFE55C);
             color: var(--gris-fonce);
             border-color: var(--vert);
             position: relative;
@@ -255,10 +152,9 @@
             margin-left: 5px;
         }
 
-        /* ========== GRILLE JEUX ========== */
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 15px;
             margin: 20px 0;
         }
@@ -266,29 +162,12 @@
         .game-card {
             background: var(--gris);
             border: 2px solid var(--jaune);
-            border-radius: 16px;
+            border-radius: 18px;
             padding: 15px;
-            text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: var(--ombre-douce);
             position: relative;
             overflow: hidden;
-        }
-
-        .game-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .game-card:hover::before {
-            left: 100%;
         }
 
         .game-card:hover {
@@ -299,62 +178,73 @@
         .game-card.selected {
             background: var(--vert);
             color: var(--jaune);
-            border-color: var(--jaune);
         }
 
-        .game-card .game-name {
+        .game-name {
             font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 8px;
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .game-card .game-time {
-            font-size: 1rem;
+        .game-time, .game-draw {
+            font-size: 0.9rem;
+            padding: 4px 10px;
+            border-radius: 20px;
             background: rgba(0,0,0,0.05);
-            padding: 5px 10px;
-            border-radius: 25px;
             display: inline-block;
-            margin: 5px 0;
+            margin: 3px 0;
         }
 
         .game-card.selected .game-time {
             background: rgba(255,255,255,0.2);
         }
 
-        .game-card .game-draw {
-            font-size: 0.9rem;
+        .game-category {
+            font-size: 0.8rem;
             margin-top: 8px;
             padding: 4px 8px;
-            border-radius: 20px;
+            border-radius: 15px;
             background: var(--jaune);
             color: var(--vert);
             font-weight: 600;
+            display: inline-block;
         }
 
-        .game-card .game-status {
+        .game-description {
             font-size: 0.8rem;
-            margin-top: 5px;
-            padding: 3px 6px;
-            border-radius: 15px;
+            margin-top: 8px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .game-card.selected .game-description {
+            color: #ffd;
+        }
+
+        .game-jackpot {
+            font-size: 0.9rem;
+            margin-top: 8px;
+            padding: 5px;
+            background: var(--jackpot);
+            color: white;
+            border-radius: 10px;
             font-weight: bold;
+            text-align: center;
         }
 
-        .status-available {
-            background: var(--plus1);
+        .tce-badge {
+            background: var(--tce);
             color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-left: 5px;
         }
 
-        .status-closed {
-            background: var(--rouge);
-            color: white;
-        }
-
-        .status-soon {
-            background: var(--historique);
-            color: white;
-        }
-
-        /* ========== LAYOUT ========== */
         .main-content {
             display: flex;
             flex-direction: column;
@@ -366,32 +256,22 @@
             .main-content {
                 flex-direction: row;
             }
-            .main-content > :first-child {
-                flex: 2;
-            }
-            .main-content > :last-child {
-                flex: 1;
-            }
+            .main-content > :first-child { flex: 2; }
+            .main-content > :last-child { flex: 1; }
         }
 
         .panel {
             background: var(--blanc);
-            border-radius: 16px;
+            border-radius: 20px;
             padding: 25px;
             border: 3px solid var(--jaune);
-            box-shadow: var(--ombre-douce);
             margin-bottom: 20px;
-            transition: transform 0.3s;
-        }
-
-        .panel:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--ombre);
+            box-shadow: var(--ombre-douce, 0 2px 8px rgba(0,0,0,0.1));
         }
 
         .panel h2 {
             color: var(--vert);
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             border-bottom: 3px solid var(--jaune);
             padding-bottom: 10px;
             margin-bottom: 20px;
@@ -400,16 +280,72 @@
             gap: 10px;
         }
 
-        /* ========== GRILLE NUMÉROS ========== */
+        .info-banner {
+            background: linear-gradient(135deg, var(--info), var(--bleu-loto));
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .bet-types-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .bet-type-card {
+            background: var(--gris);
+            border: 2px solid var(--jaune);
+            border-radius: 15px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bet-type-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--ombre);
+        }
+
+        .bet-type-card.selected {
+            background: var(--nap);
+            color: white;
+        }
+
+        .bet-type-card.nap { border-left: 6px solid var(--nap); }
+        .bet-type-card.perm { border-left: 6px solid var(--permutation); }
+        .bet-type-card.banker { border-left: 6px solid var(--bankers); }
+        .bet-type-card.turbo { border-left: 6px solid var(--turbo); }
+
+        .bet-type-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .bet-type-desc {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .selected .bet-type-desc {
+            color: #ffd;
+        }
+
         .numbers-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
             gap: 6px;
-            max-height: 250px;
+            max-height: 280px;
             overflow-y: auto;
             padding: 15px;
             background: var(--gris);
-            border-radius: 12px;
+            border-radius: 15px;
             border: 2px solid var(--jaune);
             margin: 15px 0;
         }
@@ -421,30 +357,34 @@
             justify-content: center;
             background: var(--blanc);
             border: 2px solid var(--vert);
-            border-radius: 10px;
+            border-radius: 12px;
             font-weight: bold;
-            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.2s;
             font-family: monospace;
+            transition: all 0.2s;
+            font-size: 0.9rem;
         }
 
         .number-btn:hover {
             background: var(--jaune);
             transform: scale(1.1);
-            box-shadow: var(--ombre-douce);
         }
 
         .number-btn.selected {
             background: var(--vert);
             color: var(--jaune);
+        }
+
+        .number-btn.banker {
+            background: var(--bankers);
+            color: white;
             border-color: var(--jaune);
         }
 
         .selected-numbers {
             background: #fff3cd;
             border: 2px solid var(--jaune);
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 15px;
             margin: 15px 0;
         }
@@ -461,12 +401,15 @@
             color: var(--jaune);
             padding: 6px 15px;
             border-radius: 30px;
-            font-size: 1rem;
+            font-family: monospace;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-family: monospace;
-            box-shadow: var(--ombre-douce);
+        }
+
+        .number-tag.banker {
+            background: var(--bankers);
+            color: white;
         }
 
         .number-tag button {
@@ -479,54 +422,54 @@
             transition: transform 0.2s;
         }
 
+        .number-tag.banker button {
+            color: white;
+        }
+
         .number-tag button:hover {
             transform: scale(1.2);
         }
 
-        /* ========== RÈGLES ========== */
-        .rules-reminder {
-            background: linear-gradient(135deg, var(--melange), var(--combine));
-            border-radius: 16px;
-            padding: 20px;
-            margin: 20px 0;
+        .stake-info {
+            background: var(--info);
             color: white;
-            box-shadow: var(--ombre);
+            padding: 12px;
+            border-radius: 10px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
         }
 
-        .rules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .rule-card {
-            background: rgba(255,255,255,0.15);
+        .stats-panel {
+            background: linear-gradient(145deg, #2c3e50, #1e2b38);
+            border-radius: 15px;
             padding: 15px;
-            border-radius: 12px;
+            color: white;
+            margin: 15px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 10px;
             text-align: center;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.3);
-            transition: transform 0.3s;
         }
 
-        .rule-card:hover {
-            transform: translateY(-3px);
-            background: rgba(255,255,255,0.25);
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--jaune);
         }
 
-        .rule-card strong {
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .rule-card span {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        /* ========== BOUTONS ========== */
         .button-group {
             display: flex;
             gap: 12px;
@@ -542,11 +485,10 @@
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             flex: 1 1 auto;
             min-width: 140px;
             transition: all 0.3s;
-            box-shadow: var(--ombre-douce);
+            box-shadow: var(--ombre);
             position: relative;
             overflow: hidden;
         }
@@ -574,1321 +516,1213 @@
             box-shadow: var(--ombre);
         }
 
+        .btn-generate {
+            background: var(--bleu-loto);
+            color: white;
+            border: 2px solid var(--jaune);
+        }
+
+        .btn-predict {
+            background: var(--prediction);
+            color: white;
+            border: 2px solid var(--jaune);
+        }
+
         .btn-primary {
             background: var(--vert);
             color: var(--jaune);
             border: 2px solid var(--jaune);
         }
 
-        .btn-secondary {
-            background: var(--rouge);
-            color: var(--jaune);
-            border: 2px solid var(--jaune);
-        }
-
-        .btn-generate {
-            background: var(--combine);
+        .btn-copy {
+            background: var(--copie);
             color: white;
-            border: 2px solid var(--jaune);
-            font-size: 1.1rem;
-        }
-
-        .btn-copy-serie {
-            background: var(--historique);
-            color: white;
-            padding: 8px 12px;
-            font-size: 0.85rem;
-            min-width: 90px;
+            padding: 6px 12px;
+            font-size: 0.8rem;
+            min-width: 70px;
             border-radius: 25px;
             margin: 0;
-            position: relative;
-            z-index: 10;
+            transition: all 0.2s;
         }
 
-        .btn-copy-serie:hover {
-            background: var(--historique-clair);
+        .btn-copy:hover {
+            background: #00B37A;
+            transform: scale(1.05);
         }
 
-        .btn-copy-serie.copied {
+        .btn-copy.copied {
             background: var(--vert);
+            pointer-events: none;
         }
 
-        .btn-copy-all {
-            background: var(--plus1);
-            color: white;
-        }
-
-        /* ========== RÉSULTATS ========== */
         .results-container {
             background: var(--gris);
-            border-radius: 16px;
+            border-radius: 18px;
             padding: 20px;
-            max-height: 550px;
+            max-height: 600px;
             overflow-y: auto;
             border: 2px solid var(--jaune);
         }
 
         .result-item {
             background: var(--blanc);
-            padding: 12px 15px;
-            margin: 8px 0;
-            border-radius: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: monospace;
+            padding: 12px;
+            margin: 6px 0;
+            border-radius: 10px;
             border-left: 6px solid;
             transition: all 0.3s;
-            box-shadow: var(--ombre-douce);
+            position: relative;
         }
 
         .result-item:hover {
-            transform: translateX(8px);
+            transform: translateX(5px);
             box-shadow: var(--ombre);
         }
 
-        .result-item.melange { border-left-color: var(--melange); }
-        .result-item.inverse { border-left-color: var(--inverse); }
-        .result-item.plus1 { border-left-color: var(--plus1); }
-        .result-item.combine { border-left-color: var(--combine); }
-
-        .result-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
+        .result-item.nap { border-left-color: var(--nap); }
+        .result-item.permutation { border-left-color: var(--permutation); }
+        .result-item.banker { border-left-color: var(--bankers); }
+        .result-item.turbo { border-left-color: var(--turbo); }
+        .result-item.prediction { border-left-color: var(--prediction); }
 
         .ball {
             display: inline-flex;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
             align-items: center;
             justify-content: center;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
             font-weight: bold;
-            font-size: 1rem;
-            border: 3px solid white;
-            margin: 0 3px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            transition: all 0.3s;
             color: white;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .ball:nth-child(1) { animation-delay: 0s; }
-        .ball:nth-child(2) { animation-delay: 0.1s; }
-        .ball:nth-child(3) { animation-delay: 0.2s; }
-        .ball:nth-child(4) { animation-delay: 0.3s; }
-        .ball:nth-child(5) { animation-delay: 0.4s; }
-
-        .ball:hover {
-            transform: scale(1.2) translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.4);
-            z-index: 10;
+            border: 3px solid white;
+            margin: 0 1px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            font-size: 0.8rem;
         }
 
         .ball[data-color="1"] { background: radial-gradient(circle at 30% 30%, #FF9999, var(--arc-rouge)); }
         .ball[data-color="2"] { background: radial-gradient(circle at 30% 30%, #FFBB99, var(--arc-orange)); }
-        .ball[data-color="3"] { background: radial-gradient(circle at 30% 30%, #FFFF99, var(--arc-jaune)); }
-        .ball[data-color="4"] { background: radial-gradient(circle at 30% 30%, #99FF99, var(--arc-vert)); }
+        .ball[data-color="3"] { background: radial-gradient(circle at 30% 30%, #FFFF99, var(--arc-jaune)); color: black; }
+        .ball[data-color="4"] { background: radial-gradient(circle at 30% 30%, #99FF99, var(--arc-vert)); color: black; }
         .ball[data-color="5"] { background: radial-gradient(circle at 30% 30%, #9999FF, var(--arc-bleu)); }
         .ball[data-color="6"] { background: radial-gradient(circle at 30% 30%, #AA99FF, var(--arc-indigo)); }
         .ball[data-color="7"] { background: radial-gradient(circle at 30% 30%, #FF99FF, var(--arc-violet)); }
 
-        .result-type {
-            font-size: 0.8rem;
-            padding: 5px 12px;
-            border-radius: 25px;
-            color: white;
+        .type-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 0.7rem;
             font-weight: bold;
+            background: var(--gris-fonce);
+            color: white;
+            margin-left: 5px;
         }
 
-        .type-melange { background: var(--melange); }
-        .type-inverse { background: var(--inverse); }
-        .type-plus1 { background: var(--plus1); }
-        .type-combine { background: var(--combine); }
+        .gain-info {
+            font-size: 0.7rem;
+            margin-top: 5px;
+            padding: 3px 8px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 15px;
+            display: inline-block;
+        }
 
         .result-actions {
             display: flex;
             gap: 8px;
+            margin-top: 8px;
+            justify-content: flex-end;
         }
 
-        /* ========== PAGINATION ========== */
         .pagination {
             display: flex;
             justify-content: center;
             gap: 12px;
             margin-top: 20px;
+            align-items: center;
         }
 
         .page-btn {
             padding: 8px 16px;
             background: var(--jaune);
-            border: none;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
             min-width: 40px;
+            text-align: center;
+            font-weight: bold;
             transition: all 0.3s;
         }
 
         .page-btn:hover {
             background: var(--vert);
             color: var(--jaune);
-            transform: scale(1.1);
         }
 
         .page-info {
-            font-weight: bold;
-            color: var(--vert);
-            font-size: 1rem;
             padding: 8px 16px;
             background: white;
-            border-radius: 25px;
             border: 2px solid var(--jaune);
+            border-radius: 25px;
+            font-weight: bold;
         }
 
-        /* ========== PROGRESS BAR ========== */
         .progress-bar {
             height: 25px;
             background: var(--gris);
             border-radius: 15px;
-            overflow: hidden;
             border: 2px solid var(--jaune);
-            margin: 20px 0;
+            margin: 15px 0;
+            overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, 
-                var(--arc-rouge), 
-                var(--arc-orange), 
-                var(--arc-jaune), 
-                var(--arc-vert), 
-                var(--arc-bleu), 
-                var(--arc-indigo), 
-                var(--arc-violet));
+            background: linear-gradient(90deg, var(--arc-rouge), var(--arc-jaune), var(--arc-vert));
             width: 0%;
-            transition: width 0.4s ease;
+            transition: width 0.4s;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-        }
-
-        /* ========== HISTORIQUE ========== */
-        .historique-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .historique-filtres {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            background: var(--gris);
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 2px solid var(--jaune);
-        }
-
-        .filter-input, .filter-select {
-            padding: 8px 15px;
-            border: 2px solid var(--jaune);
-            border-radius: 30px;
-            font-size: 0.9rem;
-            flex: 1;
-            min-width: 150px;
-            background: white;
-        }
-
-        .filter-input:focus, .filter-select:focus {
-            outline: none;
-            border-color: var(--vert);
-            box-shadow: 0 0 0 3px rgba(0,100,0,0.1);
-        }
-
-        .historique-list {
-            max-height: 550px;
-            overflow-y: auto;
-            background: var(--gris);
-            border-radius: 12px;
-            padding: 15px;
-            border: 2px solid var(--jaune);
-        }
-
-        .historique-item {
-            background: var(--blanc);
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 12px;
-            border-left: 6px solid var(--historique);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            box-shadow: var(--ombre-douce);
-            transition: all 0.3s;
-        }
-
-        .historique-item:hover {
-            transform: translateX(5px);
-            box-shadow: var(--ombre);
-        }
-
-        .historique-info {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .historique-date {
-            font-size: 0.85rem;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .historique-jeu {
-            font-size: 0.85rem;
-            background: var(--gris);
-            padding: 4px 10px;
-            border-radius: 20px;
-            display: inline-block;
-            font-weight: 600;
-        }
-
-        .historique-boules {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            margin: 5px 0;
-        }
-
-        .btn-delete, .btn-restore {
-            padding: 6px 12px;
             font-size: 0.8rem;
-            min-width: 80px;
+            font-weight: bold;
         }
 
-        .btn-delete { background: var(--rouge); color: white; }
-        .btn-restore { background: var(--vert); color: var(--jaune); }
-
-        /* ========== MODAL ========== */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--blanc);
-            padding: 35px;
-            border-radius: 25px;
-            border: 4px solid var(--jaune);
-            max-width: 550px;
-            width: 90%;
-            text-align: center;
-            box-shadow: var(--ombre);
-            animation: modalAppear 0.3s;
-        }
-
-        @keyframes modalAppear {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        .modal-content h3 {
-            color: var(--vert);
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-        }
-
-        .modal-rules {
-            background: var(--gris);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 25px 0;
-            text-align: left;
-            border: 2px solid var(--jaune);
-        }
-
-        .modal-rules p {
-            margin: 12px 0;
-            padding-left: 25px;
-            position: relative;
-            font-size: 1rem;
-        }
-
-        .modal-rules p:before {
-            content: "✅";
-            position: absolute;
-            left: 0;
-            color: var(--vert);
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-        }
-
-        /* ========== FOOTER ========== */
         .footer {
             background: var(--blanc);
-            border-radius: 0 0 20px 20px;
+            border-radius: 0 0 30px 30px;
             padding: 15px;
             border: 3px solid var(--jaune);
             border-top: none;
             text-align: center;
             margin-top: 20px;
-            font-size: 0.9rem;
-            color: var(--vert);
-            font-weight: 500;
         }
 
-        .rainbow-footer {
-            background: linear-gradient(90deg, 
-                var(--arc-rouge), 
-                var(--arc-orange), 
-                var(--arc-jaune), 
-                var(--arc-vert), 
-                var(--arc-bleu), 
-                var(--arc-indigo), 
-                var(--arc-violet));
-            height: 3px;
-            width: 100%;
-            margin-top: 5px;
+        .toast-message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--vert);
+            color: var(--jaune);
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: var(--ombre);
+            z-index: 1000;
+            animation: slideIn 0.3s;
         }
 
-        /* ========== TOOLTIP ========== */
-        [data-tooltip] {
-            position: relative;
-            cursor: pointer;
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        [data-tooltip]:before {
-            content: attr(data-tooltip);
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 5px 10px;
-            background: var(--gris-fonce);
+        .winner-tag {
+            background: var(--jackpot);
             color: white;
-            border-radius: 5px;
-            font-size: 0.7rem;
-            white-space: nowrap;
-            display: none;
-            z-index: 10;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            margin-left: 5px;
+            animation: clignote 1s infinite;
         }
 
-        [data-tooltip]:hover:before {
-            display: block;
-        }
-
-        /* ========== RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .time-banner {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .next-draw {
-                justify-content: center;
-            }
-            
-            .result-left {
-                gap: 10px;
-            }
-            
-            .ball {
-                width: 35px;
-                height: 35px;
-                font-size: 0.85rem;
-            }
-            
-            .button-group button {
-                min-width: 120px;
-            }
-            
-            .day-tab {
-                padding: 8px 15px;
-                min-width: 80px;
-                font-size: 0.9rem;
-            }
-            
-            .external-links {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn-external {
-                width: 100%;
-                justify-content: center;
-            }
+        @keyframes clignote {
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🇹🇬 LONATO - BOUTONS COPIER CORRIGÉS 🇹🇬</h1>
-            <div class="subtitle">12 jeux • 5 boules • Copie individuelle fonctionnelle</div>
-            
-            <!-- BOUTONS LIENS EXTERNES -->
-            <div class="external-links">
-                <a href="https://play.google.com/store/apps/details?id=oops.lottomachine2" 
-                   target="_blank" 
-                   class="btn-external btn-app"
-                   data-tooltip="Télécharger l'application mobile">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.5,11.5 20.16,11.78L17.62,13.5L15.12,11L17.62,8.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
-                    </svg>
-                    📱 Application Mobile
-                </a>
-                
-                <a href="https://www.loterie-togo.com/" 
-                   target="_blank" 
-                   class="btn-external btn-results"
-                   data-tooltip="Voir les résultats officiels">
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A4,4 0 0,1 8,16A4,4 0 0,1 12,12A4,4 0 0,0 16,8A4,4 0 0,0 12,4M12,6.5A1.5,1.5 0 0,1 13.5,8A1.5,1.5 0 0,1 12,9.5A1.5,1.5 0 0,1 10.5,8A1.5,1.5 0 0,1 12,6.5M12,13.5A4,4 0 0,1 8,17.5A8,8 0 0,1 12,21.5A4,4 0 0,1 16,17.5A4,4 0 0,1 12,13.5Z"/>
-                    </svg>
-                    📊 Résultats LONATO
-                </a>
-            </div>
+<div class="container">
+    <div class="header">
+        <h1>🇹🇬 LONATO · TOUTES LES COMBINAISONS · COPIER CORRIGÉ 🇹🇬</h1>
+        <div class="subtitle">Nap · Permutation · Bankers · Turbo · 120 permutations · Inverse · +1 · Combiné</div>
+    </div>
+
+    <div class="time-banner">
+        <div class="current-time">
+            <span>🕐</span>
+            <span id="currentTimeDisplay">--:--:--</span>
         </div>
-
-        <!-- BANDEAU HEURE ACTUELLE ET PROCHAIN TIRAGE -->
-        <div class="time-banner">
-            <div class="current-time">
-                <span>🕐</span>
-                <span id="currentTimeDisplay">--:--:--</span>
+        <div class="next-draw">
+            <div class="next-draw-info">
+                <span>🎰 Prochain tirage</span>
+                <span id="nextDrawTime">14:00</span>
             </div>
-            <div class="next-draw">
-                <div class="next-draw-info">
-                    <span>🎰 Prochain tirage</span>
-                    <span class="next-draw-time" id="nextDrawTime">14:00</span>
-                </div>
-                <div class="countdown" id="countdownDisplay">--h --min</div>
-            </div>
-        </div>
-
-        <!-- MODAL -->
-        <div class="modal" id="rulesModal">
-            <div class="modal-content">
-                <h3>📋 RÈGLES DE SIMULATION</h3>
-                <div class="modal-rules">
-                    <p><strong>🔄 Mélange des positions</strong> : 120 permutations des 5 boules</p>
-                    <p><strong>🔄 Règle d'inverse</strong> : 01→10, 12→21, 23→32, 34→43, 45→54</p>
-                    <p><strong>➕ Règle +1</strong> : 01→02, 12→13, 23→24, 90→01</p>
-                    <p><strong>⚡ Règles combinées</strong> : Inverse→+1, +1→Inverse</p>
-                    <p><strong>🎯 Génération unique</strong> : Aucune répétition de série</p>
-                </div>
-                <p style="font-size:1.1rem; margin:20px 0;">Voulez-vous générer les codes ?</p>
-                <div class="modal-buttons">
-                    <button class="btn-generate" onclick="confirmGeneration()">✅ OUI, GÉNÉRER</button>
-                    <button class="btn-secondary" onclick="closeModal()">❌ ANNULER</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="main-content">
-            <!-- COLONNE GAUCHE -->
-            <div>
-                <div class="panel">
-                    <h2>🎯 SÉLECTION</h2>
-                    
-                    <!-- ONGLETS PAR JOUR -->
-                    <div class="days-tabs" id="daysTabs">
-                        <div class="day-tab active" onclick="selectDay('lundi')" id="tab-lundi">LUNDI</div>
-                        <div class="day-tab" onclick="selectDay('mardi')" id="tab-mardi">MARDI</div>
-                        <div class="day-tab" onclick="selectDay('mercredi')" id="tab-mercredi">MERCREDI</div>
-                        <div class="day-tab" onclick="selectDay('jeudi')" id="tab-jeudi">JEUDI</div>
-                        <div class="day-tab" onclick="selectDay('vendredi')" id="tab-vendredi">VENDREDI</div>
-                        <div class="day-tab" onclick="selectDay('samedi')" id="tab-samedi">SAMEDI</div>
-                    </div>
-
-                    <!-- GRILLE JEUX -->
-                    <div class="games-grid" id="gamesGrid"></div>
-
-                    <!-- SÉLECTION NUMÉROS -->
-                    <div class="numbers-grid" id="numbersGrid"></div>
-
-                    <div class="selected-numbers">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span><strong><span id="selectedCount">0</span>/5 boules</strong></span>
-                            <button class="btn-secondary" onclick="clearSelection()" style="min-width:100px;">Effacer</button>
-                        </div>
-                        <div class="selected-tags" id="selectedTags"></div>
-                    </div>
-                    
-                    <div class="rules-reminder">
-                        <h3 style="color:white;">📋 RÈGLES APPLIQUÉES</h3>
-                        <div class="rules-grid">
-                            <div class="rule-card"><strong>🔄 Mélange</strong><span>120 permutations</span></div>
-                            <div class="rule-card"><strong>🔄 Inverse</strong><span>12→21, 01→10</span></div>
-                            <div class="rule-card"><strong>➕ Plus 1</strong><span>12→13, 90→01</span></div>
-                            <div class="rule-card"><strong>⚡ Combiné</strong><span>Inverse→+1, +1→Inverse</span></div>
-                        </div>
-                    </div>
-
-                    <div class="button-group">
-                        <button class="btn-generate" onclick="showRulesModal()">🎲 GÉNÉRER</button>
-                        <button class="btn-primary btn-copy-all" onclick="copyAllResults()">📋 COPIER TOUT</button>
-                    </div>
-                    
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressBar">0%</div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <h2>📊 RÉSULTATS</h2>
-                    <div class="results-container" id="resultsContainer">
-                        <div style="text-align:center; padding:40px; color:#666;">Sélectionnez 5 numéros</div>
-                    </div>
-                    <div class="pagination">
-                        <button class="page-btn" onclick="changePage('first')">⏮️</button>
-                        <button class="page-btn" onclick="changePage('prev')">◀</button>
-                        <span class="page-info" id="pageInfo">Page 1/1</span>
-                        <button class="page-btn" onclick="changePage('next')">▶</button>
-                        <button class="page-btn" onclick="changePage('last')">⏭️</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- COLONNE DROITE -->
-            <div>
-                <div class="panel">
-                    <h2>📜 HISTORIQUE</h2>
-                    <div class="historique-header">
-                        <span style="font-weight:bold;" id="historiqueCount">0 entrées</span>
-                        <button class="btn-secondary" onclick="clearAllHistory()" style="min-width:120px;">🗑️ Tout supprimer</button>
-                    </div>
-                    <div class="historique-filtres">
-                        <input type="text" class="filter-input" id="filterDate" placeholder="Filtrer par date" oninput="filterHistory()">
-                        <select class="filter-select" id="filterType" onchange="filterHistory()">
-                            <option value="all">Tous types</option>
-                            <option value="melange">Mélanges</option>
-                            <option value="inverse">Inverses</option>
-                            <option value="plus1">+1</option>
-                            <option value="combine">Combinés</option>
-                        </select>
-                        <select class="filter-select" id="filterGame" onchange="filterHistory()">
-                            <option value="all">Tous jeux</option>
-                        </select>
-                    </div>
-                    <div class="historique-list" id="historiqueList">
-                        <div style="text-align:center; padding:30px;">Aucun historique</div>
-                    </div>
-                    <div style="display:flex; justify-content:space-between; margin:15px 0; font-weight:bold;">
-                        <span id="filteredCount">0</span> sur <span id="totalCount">0</span> entrées
-                    </div>
-                    <div class="pagination">
-                        <button class="page-btn" onclick="changeHistoryPage('prev')">◀</button>
-                        <span class="page-info" id="historyPageInfo">Page 1/1</span>
-                        <button class="page-btn" onclick="changeHistoryPage('next')">▶</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer">
-            <p>© LONATO - Boutons copier fonctionnels • Résultats officiels • Application mobile</p>
-            <div class="rainbow-footer"></div>
+            <div class="countdown" id="countdownDisplay">--h --min</div>
         </div>
     </div>
 
-    <script>
-        // ==================== CONFIGURATION DES JEUX ====================
-        const gamesConfig = {
-            diamant: { name: 'DIAMANT', day: 'lundi', dayDisplay: 'Lundi', time: '06h - 13h', draw: '14h', drawHour: 14, order: 1 },
-            gold: { name: 'GOLD', day: 'lundi', dayDisplay: 'Lundi', time: '13h - 18h', draw: '18h', drawHour: 18, order: 2 },
-            cash: { name: 'CASH', day: 'mardi', dayDisplay: 'Mardi', time: '06h - 13h', draw: '14h', drawHour: 14, order: 1 },
-            boom: { name: 'BOOM', day: 'mardi', dayDisplay: 'Mardi', time: '13h - 18h', draw: '18h', drawHour: 18, order: 2 },
-            benz: { name: 'BENZ', day: 'mercredi', dayDisplay: 'Mercredi', time: '06h - 13h', draw: '14h', drawHour: 14, order: 1 },
-            prestige: { name: 'PRESTIGE', day: 'mercredi', dayDisplay: 'Mercredi', time: '13h - 18h', draw: '18h', drawHour: 18, order: 2 },
-            millions: { name: 'MILLIONS', day: 'jeudi', dayDisplay: 'Jeudi', time: '06h - 13h', draw: '14h', drawHour: 14, order: 1 },
-            super: { name: 'SUPER', day: 'jeudi', dayDisplay: 'Jeudi', time: '13h - 18h', draw: '18h', drawHour: 18, order: 2 },
-            kadoo: { name: 'KADOO', day: 'vendredi', dayDisplay: 'Vendredi', time: '06h - 13h', draw: '14h', drawHour: 14, order: 1 },
-            king: { name: 'KING', day: 'vendredi', dayDisplay: 'Vendredi', time: '13h - 18h', draw: '18h', drawHour: 18, order: 2 },
-            sam: { name: 'SAM', day: 'samedi', dayDisplay: 'Samedi', time: '06h - 13h', draw: '14h', drawHour: 14, order: 1 },
-            bingo: { name: 'BINGO', day: 'samedi', dayDisplay: 'Samedi', time: '13h - 18h', draw: '18h', drawHour: 18, order: 2 },
-            turbo: { name: 'TURBO', day: 'tous', dayDisplay: 'Quotidien', time: 'Tous les jours', draw: 'Toutes les heures', drawHour: null, order: 0 }
-        };
+    <!-- Bannière d'information -->
+    <div class="info-banner">
+        <strong>📋 RÈGLES DE COMBINAISON APPLIQUÉES</strong><br>
+        • 🔄 120 permutations de positions pour chaque série<br>
+        • 🔄 Inverse: 12→21, 01→10, 45→54<br>
+        • ➕ +1: 12→13, 90→01<br>
+        • ⚡ Combiné: Inverse→+1 et +1→Inverse<br>
+        • 🎯 Toutes les combinaisons uniques sont générées automatiquement
+    </div>
 
-        let state = {
-            currentDay: 'lundi',
-            currentGame: 'diamant',
-            selectedNumbers: new Set(),
-            currentResults: [],
-            currentPage: 1,
-            itemsPerPage: 15,
-            history: {
-                entries: [],
-                filteredEntries: [],
-                currentPage: 1,
-                itemsPerPage: 5
-            }
-        };
-
-        // ==================== FONCTIONS D'HEURE ====================
-        function updateTimeDisplay() {
-            const now = new Date();
-            
-            const hours = now.getHours().toString().padStart(2, '0');
-            const minutes = now.getMinutes().toString().padStart(2, '0');
-            const seconds = now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('currentTimeDisplay').textContent = `${hours}:${minutes}:${seconds}`;
-            
-            const currentHour = now.getHours();
-            const currentMinutes = now.getMinutes();
-            const currentTotalMinutes = currentHour * 60 + currentMinutes;
-            
-            let nextDrawHour, nextDrawLabel;
-            
-            if (currentTotalMinutes < 14 * 60) {
-                nextDrawHour = 14;
-                nextDrawLabel = '14:00';
-            } else if (currentTotalMinutes < 18 * 60) {
-                nextDrawHour = 18;
-                nextDrawLabel = '18:00';
-            } else {
-                nextDrawHour = 14 + 24;
-                nextDrawLabel = 'demain 14:00';
-            }
-            
-            document.getElementById('nextDrawTime').textContent = nextDrawLabel;
-            
-            let targetTotalMinutes;
-            if (nextDrawHour > 24) {
-                targetTotalMinutes = (nextDrawHour - 24) * 60;
-            } else {
-                targetTotalMinutes = nextDrawHour * 60;
-            }
-            
-            let minutesRemaining = targetTotalMinutes - currentTotalMinutes;
-            if (minutesRemaining < 0) minutesRemaining += 24 * 60;
-            
-            const hoursRemaining = Math.floor(minutesRemaining / 60);
-            const minsRemaining = minutesRemaining % 60;
-            
-            document.getElementById('countdownDisplay').textContent = 
-                `${hoursRemaining}h ${minsRemaining}min`;
-            
-            updateGamesStatus(currentHour);
-        }
-
-        function updateGamesStatus(currentHour) {
-            document.querySelectorAll('.game-card').forEach(card => {
-                const gameId = card.id.replace('game-', '');
-                const game = gamesConfig[gameId];
+    <div class="main-content">
+        <!-- Colonne principale -->
+        <div>
+            <div class="panel">
+                <h2>🎯 1. SÉLECTIONNEZ VOTRE JEU</h2>
                 
-                if (game && game.drawHour) {
-                    const statusSpan = card.querySelector('.game-status') || document.createElement('div');
+                <!-- Onglets par jour -->
+                <div class="days-tabs" id="daysTabs"></div>
+                
+                <!-- Grille des jeux -->
+                <div class="games-grid" id="gamesGrid"></div>
+
+                <h2 style="margin-top:20px;">🎲 2. CHOISISSEZ VOTRE TYPE DE PARI</h2>
+                
+                <!-- Types de paris -->
+                <div class="bet-types-panel" id="betTypesContainer">
+                    <div class="bet-type-card nap selected" onclick="selectBetType('nap')" id="bet-nap">
+                        <div class="bet-type-title">NAP 1-5</div>
+                        <div class="bet-type-desc">1 à 5 numéros · Ordre indifférent</div>
+                    </div>
+                    <div class="bet-type-card perm" onclick="selectBetType('permutation')" id="bet-permutation">
+                        <div class="bet-type-title">PERMUTATION</div>
+                        <div class="bet-type-desc">5-10 numéros · Toutes combinaisons</div>
+                    </div>
+                    <div class="bet-type-card banker" onclick="selectBetType('banker')" id="bet-banker">
+                        <div class="bet-type-title">BANKERS</div>
+                        <div class="bet-type-desc">Numéros sûrs (Ctrl+clic)</div>
+                    </div>
+                    <div class="bet-type-card turbo" onclick="selectBetType('turbo')" id="bet-turbo">
+                        <div class="bet-type-title">TURBO ⚡</div>
+                        <div class="bet-type-desc">Nap2 + positions</div>
+                    </div>
+                </div>
+
+                <!-- Options Turbo -->
+                <div id="turboOptions" style="display: none; margin:15px 0;">
+                    <h3>Niveau Turbo</h3>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div class="turbo-btn selected" onclick="selectTurbo(2)" style="flex:1; padding:10px; border:2px solid var(--turbo); border-radius:10px; cursor:pointer; text-align:center;">Turbo 2 (2 premiers) ×10</div>
+                        <div class="turbo-btn" onclick="selectTurbo(3)" style="flex:1; padding:10px; border:2px solid var(--turbo); border-radius:10px; cursor:pointer; text-align:center;">Turbo 3 (dans les 3) ×5</div>
+                        <div class="turbo-btn" onclick="selectTurbo(4)" style="flex:1; padding:10px; border:2px solid var(--turbo); border-radius:10px; cursor:pointer; text-align:center;">Turbo 4 (dans les 4) ×3</div>
+                    </div>
+                </div>
+
+                <h2 style="margin-top:20px;">🔢 3. SÉLECTIONNEZ VOS NUMÉROS</h2>
+                
+                <!-- Grille numéros -->
+                <div class="numbers-grid" id="numbersGrid"></div>
+
+                <!-- Sélection -->
+                <div class="selected-numbers">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span><strong><span id="selectedCount">0</span>/<span id="maxSelection">5</span> numéros</strong></span>
+                        <button class="btn-secondary" onclick="clearSelection()" style="min-width:100px;">Effacer</button>
+                    </div>
+                    <div class="selected-tags" id="selectedTags"></div>
+                </div>
+
+                <!-- Informations de mise -->
+                <div class="stake-info" id="stakeInfo">
+                    <span>💰 Mise unitaire: <span id="unitStake">100</span> FCFA</span>
+                    <span>📊 Mise totale: <span id="totalStake">0</span> FCFA</span>
+                </div>
+
+                <!-- Boutons principaux -->
+                <div class="button-group">
+                    <button class="btn-generate" onclick="genererToutesCombinaisons()">🎲 GÉNÉRER TOUTES LES COMBINAISONS</button>
+                    <button class="btn-predict" onclick="lancerAnalysePredictive()" id="btnAnalyse">🔮 ANALYSE PRÉDICTIVE</button>
+                    <button class="btn-primary btn-copy-all" onclick="copyAllResults()">📋 COPIER TOUT</button>
+                </div>
+
+                <!-- Barre de progression -->
+                <div class="progress-bar"><div class="progress-fill" id="progressBar">0%</div></div>
+            </div>
+
+            <!-- Résultats -->
+            <div class="panel">
+                <h2>📊 RÉSULTATS</h2>
+                <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <button class="btn-primary" onclick="afficherTous()">📋 Tous</button>
+                    <button class="btn-predict" onclick="afficherPredictions()">🔮 Prédictions</button>
+                    <button class="btn-secondary" onclick="afficherParType('nap')">NAP</button>
+                    <button class="btn-secondary" onclick="afficherParType('permutation')">PERM</button>
+                    <button class="btn-secondary" onclick="afficherParType('banker')">BANKERS</button>
+                    <button class="btn-secondary" onclick="afficherParType('turbo')">TURBO</button>
+                </div>
+                <div class="results-container" id="resultsContainer">
+                    <div style="text-align:center; padding:40px;">Sélectionnez un jeu, un type de pari et des numéros</div>
+                </div>
+                <div class="pagination">
+                    <button class="page-btn" onclick="changePage('first')">⏮️</button>
+                    <button class="page-btn" onclick="changePage('prev')">◀</button>
+                    <span class="page-info" id="pageInfo">Page 1/1</span>
+                    <button class="page-btn" onclick="changePage('next')">▶</button>
+                    <button class="page-btn" onclick="changePage('last')">⏭️</button>
+                </div>
+                <div style="text-align:center; margin-top:10px;" id="totalInfo"></div>
+            </div>
+        </div>
+
+        <!-- Colonne droite -->
+        <div>
+            <div class="panel">
+                <h2>📈 TOP PRÉDICTIONS</h2>
+                <div id="topWinners" style="padding:10px; max-height:400px; overflow-y:auto;"></div>
+                <div style="margin-top:15px;">
+                    <button onclick="rafraichirAnalyse()" class="btn-primary" style="width:100%;">🔄 Actualiser</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© LONATO · Toutes les combinaisons possibles · Boutons copier fonctionnels</p>
+    </div>
+</div>
+
+<!-- Toast pour les notifications -->
+<div id="toast" style="display: none;"></div>
+
+<script>
+    // ==================== CONFIGURATION DES JEUX ====================
+    const gamesConfig = {
+        diamant: { name: 'LOTO DIAMANT', day: 'lundi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+        gold: { name: 'LOTO GOLD', day: 'lundi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
+        cash: { name: 'LOTO CASH', day: 'mardi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+        boom: { name: 'LOTO BOOM', day: 'mardi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
+        benz: { name: 'LOTO BENZ', day: 'mercredi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+        prestige: { name: 'LOTO PRESTIGE', day: 'mercredi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
+        millions: { name: 'LOTO MILLIONS', day: 'jeudi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+        super: { name: 'LOTO SUPER', day: 'jeudi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 500, tce: true },
+        kadoo: { name: 'LOTO KADOO', day: 'vendredi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+        king: { name: 'LOTO KING', day: 'vendredi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 },
+        sam: { name: 'LOTO SAM', day: 'samedi', time: '06h-13h', draw: '14h', drawHour: 14, mise: 100 },
+        bingo: { name: 'LOTO BINGO', day: 'samedi', time: '13h-18h', draw: '18h', drawHour: 18, mise: 100 }
+    };
+
+    // ==================== ÉTAT GLOBAL ====================
+    let state = {
+        currentDay: 'lundi',
+        currentGame: 'diamant',
+        betType: 'nap',
+        turboLevel: 2,
+        selectedNumbers: new Set(),
+        bankers: new Set(),
+        allCombinations: [],
+        filteredCombinations: [],
+        predictions: [],
+        currentPage: 1,
+        itemsPerPage: 20,
+        currentType: 'all'
+    };
+
+    // ==================== FONCTIONS D'HEURE ====================
+    function updateTimeDisplay() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+        document.getElementById('currentTimeDisplay').textContent = `${hours}:${minutes}:${seconds}`;
+        
+        const currentHour = now.getHours();
+        const currentMinutes = now.getMinutes();
+        const currentTotal = currentHour * 60 + currentMinutes;
+        
+        let nextDrawHour, nextDrawLabel;
+        
+        if (currentTotal < 14 * 60) {
+            nextDrawHour = 14;
+            nextDrawLabel = '14:00';
+        } else if (currentTotal < 18 * 60) {
+            nextDrawHour = 18;
+            nextDrawLabel = '18:00';
+        } else {
+            nextDrawHour = 14 + 24;
+            nextDrawLabel = 'demain 14:00';
+        }
+        
+        document.getElementById('nextDrawTime').textContent = nextDrawLabel;
+        
+        let targetTotal = nextDrawHour * 60;
+        if (nextDrawHour > 24) targetTotal = (nextDrawHour - 24) * 60;
+        
+        let minutesRemaining = targetTotal - currentTotal;
+        if (minutesRemaining < 0) minutesRemaining += 24 * 60;
+        
+        const hoursRemaining = Math.floor(minutesRemaining / 60);
+        const minsRemaining = minutesRemaining % 60;
+        
+        document.getElementById('countdownDisplay').textContent = 
+            `${hoursRemaining}h ${minsRemaining}min`;
+        
+        updateGamesStatus(currentHour);
+    }
+
+    function updateGamesStatus(currentHour) {
+        document.querySelectorAll('.game-card').forEach(card => {
+            const gameId = card.id.replace('game-', '');
+            const game = gamesConfig[gameId];
+            
+            if (game && game.drawHour) {
+                let statusSpan = card.querySelector('.game-status');
+                if (!statusSpan) {
+                    statusSpan = document.createElement('div');
                     statusSpan.className = 'game-status';
-                    
-                    if (currentHour < game.drawHour) {
-                        statusSpan.textContent = '🔜 À venir';
-                        statusSpan.classList.add('status-soon');
-                    } else if (currentHour === game.drawHour) {
-                        statusSpan.textContent = '🎰 En cours';
-                        statusSpan.classList.add('status-available');
-                    } else {
-                        statusSpan.textContent = '🔚 Passé';
-                        statusSpan.classList.add('status-closed');
-                    }
-                    
-                    if (!card.querySelector('.game-status')) {
-                        card.appendChild(statusSpan);
-                    }
+                    card.appendChild(statusSpan);
                 }
-            });
-        }
-
-        // ==================== INIT ====================
-        function init() {
-            createGamesGrid();
-            createNumberGrid();
-            selectGame('diamant');
-            highlightToday();
-            loadHistory();
-            updateGameFilter();
-            
-            updateTimeDisplay();
-            setInterval(updateTimeDisplay, 1000);
-        }
-
-        // ==================== ONGLETS PAR JOUR ====================
-        function selectDay(day) {
-            state.currentDay = day;
-            
-            document.querySelectorAll('.day-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.getElementById(`tab-${day}`).classList.add('active');
-            
-            createGamesGrid();
-            
-            const firstGame = Object.entries(gamesConfig).find(([id, game]) => 
-                game.day === day || game.day === 'tous'
-            );
-            if (firstGame) {
-                selectGame(firstGame[0]);
+                
+                if (currentHour < game.drawHour) {
+                    statusSpan.textContent = '🔜 À venir';
+                    statusSpan.style.background = '#4895EF';
+                } else if (currentHour === game.drawHour) {
+                    statusSpan.textContent = '🎰 En cours';
+                    statusSpan.style.background = '#10B981';
+                } else {
+                    statusSpan.textContent = '🔚 Passé';
+                    statusSpan.style.background = '#CE1126';
+                }
+                statusSpan.style.color = 'white';
+                statusSpan.style.padding = '3px 8px';
+                statusSpan.style.borderRadius = '15px';
+                statusSpan.style.fontSize = '0.7rem';
+                statusSpan.style.marginTop = '5px';
+                statusSpan.style.display = 'inline-block';
             }
-        }
+        });
+    }
 
-        function highlightToday() {
-            const today = new Date().getDay();
-            const dayMap = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
-            const todayName = dayMap[today];
+    // ==================== INTERFACE JOURS ====================
+    function createDaysTabs() {
+        const days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+        const container = document.getElementById('daysTabs');
+        container.innerHTML = '';
+        
+        const today = new Date().getDay();
+        const todayMap = ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+        const todayName = todayMap[today];
+        
+        days.forEach(day => {
+            const tab = document.createElement('div');
+            tab.className = `day-tab ${state.currentDay === day ? 'active' : ''} ${todayName === day ? 'today' : ''}`;
+            tab.textContent = day.toUpperCase();
+            tab.onclick = () => selectDay(day);
+            container.appendChild(tab);
+        });
+    }
+
+    function selectDay(day) {
+        state.currentDay = day;
+        createDaysTabs();
+        createGamesGrid();
+        
+        const firstGame = Object.keys(gamesConfig).find(id => gamesConfig[id].day === day);
+        if (firstGame) selectGame(firstGame);
+    }
+
+    // ==================== GRILLE JEUX ====================
+    function createGamesGrid() {
+        const grid = document.getElementById('gamesGrid');
+        grid.innerHTML = '';
+        
+        const gamesOfDay = Object.entries(gamesConfig)
+            .filter(([id, game]) => game.day === state.currentDay)
+            .sort((a, b) => a[1].drawHour - b[1].drawHour);
+        
+        gamesOfDay.forEach(([id, game]) => {
+            const card = document.createElement('div');
+            card.className = `game-card ${state.currentGame === id ? 'selected' : ''}`;
+            card.id = `game-${id}`;
             
-            if (todayName !== 'dimanche') {
-                document.getElementById(`tab-${todayName}`).classList.add('today');
+            const tceBadge = game.tce ? '<span style="background:#8B5CF6; color:white; padding:2px 8px; border-radius:12px; font-size:0.7rem; margin-left:5px;">TCE</span>' : '';
+            
+            card.innerHTML = `
+                <div class="game-name">
+                    ${game.name} ${tceBadge}
+                </div>
+                <div class="game-time">🕐 Ventes: ${game.time}</div>
+                <div class="game-draw">🎰 Tirage: ${game.draw}</div>
+                <div class="game-jackpot">💰 Mise: ${game.mise} FCFA</div>
+            `;
+            card.onclick = () => selectGame(id);
+            grid.appendChild(card);
+        });
+        
+        updateGamesStatus(new Date().getHours());
+    }
+
+    function selectGame(gameId) {
+        state.currentGame = gameId;
+        document.querySelectorAll('.game-card').forEach(c => c.classList.remove('selected'));
+        document.getElementById(`game-${gameId}`)?.classList.add('selected');
+        
+        const game = gamesConfig[gameId];
+        document.getElementById('unitStake').textContent = game.mise;
+        
+        if (game.tce) {
+            showToast(`⚠️ ${game.name} : mise spéciale ${game.mise} FCFA`, 'info');
+        }
+        
+        updateStake();
+    }
+
+    // ==================== TYPE DE PARI ====================
+    function selectBetType(type) {
+        state.betType = type;
+        
+        document.querySelectorAll('.bet-type-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+        document.getElementById(`bet-${type}`).classList.add('selected');
+        
+        document.getElementById('turboOptions').style.display = type === 'turbo' ? 'block' : 'none';
+        
+        let max = 5;
+        if (type === 'permutation') max = 10;
+        if (type === 'banker') max = 10;
+        if (type === 'turbo') max = 2;
+        document.getElementById('maxSelection').textContent = max;
+        
+        clearSelection();
+        updateStake();
+    }
+
+    function selectTurbo(level) {
+        state.turboLevel = level;
+        document.querySelectorAll('.turbo-btn').forEach(btn => btn.classList.remove('selected'));
+        event.target.classList.add('selected');
+    }
+
+    // ==================== GRILLE NUMÉROS ====================
+    function createNumberGrid() {
+        const grid = document.getElementById('numbersGrid');
+        grid.innerHTML = '';
+        
+        for (let i = 1; i <= 90; i++) {
+            const btn = document.createElement('div');
+            btn.className = 'number-btn';
+            
+            if (state.selectedNumbers.has(i)) btn.classList.add('selected');
+            if (state.bankers.has(i)) btn.classList.add('banker');
+            
+            btn.textContent = i < 10 ? '0' + i : i;
+            btn.onclick = () => toggleNumber(i);
+            grid.appendChild(btn);
+        }
+    }
+
+    function toggleNumber(n) {
+        const max = state.betType === 'permutation' ? 10 : (state.betType === 'turbo' ? 2 : 5);
+        
+        if (state.betType === 'banker' && (event.ctrlKey || event.metaKey)) {
+            if (state.bankers.has(n)) {
+                state.bankers.delete(n);
+                state.selectedNumbers.delete(n);
+            } else {
+                if (state.bankers.size + (state.selectedNumbers.size - state.bankers.size) < max) {
+                    state.bankers.add(n);
+                    state.selectedNumbers.add(n);
+                } else {
+                    showToast(`Maximum ${max} numéros`, 'error');
+                }
             }
-        }
-
-        // ==================== GRILLE JEUX ====================
-        function createGamesGrid() {
-            const grid = document.getElementById('gamesGrid');
-            grid.innerHTML = '';
-            
-            const gamesOfDay = Object.entries(gamesConfig)
-                .filter(([id, game]) => game.day === state.currentDay || game.day === 'tous')
-                .sort((a, b) => a[1].order - b[1].order);
-            
-            gamesOfDay.forEach(([id, game]) => {
-                const card = document.createElement('div');
-                card.className = `game-card ${state.currentGame === id ? 'selected' : ''}`;
-                card.id = `game-${id}`;
-                card.innerHTML = `
-                    <div class="game-name">${game.name}</div>
-                    <div class="game-time">🕐 ${game.time}</div>
-                    <div class="game-draw">🎰 Tirage ${game.draw}</div>
-                `;
-                card.onclick = () => selectGame(id);
-                grid.appendChild(card);
-            });
-            
-            const now = new Date();
-            updateGamesStatus(now.getHours());
-        }
-
-        function selectGame(gameId) {
-            state.currentGame = gameId;
-            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('selected'));
-            document.getElementById(`game-${gameId}`).classList.add('selected');
-        }
-
-        // ==================== NUMÉROS ====================
-        function createNumberGrid() {
-            const grid = document.getElementById('numbersGrid');
-            grid.innerHTML = '';
-            for (let i = 1; i <= 90; i++) {
-                const btn = document.createElement('div');
-                btn.className = `number-btn ${state.selectedNumbers.has(i) ? 'selected' : ''}`;
-                btn.textContent = formatNumber(i);
-                btn.onclick = () => toggleNumber(i);
-                grid.appendChild(btn);
-            }
-        }
-
-        function formatNumber(n) { return n < 10 ? `0${n}` : `${n}`; }
-
-        function toggleNumber(n) {
+        } else {
             if (state.selectedNumbers.has(n)) {
                 state.selectedNumbers.delete(n);
-            } else if (state.selectedNumbers.size < 5) {
-                state.selectedNumbers.add(n);
+                state.bankers.delete(n);
             } else {
-                alert('5 boules maximum');
-            }
-            updateSelection();
-            createNumberGrid();
-        }
-
-        function updateSelection() {
-            const tags = document.getElementById('selectedTags');
-            const count = document.getElementById('selectedCount');
-            const nums = Array.from(state.selectedNumbers).sort((a,b) => a - b);
-            tags.innerHTML = nums.map(n => 
-                `<span class="number-tag">${formatNumber(n)}<button onclick="removeNumber(${n})">×</button></span>`
-            ).join('');
-            count.textContent = nums.length;
-        }
-
-        function removeNumber(n) {
-            state.selectedNumbers.delete(n);
-            updateSelection();
-            createNumberGrid();
-        }
-
-        function clearSelection() {
-            state.selectedNumbers.clear();
-            updateSelection();
-            createNumberGrid();
-        }
-
-        // ==================== MODAL ====================
-        function showRulesModal() {
-            if (state.selectedNumbers.size !== 5) {
-                alert('Veuillez sélectionner 5 numéros');
-                return;
-            }
-            document.getElementById('rulesModal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('rulesModal').classList.remove('active');
-        }
-
-        function confirmGeneration() {
-            closeModal();
-            generateAndSave();
-        }
-
-        // ==================== RÈGLES ====================
-        function appliquerInverse(n) {
-            if (n >= 1 && n <= 9) return n * 10;
-            if (n >= 10 && n <= 99) return parseInt(n.toString().split('').reverse().join(''));
-            return n;
-        }
-
-        function appliquerPlus1(n) {
-            if (n >= 1 && n <= 89) return n + 1;
-            if (n === 90) return 1;
-            return n;
-        }
-
-        function genererToutesPermutations(nombres) {
-            const result = [];
-            function permuter(arr, courant = []) {
-                if (courant.length === nombres.length) {
-                    result.push([...courant]);
+                if (state.selectedNumbers.size < max) {
+                    state.selectedNumbers.add(n);
+                } else {
+                    showToast(`Maximum ${max} numéros`, 'error');
                     return;
                 }
-                for (let i = 0; i < arr.length; i++) {
-                    const reste = [...arr.slice(0, i), ...arr.slice(i + 1)];
-                    courant.push(arr[i]);
-                    permuter(reste, courant);
-                    courant.pop();
+            }
+        }
+        
+        updateSelection();
+        createNumberGrid();
+        updateStake();
+    }
+
+    function removeNumber(n) {
+        state.selectedNumbers.delete(n);
+        state.bankers.delete(n);
+        updateSelection();
+        createNumberGrid();
+        updateStake();
+    }
+
+    function clearSelection() {
+        state.selectedNumbers.clear();
+        state.bankers.clear();
+        updateSelection();
+        createNumberGrid();
+        updateStake();
+        state.allCombinations = [];
+        state.filteredCombinations = [];
+        state.predictions = [];
+        displayResults();
+    }
+
+    function updateSelection() {
+        const tags = document.getElementById('selectedTags');
+        const count = document.getElementById('selectedCount');
+        const nums = Array.from(state.selectedNumbers).sort((a,b) => a-b);
+        
+        tags.innerHTML = nums.map(n => {
+            const isBanker = state.bankers.has(n);
+            return `<span class="number-tag ${isBanker ? 'banker' : ''}">${n < 10 ? '0'+n : n}${isBanker ? ' 👑' : ''}<button onclick="removeNumber(${n})">×</button></span>`;
+        }).join('');
+        
+        count.textContent = nums.length;
+    }
+
+    function updateStake() {
+        const nums = Array.from(state.selectedNumbers);
+        let numberOfCombinations = 0;
+        
+        if (state.betType === 'nap' && nums.length > 0) {
+            numberOfCombinations = 1;
+        } else if (state.betType === 'permutation' && nums.length >= 5) {
+            numberOfCombinations = combinationCount(nums.length, 5);
+        } else if (state.betType === 'banker') {
+            const bankers = Array.from(state.bankers);
+            const others = nums.filter(n => !state.bankers.has(n));
+            if (bankers.length > 0 && bankers.length <= 5) {
+                const k = 5 - bankers.length;
+                if (k >= 0 && others.length >= k) {
+                    numberOfCombinations = combinationCount(others.length, k);
                 }
             }
-            permuter(nombres);
-            return result;
+        } else if (state.betType === 'turbo' && nums.length === 2) {
+            numberOfCombinations = 1;
         }
+        
+        const unitStake = gamesConfig[state.currentGame]?.mise || 100;
+        const totalStake = numberOfCombinations * unitStake;
+        
+        document.getElementById('totalStake').textContent = totalStake;
+    }
 
-        function genererTousAvecRegles(nombres) {
-            const series = [];
-            const setUniques = new Set();
-            
-            function ajouterSerie(serie, type) {
-                const key = serie.join('|');
-                if (!setUniques.has(key)) {
-                    setUniques.add(key);
-                    series.push({ numbers: [...serie], type });
-                }
+    // ==================== FONCTIONS MATHÉMATIQUES ====================
+    function factorial(n) {
+        if (n <= 1) return 1;
+        return n * factorial(n-1);
+    }
+
+    function combinationCount(n, k) {
+        if (k > n) return 0;
+        return factorial(n) / (factorial(k) * factorial(n - k));
+    }
+
+    function combine(arr, k) {
+        if (k === 0) return [[]];
+        if (arr.length === 0) return [];
+        const [first, ...rest] = arr;
+        const withFirst = combine(rest, k-1).map(c => [first, ...c]);
+        const withoutFirst = combine(rest, k);
+        return [...withFirst, ...withoutFirst];
+    }
+
+    function permuter(arr) {
+        if (arr.length === 0) return [[]];
+        const result = [];
+        for (let i = 0; i < arr.length; i++) {
+            const reste = [...arr.slice(0, i), ...arr.slice(i + 1)];
+            for (let p of permuter(reste)) {
+                result.push([arr[i], ...p]);
             }
-
-            const permutations = genererToutesPermutations(nombres);
-            permutations.forEach(p => ajouterSerie(p, 'melange'));
-
-            ajouterSerie(nombres.map(n => appliquerInverse(n)), 'inverse');
-            ajouterSerie(nombres.map(n => appliquerPlus1(n)), 'plus1');
-            ajouterSerie(nombres.map(n => appliquerPlus1(appliquerInverse(n))), 'combine');
-            ajouterSerie(nombres.map(n => appliquerInverse(appliquerPlus1(n))), 'combine');
-
-            return series;
         }
+        return result;
+    }
 
-        // ==================== GÉNÉRATION ====================
-        function generateAndSave() {
-            const nombres = Array.from(state.selectedNumbers);
-            updateProgress(30);
+    function appliquerInverse(n) {
+        if (n < 10) return n * 10;
+        return parseInt(n.toString().split('').reverse().join(''));
+    }
 
-            const series = genererTousAvecRegles(nombres);
-            series.sort((a, b) => a.type.localeCompare(b.type) || a.numbers.join('').localeCompare(b.numbers.join('')));
+    function appliquerPlus1(n) {
+        if (n === 90) return 1;
+        return n + 1;
+    }
 
-            state.currentResults = series;
-            updateProgress(60);
-
-            const now = new Date();
-            const dateStr = now.toLocaleDateString('fr-FR') + ' ' + now.toLocaleTimeString('fr-FR');
+    // ==================== GÉNÉRATION DE TOUTES LES COMBINAISONS ====================
+    function genererToutesCombinaisons() {
+        const nums = Array.from(state.selectedNumbers).sort((a,b) => a-b);
+        const game = gamesConfig[state.currentGame];
+        
+        if (nums.length === 0) {
+            showToast('Sélectionnez des numéros', 'error');
+            return;
+        }
+        
+        updateProgress(20);
+        
+        let baseCombinations = [];
+        
+        // Étape 1: Générer les combinaisons selon le type de pari
+        if (state.betType === 'nap') {
+            if (nums.length !== 5) {
+                showToast('Nap nécessite 5 numéros', 'error');
+                updateProgress(0);
+                return;
+            }
+            baseCombinations = [nums];
+        }
+        else if (state.betType === 'permutation') {
+            if (nums.length < 5) {
+                showToast('Permutation nécessite au moins 5 numéros', 'error');
+                updateProgress(0);
+                return;
+            }
+            baseCombinations = combine(nums, 5);
+        }
+        else if (state.betType === 'banker') {
+            const bankers = Array.from(state.bankers).sort((a,b) => a-b);
+            const others = nums.filter(n => !state.bankers.has(n)).sort((a,b) => a-b);
             
-            const gameInfo = gamesConfig[state.currentGame];
+            if (bankers.length === 0) {
+                showToast('Utilisez Ctrl+clic pour définir des bankers', 'error');
+                updateProgress(0);
+                return;
+            }
             
-            const historiqueEntry = {
-                id: Date.now(),
-                date: dateStr,
-                timestamp: now.getTime(),
-                game: state.currentGame,
-                gameName: gameInfo.name,
-                gameDay: gameInfo.dayDisplay,
-                gameDraw: gameInfo.draw,
-                selectedNumbers: [...nombres],
-                results: series.map(s => ({ numbers: [...s.numbers], type: s.type })),
-                count: series.length
-            };
+            if (bankers.length > 5) {
+                showToast('Trop de bankers (max 5)', 'error');
+                updateProgress(0);
+                return;
+            }
+            
+            const k = 5 - bankers.length;
+            
+            if (k < 0 || others.length < k) {
+                showToast('Configuration banker invalide', 'error');
+                updateProgress(0);
+                return;
+            }
+            
+            const combos = combine(others, k);
+            baseCombinations = combos.map(c => [...bankers, ...c].sort((a,b) => a-b));
+        }
+        else if (state.betType === 'turbo') {
+            if (nums.length !== 2) {
+                showToast('Turbo nécessite exactement 2 numéros', 'error');
+                updateProgress(0);
+                return;
+            }
+            baseCombinations = [nums];
+        }
+        
+        updateProgress(40);
+        
+        // Étape 2: Pour chaque combinaison de base, générer toutes les permutations et transformations
+        const allSeries = [];
+        const seen = new Set();
+        
+        baseCombinations.forEach(baseCombo => {
+            // Générer toutes les permutations (120 max)
+            const permutations = permuter(baseCombo);
+            
+            permutations.forEach(p => {
+                const key = p.join('|');
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    allSeries.push({
+                        numbers: [...p],
+                        type: state.betType,
+                        typeLabel: state.betType === 'nap' ? `NAP ${p.length}` : 
+                                   state.betType === 'permutation' ? 'PERM' :
+                                   state.betType === 'banker' ? 'BANKERS' : 
+                                   `TURBO ${state.turboLevel}`,
+                        baseType: state.betType
+                    });
+                }
+            });
+            
+            // Ajouter la série inverse
+            const inverse = baseCombo.map(n => appliquerInverse(n));
+            const inverseKey = inverse.join('|');
+            if (!seen.has(inverseKey)) {
+                seen.add(inverseKey);
+                allSeries.push({
+                    numbers: inverse,
+                    type: state.betType,
+                    typeLabel: state.betType === 'nap' ? 'NAP Inverse' : 
+                               state.betType === 'permutation' ? 'PERM Inverse' :
+                               state.betType === 'banker' ? 'BANKERS Inverse' : 
+                               'TURBO Inverse',
+                    baseType: state.betType,
+                    transformation: 'inverse'
+                });
+            }
+            
+            // Ajouter la série +1
+            const plus1 = baseCombo.map(n => appliquerPlus1(n));
+            const plus1Key = plus1.join('|');
+            if (!seen.has(plus1Key)) {
+                seen.add(plus1Key);
+                allSeries.push({
+                    numbers: plus1,
+                    type: state.betType,
+                    typeLabel: state.betType === 'nap' ? 'NAP +1' : 
+                               state.betType === 'permutation' ? 'PERM +1' :
+                               state.betType === 'banker' ? 'BANKERS +1' : 
+                               'TURBO +1',
+                    baseType: state.betType,
+                    transformation: 'plus1'
+                });
+            }
+            
+            // Ajouter les combinés
+            const combine1 = baseCombo.map(n => appliquerPlus1(appliquerInverse(n)));
+            const combine1Key = combine1.join('|');
+            if (!seen.has(combine1Key)) {
+                seen.add(combine1Key);
+                allSeries.push({
+                    numbers: combine1,
+                    type: state.betType,
+                    typeLabel: state.betType === 'nap' ? 'NAP Inv→+1' : 
+                               state.betType === 'permutation' ? 'PERM Inv→+1' :
+                               state.betType === 'banker' ? 'BANKERS Inv→+1' : 
+                               'TURBO Inv→+1',
+                    baseType: state.betType,
+                    transformation: 'combine1'
+                });
+            }
+            
+            const combine2 = baseCombo.map(n => appliquerInverse(appliquerPlus1(n)));
+            const combine2Key = combine2.join('|');
+            if (!seen.has(combine2Key)) {
+                seen.add(combine2Key);
+                allSeries.push({
+                    numbers: combine2,
+                    type: state.betType,
+                    typeLabel: state.betType === 'nap' ? 'NAP +1→Inv' : 
+                               state.betType === 'permutation' ? 'PERM +1→Inv' :
+                               state.betType === 'banker' ? 'BANKERS +1→Inv' : 
+                               'TURBO +1→Inv',
+                    baseType: state.betType,
+                    transformation: 'combine2'
+                });
+            }
+        });
+        
+        updateProgress(80);
+        
+        state.allCombinations = allSeries;
+        state.filteredCombinations = allSeries;
+        state.currentType = 'all';
+        
+        updateProgress(100);
+        setTimeout(() => updateProgress(0), 300);
+        
+        state.currentPage = 1;
+        displayResults();
+        
+        showToast(`${allSeries.length} combinaisons générées`, 'success');
+    }
 
-            state.history.entries.unshift(historiqueEntry);
-            saveHistory();
+    // ==================== ANALYSE PRÉDICTIVE ====================
+    function lancerAnalysePredictive() {
+        if (state.allCombinations.length === 0) {
+            showToast('Générez d\'abord des combinaisons', 'error');
+            return;
+        }
+        
+        updateProgress(20);
+        document.getElementById('btnAnalyse').textContent = 'ANALYSE...';
+        
+        setTimeout(() => {
+            const scored = state.allCombinations.map(combo => {
+                let score = 1;
+                
+                // Facteurs de score
+                if (combo.transformation === 'inverse') score *= 1.3;
+                if (combo.transformation === 'plus1') score *= 1.2;
+                if (combo.transformation === 'combine1' || combo.transformation === 'combine2') score *= 1.5;
+                
+                // Dispersion
+                const min = Math.min(...combo.numbers);
+                const max = Math.max(...combo.numbers);
+                const dispersion = (max - min) / 90;
+                score *= (1 + dispersion);
+                
+                // Équilibre pair/impair
+                const pairs = combo.numbers.filter(n => n % 2 === 0).length;
+                const equilibr = 1 - Math.abs(pairs - 2.5) / 2.5;
+                score *= (1 + equilibr * 0.5);
+                
+                return {
+                    ...combo,
+                    score: score,
+                    probFinale: Math.min(score * 15, 100)
+                };
+            });
             
-            updateProgress(90);
-            state.currentPage = 1;
-            displayResults();
-            filterHistory();
+            scored.sort((a, b) => b.score - a.score);
+            state.predictions = scored.slice(0, Math.min(20, scored.length));
             
             updateProgress(100);
-            setTimeout(() => updateProgress(0), 500);
-        }
-
-        // ==================== AFFICHAGE RÉSULTATS ====================
-        function displayResults() {
-            const container = document.getElementById('resultsContainer');
-            if (!state.currentResults.length) {
-                container.innerHTML = '<div style="text-align:center; padding:30px;">Aucun résultat</div>';
-                return;
-            }
-
-            const start = (state.currentPage - 1) * state.itemsPerPage;
-            const end = Math.min(start + state.itemsPerPage, state.currentResults.length);
-            const page = state.currentResults.slice(start, end);
-
-            container.innerHTML = page.map((item, i) => {
-                const idx = start + i + 1;
-                const numbersStr = item.numbers.map(n => formatNumber(n)).join(' - ');
-                let typeClass = '', typeLabel = '';
-                
-                if (item.type === 'melange') { typeClass = 'type-melange'; typeLabel = '🔄 Mélange'; }
-                else if (item.type === 'inverse') { typeClass = 'type-inverse'; typeLabel = '🔄 Inverse'; }
-                else if (item.type === 'plus1') { typeClass = 'type-plus1'; typeLabel = '➕ +1'; }
-                else { typeClass = 'type-combine'; typeLabel = '⚡ Combiné'; }
-                
-                const balls = item.numbers.map((n, index) => {
-                    const colorIndex = (index % 7) + 1;
-                    return `<span class="ball" data-color="${colorIndex}" data-tooltip="${formatNumber(n)}">${formatNumber(n)}</span>`;
-                }).join('');
-                
-                return `
-                    <div class="result-item ${item.type}">
-                        <div class="result-left">
-                            <span style="font-weight:bold; min-width:45px; font-size:1.1rem;">#${idx}</span>
-                            <span>${balls}</span>
-                            <span class="result-type ${typeClass}">${typeLabel}</span>
-                        </div>
-                        <div class="result-actions">
-                            <button class="btn-copy-serie" onclick="copySingleSerie('${numbersStr}', '${typeLabel}', this)">📋 Copier</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            updatePagination();
-        }
-
-        // ==================== FONCTIONS DE COPIE CORRIGÉES ====================
-        function copySingleSerie(serie, type, button) {
-            // Nettoyer la série
-            const cleanSerie = serie.replace(/\s+/g, ' ').trim();
-            const text = `${cleanSerie} (${type})`;
+            setTimeout(() => {
+                updateProgress(0);
+                document.getElementById('btnAnalyse').textContent = '🔮 ANALYSE PRÉDICTIVE';
+            }, 300);
             
-            // Copier dans le presse-papier
-            navigator.clipboard.writeText(text).then(() => {
-                // Sauvegarder l'état original
-                const originalText = button.innerText;
-                const originalBg = button.style.backgroundColor;
-                const originalClasses = button.className;
-                
-                // Changer le bouton temporairement
+            afficherPredictions();
+            afficherTopWinners();
+            
+            showToast(`${state.predictions.length} prédictions générées`, 'success');
+        }, 500);
+    }
+
+    function afficherTopWinners() {
+        const container = document.getElementById('topWinners');
+        if (!container || state.predictions.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:20px;">Aucune prédiction</div>';
+            return;
+        }
+        
+        container.innerHTML = '<h4 style="color:var(--jaune); margin-bottom:10px;">Top 10</h4>';
+        
+        state.predictions.slice(0, 10).forEach((pred, idx) => {
+            const div = document.createElement('div');
+            div.style.cssText = 'background:rgba(255,255,255,0.05); margin:8px 0; padding:8px; border-radius:8px;';
+            
+            const balls = pred.numbers.map(n => 
+                `<span style="display:inline-block; width:24px; height:24px; border-radius:50%; background:var(--arc-bleu); color:white; text-align:center; line-height:24px; font-size:0.7rem; margin:0 1px;">${n < 10 ? '0'+n : n}</span>`
+            ).join('');
+            
+            div.innerHTML = `
+                <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                    <span style="font-weight:bold; color:var(--jackpot);">#${idx+1}</span>
+                    ${balls}
+                    <span class="type-badge">${pred.typeLabel}</span>
+                    <span class="winner-tag">${pred.probFinale.toFixed(1)}%</span>
+                </div>
+                <button class="btn-copy" style="margin-top:5px; width:100%;" onclick="copySingleSerie('${pred.numbers.map(n => n < 10 ? '0'+n : n).join(' - ')}', '${pred.typeLabel}', this)">📋 Copier</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    // ==================== AFFICHAGE ====================
+    function displayResults() {
+        const container = document.getElementById('resultsContainer');
+        const data = state.filteredCombinations;
+        
+        if (data.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:40px;">Aucun résultat</div>';
+            document.getElementById('totalInfo').textContent = '';
+            return;
+        }
+        
+        const start = (state.currentPage - 1) * state.itemsPerPage;
+        const end = Math.min(start + state.itemsPerPage, data.length);
+        const page = data.slice(start, end);
+        
+        container.innerHTML = page.map((item, idx) => {
+            const globalIdx = start + idx + 1;
+            const balls = item.numbers.map((n, i) => 
+                `<span class="ball" data-color="${(i % 7) + 1}">${n < 10 ? '0' + n : n}</span>`
+            ).join('');
+            
+            return `
+                <div class="result-item ${item.baseType || 'nap'}">
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                        <span style="font-weight:bold; min-width:35px;">#${globalIdx}</span>
+                        ${balls}
+                        <span class="type-badge">${item.typeLabel}</span>
+                    </div>
+                    <div class="result-actions">
+                        <button class="btn-copy" onclick="copySingleSerie('${item.numbers.map(n => n < 10 ? '0'+n : n).join(' - ')}', '${item.typeLabel}', this)">📋 Copier</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        document.getElementById('totalInfo').textContent = `${data.length} combinaison(s) - Page ${state.currentPage}/${Math.ceil(data.length / state.itemsPerPage)}`;
+        updatePagination(data.length);
+    }
+
+    function afficherTous() {
+        state.filteredCombinations = state.allCombinations;
+        state.currentType = 'all';
+        state.currentPage = 1;
+        displayResults();
+    }
+
+    function afficherParType(type) {
+        state.filteredCombinations = state.allCombinations.filter(c => c.baseType === type);
+        state.currentType = type;
+        state.currentPage = 1;
+        displayResults();
+    }
+
+    function afficherPredictions() {
+        if (state.predictions.length === 0) {
+            showToast('Lancez d\'abord l\'analyse prédictive', 'error');
+            return;
+        }
+        state.filteredCombinations = state.predictions;
+        state.currentType = 'predictions';
+        state.currentPage = 1;
+        displayResults();
+    }
+
+    // ==================== FONCTIONS DE COPIE CORRIGÉES ====================
+    function copySingleSerie(serie, type, button) {
+        const game = gamesConfig[state.currentGame];
+        const text = `${serie} (${type}) - ${game.name} - ${game.mise} FCFA`;
+        
+        // Utilisation de l'API Clipboard moderne
+        navigator.clipboard.writeText(text).then(() => {
+            // Sauvegarde de l'état original
+            const originalText = button.innerText;
+            const originalBg = button.style.backgroundColor;
+            
+            // Changement visuel
+            button.innerText = '✅ Copié!';
+            button.style.backgroundColor = 'var(--vert)';
+            button.classList.add('copied');
+            
+            // Notification
+            showToast('Copié dans le presse-papier', 'success');
+            
+            // Restauration après 1.5 secondes
+            setTimeout(() => {
+                button.innerText = originalText;
+                button.style.backgroundColor = originalBg;
+                button.classList.remove('copied');
+            }, 1500);
+            
+        }).catch(err => {
+            console.error('Erreur de copie:', err);
+            
+            // Fallback pour les navigateurs anciens
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
                 button.innerText = '✅ Copié!';
                 button.style.backgroundColor = 'var(--vert)';
-                button.classList.add('copied');
                 
-                // Restaurer après 1.5 secondes
+                showToast('Copié (fallback)', 'success');
+                
                 setTimeout(() => {
-                    button.innerText = originalText;
-                    button.style.backgroundColor = originalBg;
-                    button.classList.remove('copied');
+                    button.innerText = '📋 Copier';
+                    button.style.backgroundColor = '';
                 }, 1500);
                 
-            }).catch(err => {
-                console.error('Erreur de copie:', err);
-                
-                // Fallback pour les navigateurs qui ne supportent pas clipboard API
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                
-                try {
-                    document.execCommand('copy');
-                    button.innerText = '✅ Copié!';
-                    button.style.backgroundColor = 'var(--vert)';
-                    
-                    setTimeout(() => {
-                        button.innerText = '📋 Copier';
-                        button.style.backgroundColor = '';
-                    }, 1500);
-                    
-                } catch (e) {
-                    alert('❌ Impossible de copier. Veuillez sélectionner le texte manuellement.');
-                }
-                
-                document.body.removeChild(textarea);
-            });
-        }
-
-        function copyAllResults() {
-            if (!state.currentResults || state.currentResults.length === 0) {
-                alert('Aucun résultat à copier');
-                return;
+            } catch (e) {
+                showToast('Erreur de copie', 'error');
             }
             
-            // Construire le texte complet
-            let text = '';
-            state.currentResults.forEach((result, index) => {
-                const numbersStr = result.numbers.map(n => formatNumber(n)).join(' - ');
-                let typeLabel = '';
-                if (result.type === 'melange') typeLabel = 'Mélange';
-                else if (result.type === 'inverse') typeLabel = 'Inverse';
-                else if (result.type === 'plus1') typeLabel = '+1';
-                else typeLabel = 'Combiné';
-                
-                text += `${index + 1}. ${numbersStr} (${typeLabel})\n`;
-            });
-            
-            // Copier dans le presse-papier
-            navigator.clipboard.writeText(text).then(() => {
-                alert(`✅ ${state.currentResults.length} séries copiées dans le presse-papier`);
-            }).catch(err => {
-                console.error('Erreur de copie:', err);
-                
-                // Fallback
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                
-                try {
-                    document.execCommand('copy');
-                    alert(`✅ ${state.currentResults.length} séries copiées (fallback)`);
-                } catch (e) {
-                    alert('❌ Erreur de copie. Veuillez réessayer.');
-                }
-                
-                document.body.removeChild(textarea);
-            });
+            document.body.removeChild(textarea);
+        });
+    }
+
+    function copyAllResults() {
+        const data = state.filteredCombinations;
+        if (data.length === 0) {
+            showToast('Aucune donnée à copier', 'error');
+            return;
         }
+        
+        const game = gamesConfig[state.currentGame];
+        let text = `${game.name} - ${data.length} combinaisons\n\n`;
+        
+        data.forEach((item, i) => {
+            const nums = item.numbers.map(n => n < 10 ? '0'+n : n).join(' - ');
+            text += `${i+1}. ${nums} (${item.typeLabel})\n`;
+        });
+        
+        navigator.clipboard.writeText(text).then(() => {
+            showToast(`${data.length} combinaisons copiées`, 'success');
+        }).catch(() => {
+            // Fallback
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast(`${data.length} combinaisons copiées (fallback)`, 'success');
+        });
+    }
 
-        // ==================== PAGINATION ====================
-        function updatePagination() {
-            const pages = Math.ceil(state.currentResults.length / state.itemsPerPage);
-            document.getElementById('pageInfo').textContent = `Page ${state.currentPage}/${pages || 1}`;
+    // ==================== PAGINATION ====================
+    function updatePagination(total) {
+        const pages = Math.ceil(total / state.itemsPerPage) || 1;
+        document.getElementById('pageInfo').textContent = `Page ${state.currentPage}/${pages}`;
+    }
+
+    function changePage(cmd) {
+        const total = state.filteredCombinations.length;
+        const pages = Math.ceil(total / state.itemsPerPage) || 1;
+        
+        if (cmd === 'next' && state.currentPage < pages) state.currentPage++;
+        else if (cmd === 'prev' && state.currentPage > 1) state.currentPage--;
+        else if (cmd === 'first') state.currentPage = 1;
+        else if (cmd === 'last') state.currentPage = pages;
+        
+        displayResults();
+    }
+
+    // ==================== TOAST ====================
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = 'toast-message';
+        toast.style.backgroundColor = type === 'success' ? 'var(--vert)' : (type === 'error' ? 'var(--rouge)' : 'var(--info)');
+        toast.style.display = 'block';
+        
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 2000);
+    }
+
+    // ==================== PROGRESS ====================
+    function updateProgress(p) {
+        const bar = document.getElementById('progressBar');
+        bar.style.width = p + '%';
+        bar.textContent = p + '%';
+    }
+
+    // ==================== UTILITAIRES ====================
+    function rafraichirAnalyse() {
+        if (state.allCombinations.length > 0) {
+            lancerAnalysePredictive();
         }
+    }
 
-        function changePage(action) {
-            const pages = Math.ceil(state.currentResults.length / state.itemsPerPage);
-            if (action === 'next' && state.currentPage < pages) state.currentPage++;
-            else if (action === 'prev' && state.currentPage > 1) state.currentPage--;
-            else if (action === 'first') state.currentPage = 1;
-            else if (action === 'last') state.currentPage = pages;
-            displayResults();
+    // ==================== INITIALISATION ====================
+    function init() {
+        createDaysTabs();
+        createGamesGrid();
+        createNumberGrid();
+        
+        const firstGame = Object.keys(gamesConfig).find(id => gamesConfig[id].day === 'lundi');
+        if (firstGame) selectGame(firstGame);
+        
+        updateTimeDisplay();
+        setInterval(updateTimeDisplay, 1000);
+        
+        if (!document.getElementById('toast')) {
+            const toast = document.createElement('div');
+            toast.id = 'toast';
+            toast.style.display = 'none';
+            document.body.appendChild(toast);
         }
+    }
 
-        // ==================== HISTORIQUE ====================
-        function loadHistory() {
-            const saved = localStorage.getItem('lonato_history_final');
-            if (saved) {
-                try {
-                    state.history.entries = JSON.parse(saved);
-                } catch (e) {
-                    state.history.entries = [];
-                }
-            }
-            state.history.filteredEntries = [...state.history.entries];
-            updateHistoryStats();
-            displayHistory();
-        }
-
-        function saveHistory() {
-            localStorage.setItem('lonato_history_final', JSON.stringify(state.history.entries));
-        }
-
-        function updateGameFilter() {
-            const select = document.getElementById('filterGame');
-            const games = new Set();
-            state.history.entries.forEach(entry => games.add(entry.gameName));
-            let options = '<option value="all">Tous jeux</option>';
-            Array.from(games).sort().forEach(game => {
-                options += `<option value="${game}">${game}</option>`;
-            });
-            select.innerHTML = options;
-        }
-
-        function filterHistory() {
-            const dateFilter = document.getElementById('filterDate').value.toLowerCase();
-            const typeFilter = document.getElementById('filterType').value;
-            const gameFilter = document.getElementById('filterGame').value;
-
-            state.history.filteredEntries = state.history.entries.filter(entry => {
-                if (dateFilter && !entry.date.toLowerCase().includes(dateFilter)) return false;
-                if (gameFilter !== 'all' && entry.gameName !== gameFilter) return false;
-                if (typeFilter !== 'all') {
-                    return entry.results.some(r => r.type === typeFilter);
-                }
-                return true;
-            });
-
-            state.history.currentPage = 1;
-            displayHistory();
-            updateHistoryStats();
-        }
-
-        function displayHistory() {
-            const container = document.getElementById('historiqueList');
-            const start = (state.history.currentPage - 1) * state.history.itemsPerPage;
-            const end = start + state.history.itemsPerPage;
-            const page = state.history.filteredEntries.slice(start, end);
-
-            if (!page.length) {
-                container.innerHTML = '<div style="text-align:center; padding:30px;">Aucune entrée</div>';
-                return;
-            }
-
-            container.innerHTML = page.map(entry => {
-                const previewResults = entry.results.slice(0, 3);
-                const remaining = entry.results.length - 3;
-
-                return `
-                    <div class="historique-item">
-                        <div class="historique-info">
-                            <div class="historique-date">📅 ${entry.date}</div>
-                            <div class="historique-jeu">🎮 ${entry.gameName} - ${entry.gameDraw}</div>
-                            <div class="historique-boules">
-                                ${entry.selectedNumbers.map((n, index) => {
-                                    const colorIndex = (index % 7) + 1;
-                                    return `<span class="ball" data-color="${colorIndex}" style="width:30px; height:30px; font-size:0.8rem;">${formatNumber(n)}</span>`;
-                                }).join('')}
-                            </div>
-                            <div style="font-size:0.9rem;"><strong>${entry.count} séries</strong></div>
-                            <div>
-                                ${previewResults.map(r => 
-                                    `<span class="result-type" style="font-size:0.65rem; margin-right:3px; display:inline-block; 
-                                        ${r.type === 'melange' ? 'background:var(--melange);' : 
-                                          r.type === 'inverse' ? 'background:var(--inverse);' :
-                                          r.type === 'plus1' ? 'background:var(--plus1);' :
-                                          'background:var(--combine);'}">
-                                        ${r.type === 'melange' ? '🔄' : 
-                                          r.type === 'inverse' ? '🔄' :
-                                          r.type === 'plus1' ? '➕' : '⚡'}
-                                    </span>`
-                                ).join('')}
-                                ${remaining > 0 ? `<span style="font-size:0.7rem; margin-left:5px;">+${remaining}</span>` : ''}
-                            </div>
-                        </div>
-                        <div class="historique-actions">
-                            <button class="btn-restore" onclick="restoreHistory(${entry.id})">📂 Charger</button>
-                            <button class="btn-delete" onclick="deleteHistory(${entry.id})">🗑️</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-
-            updateHistoryPagination();
-        }
-
-        function restoreHistory(id) {
-            const entry = state.history.entries.find(e => e.id === id);
-            if (entry) {
-                state.selectedNumbers = new Set(entry.selectedNumbers);
-                updateSelection();
-                createNumberGrid();
-                state.currentResults = genererTousAvecRegles(entry.selectedNumbers);
-                state.currentPage = 1;
-                displayResults();
-            }
-        }
-
-        function deleteHistory(id) {
-            if (confirm('Supprimer cette entrée ?')) {
-                state.history.entries = state.history.entries.filter(e => e.id !== id);
-                saveHistory();
-                filterHistory();
-                updateGameFilter();
-            }
-        }
-
-        function clearAllHistory() {
-            if (confirm('Supprimer TOUT l\'historique ?')) {
-                state.history.entries = [];
-                state.history.filteredEntries = [];
-                saveHistory();
-                displayHistory();
-                updateGameFilter();
-                updateHistoryStats();
-            }
-        }
-
-        function updateHistoryStats() {
-            document.getElementById('historiqueCount').textContent = 
-                `${state.history.entries.length} entrée${state.history.entries.length > 1 ? 's' : ''}`;
-            document.getElementById('filteredCount').textContent = state.history.filteredEntries.length;
-            document.getElementById('totalCount').textContent = state.history.entries.length;
-        }
-
-        function updateHistoryPagination() {
-            const pages = Math.ceil(state.history.filteredEntries.length / state.history.itemsPerPage);
-            document.getElementById('historyPageInfo').textContent = 
-                `Page ${state.history.currentPage}/${pages || 1}`;
-        }
-
-        function changeHistoryPage(direction) {
-            const pages = Math.ceil(state.history.filteredEntries.length / state.history.itemsPerPage);
-            if (direction === 'next' && state.history.currentPage < pages) state.history.currentPage++;
-            else if (direction === 'prev' && state.history.currentPage > 1) state.history.currentPage--;
-            displayHistory();
-        }
-
-        // ==================== UTILITAIRES ====================
-        function updateProgress(percent) {
-            const bar = document.getElementById('progressBar');
-            bar.style.width = percent + '%';
-            bar.textContent = percent + '%';
-        }
-
-        init();
-    </script>
+    init();
+</script>
 </body>
 </html>
