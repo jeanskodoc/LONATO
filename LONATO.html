@@ -869,9 +869,9 @@
 
                     <div id="turboOptions" style="display:none; margin:10px 0;">
                         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                            <div class="turbo-btn selected" onclick="selectTurbo(2)" style="flex:1; padding:8px; border:2px solid var(--turbo); border-radius:8px; cursor:pointer; text-align:center;">Turbo 2 ×10</div>
-                            <div class="turbo-btn" onclick="selectTurbo(3)" style="flex:1; padding:8px; border:2px solid var(--turbo); border-radius:8px; cursor:pointer; text-align:center;">Turbo 3 ×5</div>
-                            <div class="turbo-btn" onclick="selectTurbo(4)" style="flex:1; padding:8px; border:2px solid var(--turbo); border-radius:8px; cursor:pointer; text-align:center;">Turbo 4 ×3</div>
+                            <div class="turbo-btn selected" onclick="selectTurbo(2, event)" style="flex:1; padding:8px; border:2px solid var(--turbo); border-radius:8px; cursor:pointer; text-align:center;">Turbo 2 ×10</div>
+                            <div class="turbo-btn" onclick="selectTurbo(3, event)" style="flex:1; padding:8px; border:2px solid var(--turbo); border-radius:8px; cursor:pointer; text-align:center;">Turbo 3 ×5</div>
+                            <div class="turbo-btn" onclick="selectTurbo(4, event)" style="flex:1; padding:8px; border:2px solid var(--turbo); border-radius:8px; cursor:pointer; text-align:center;">Turbo 4 ×3</div>
                         </div>
                     </div>
 
@@ -1055,7 +1055,6 @@
                 // Supprimer immédiatement le code utilisé
                 accounts = accounts.filter(a => !(a.phone === phone && a.code === code));
                 saveAccounts();
-                redirectToHome();
                 return;
             }
 
@@ -1067,7 +1066,6 @@
                 showMessage('login', 'Code expiré (plus de 24h)', 'error');
                 accounts = accounts.filter(a => !(a.phone === phone && a.code === code));
                 saveAccounts();
-                redirectToHome();
                 return;
             }
 
@@ -1079,7 +1077,12 @@
             sessionExpiry = new Date(account.expiresAt);
             startSessionTimer();
 
-            state.currentUser = account;
+            state.currentUser = {
+                phone: account.phone,
+                name: account.name,
+                expiresAt: account.expiresAt
+            };
+            
             localStorage.setItem('lonato_auth', JSON.stringify({
                 phone: account.phone,
                 name: account.name,
@@ -1113,7 +1116,6 @@
                     showToast('⏰ Session expirée - Déconnexion automatique', 'info');
                     setTimeout(() => {
                         logout();
-                        redirectToHome();
                     }, 2000);
                     return;
                 }
@@ -1140,13 +1142,6 @@
             }, 1000);
         }
 
-        function redirectToHome() {
-            showToast('Redirection vers l\'accueil...', 'info');
-            setTimeout(() => {
-                window.location.href = 'https://lonato1.netlify.app/';
-            }, 2000);
-        }
-
         function checkExistingAuth() {
             const saved = localStorage.getItem('lonato_auth');
             if (!saved) return false;
@@ -1162,10 +1157,8 @@
                 }
                 
                 // Vérifier que le code n'a pas été utilisé ailleurs
-                // (sécurité supplémentaire)
                 const accountExists = accounts.some(a => a.phone === auth.phone && a.used);
                 if (!accountExists) {
-                    // Si le compte n'existe plus, la session est invalide
                     localStorage.removeItem('lonato_auth');
                     return false;
                 }
@@ -1242,7 +1235,9 @@
             document.getElementById('nextDrawTime').textContent = next;
             let target = h < 14 ? 14 : (h < 18 ? 18 : 14);
             let diff = (target + (target < h ? 24 : 0) - h) * 60 - m;
-            document.getElementById('countdownDisplay').textContent = `${Math.floor(diff/60)}h ${diff%60}min`;
+            let hours = Math.floor(diff/60);
+            let minutes = diff % 60;
+            document.getElementById('countdownDisplay').textContent = `${hours}h ${minutes}min`;
         }
 
         // ==================== INTERFACE ====================
@@ -1296,7 +1291,7 @@
             clearSelection();
         }
 
-        function selectTurbo(level) {
+        function selectTurbo(level, event) {
             state.turboLevel = level;
             document.querySelectorAll('.turbo-btn').forEach(b => b.classList.remove('selected'));
             event.target.classList.add('selected');
@@ -1309,12 +1304,12 @@
                 let btn = document.createElement('div');
                 btn.className = `number-btn ${state.selectedNumbers.has(i) ? 'selected' : ''} ${state.bankers.has(i) ? 'banker' : ''}`;
                 btn.textContent = i < 10 ? '0'+i : i;
-                btn.onclick = () => toggleNumber(i);
+                btn.onclick = (e) => toggleNumber(i, e);
                 grid.appendChild(btn);
             }
         }
 
-        function toggleNumber(n) {
+        function toggleNumber(n, event) {
             const max = state.betType === 'turbo' ? 2 : 5;
             
             if (state.betType === 'banker' && (event.ctrlKey || event.metaKey)) {
@@ -1383,7 +1378,10 @@
             if (k === 0) return [[]];
             if (arr.length === 0) return [];
             let [first, ...rest] = arr;
-            return [...combine(rest,k-1).map(c => [first,...c]), ...combine(rest,k)];
+            let res = [];
+            let withFirst = combine(rest, k-1).map(c => [first, ...c]);
+            let withoutFirst = combine(rest, k);
+            return [...withFirst, ...withoutFirst];
         }
         function permuter(arr) {
             if (arr.length === 0) return [[]];
